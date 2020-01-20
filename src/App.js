@@ -1,26 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy, Suspense } from "react";
+const Auth = lazy(() => import("./Components/Auth/Auth"));
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = { isLoading: true };
+
+  render() {
+    if (!this.state.isLoading)
+      return (
+        <Suspense fallback={<div>...Loading</div>}>
+          <Auth />
+        </Suspense>
+      );
+    else return <div>App</div>;
+  }
 }
 
 export default App;
