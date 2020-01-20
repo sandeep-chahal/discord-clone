@@ -1,13 +1,13 @@
 import React, { lazy, Suspense } from "react";
+import Spinner from "./Components/Spinner/Spinner";
 const Auth = lazy(() => import("./Components/Auth/Auth"));
 
 class App extends React.Component {
-  state = { isLoading: true };
-
+  state = { logged: false };
   render() {
-    if (!this.state.isLoading)
+    if (!this.state.logged)
       return (
-        <Suspense fallback={<div>...Loading</div>}>
+        <Suspense fallback={<Spinner />}>
           <Auth />
         </Suspense>
       );
