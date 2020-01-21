@@ -1,0 +1,61 @@
+.auth {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .register {
+    background-color: #36393f;
+    width: 45rem;
+    min-height: 50vh;
+    height: auto;
+    border-radius: 5px;
+    padding: 2rem 0;
+    form {
+      display: block;
+      margin: auto;
+      width: 35rem;
+    }
+    h2 {
+      font-size: 3rem;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    label {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+      opacity: 0.7;
+    }
+    input {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      border: 2px solid rgba(0, 0, 0, 0.3);
+      display: block;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.1);
+      outline: none;
+      color: #fff;
+      &:hover {
+        border: 2px solid #7289d9;
+      }
+    }
+    a {
+      color: #7289da;
+      text-align: center;
+      display: block;
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+    button {
+      width: 100%;
+      padding: 1rem;
+      background-color: #7289d9;
+      border: none;
+      color: #fff;
+      font-size: 1.6rem;
+    }
+  }
+}

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./Auth.style.scss";
 
 const Register = props => {
   const [email, setEmail] = useState("");
@@ -42,7 +41,9 @@ const Register = props => {
           autoComplete="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          style={{ borderColor: errors.includes("email") ? "red" : "white" }}
+          style={{
+            borderColor: errors.includes("email") ? "red" : "rgb(51, 51, 51"
+          }}
         />
 
         <label
@@ -56,7 +57,9 @@ const Register = props => {
           type="text"
           value={username}
           onChange={e => setUsername(e.target.value)}
-          style={{ borderColor: errors.includes("username") ? "red" : "white" }}
+          style={{
+            borderColor: errors.includes("username") ? "red" : "rgb(51, 51, 51"
+          }}
         />
 
         <label
@@ -71,7 +74,9 @@ const Register = props => {
           autoComplete="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          style={{ borderColor: errors.includes("password") ? "red" : "white" }}
+          style={{
+            borderColor: errors.includes("password") ? "red" : "rgb(51, 51, 51"
+          }}
         />
 
         <button type="submit">Continue</button>

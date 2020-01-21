@@ -2,9 +2,10 @@ import React from "react";
 import Login from "./Login";
 import Register from "./Register";
 import { Route, Switch } from "react-router-dom";
+import "./Auth.style.scss";
 
 const Auth = () => (
-  <div>
+  <div className="auth">
     <Switch>
       <Route exact path="/login">
         <Login />
