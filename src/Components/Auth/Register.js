@@ -4,39 +4,74 @@ import "./Auth.style.scss";
 
 const Register = props => {
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [errors, setErrors] = useState([]);
 
-  handleSubmit = () => {};
+  const handleSubmit = event => {
+    event.preventDefault();
+    if (isValid()) {
+      props.Register(email, password, username);
+    }
+  };
+
+  const isValid = () => {
+    const errors = [];
+    if (!email.trim()) errors.push("email");
+    if (password.trim().length < 6 || password.trim().length > 128)
+      errors.push("password");
+    if (username.trim().length < 3 || username.trim().length > 8)
+      errors.push("username");
+    setErrors(errors);
+    return !errors;
+  };
 
   return (
     <div className="register">
       <h2>Create an account</h2>
       <form onSubmit={handleSubmit}>
-        <label for="email">EMAIL</label>
+        <label
+          for="email"
+          style={{ color: errors.includes("email") ? "red" : "white" }}
+        >
+          EMAIL
+        </label>
         <input
           id="email"
           type="email"
           autoComplete="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          style={{ borderColor: errors.includes("email") ? "red" : "white" }}
         />
 
-        <label for="username">USERNAME</label>
+        <label
+          for="username"
+          style={{ color: errors.includes("username") ? "red" : "white" }}
+        >
+          USERNAME
+        </label>
         <input
           id="username"
           type="text"
           value={username}
           onChange={e => setUsername(e.target.value)}
+          style={{ borderColor: errors.includes("username") ? "red" : "white" }}
         />
 
-        <label for="password">PASSWORD</label>
+        <label
+          for="password"
+          style={{ color: errors.includes("password") ? "red" : "white" }}
+        >
+          PASSWORD
+        </label>
         <input
           id="password"
           type="password"
           autoComplete="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
+          style={{ borderColor: errors.includes("password") ? "red" : "white" }}
         />
 
         <button type="submit">Continue</button>
