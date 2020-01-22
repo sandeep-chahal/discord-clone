@@ -4,13 +4,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  .register {
+  background: url("../../Assets/img/auth-bg.jpg");
+  background-position: center;
+  background-size: cover;
+  .register,
+  .login {
     background-color: #36393f;
     width: 45rem;
     min-height: 50vh;
     height: auto;
     border-radius: 5px;
-    padding: 2rem 0;
+    padding: 4rem 0;
     form {
       display: block;
       margin: auto;
@@ -21,6 +25,14 @@
       color: #fff;
       text-align: center;
       margin-bottom: 2rem;
+    }
+    h3 {
+      text-align: center;
+      color: #fff;
+      opacity: 0.4;
+      margin-bottom: 3rem;
+      font-size: 1.5rem;
+      letter-spacing: 1.5px;
     }
     label {
       display: block;
@@ -45,8 +57,8 @@
       color: #7289da;
       text-align: center;
       display: block;
-      margin-top: 1rem;
-      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-size: 1.4rem;
       text-decoration: none;
     }
     button {
@@ -56,6 +68,15 @@
       border: none;
       color: #fff;
       font-size: 1.6rem;
+      cursor: pointer;
+      &:hover {
+        background-color: #5b70bb;
+      }
+    }
+  }
+  .login {
+    h2 {
+      margin-bottom: 1rem;
     }
   }
 }

@@ -10,7 +10,7 @@ const Register = props => {
   const handleSubmit = event => {
     event.preventDefault();
     if (isValid()) {
-      props.Register(email, password, username);
+      props.register(email, password, username);
     }
   };
 
@@ -31,7 +31,7 @@ const Register = props => {
       <form onSubmit={handleSubmit}>
         <label
           for="email"
-          style={{ color: errors.includes("email") ? "red" : "white" }}
+          style={{ color: errors.includes("email") ? "#d72323" : "white" }}
         >
           EMAIL
         </label>
@@ -42,13 +42,13 @@ const Register = props => {
           value={email}
           onChange={e => setEmail(e.target.value)}
           style={{
-            borderColor: errors.includes("email") ? "red" : "rgb(51, 51, 51"
+            borderColor: errors.includes("email") ? "#d72323" : "rgb(51, 51, 51"
           }}
         />
 
         <label
           for="username"
-          style={{ color: errors.includes("username") ? "red" : "white" }}
+          style={{ color: errors.includes("username") ? "#d72323" : "white" }}
         >
           USERNAME
         </label>
@@ -58,13 +58,15 @@ const Register = props => {
           value={username}
           onChange={e => setUsername(e.target.value)}
           style={{
-            borderColor: errors.includes("username") ? "red" : "rgb(51, 51, 51"
+            borderColor: errors.includes("username")
+              ? "#d72323"
+              : "rgb(51, 51, 51"
           }}
         />
 
         <label
           for="password"
-          style={{ color: errors.includes("password") ? "red" : "white" }}
+          style={{ color: errors.includes("password") ? "#d72323" : "white" }}
         >
           PASSWORD
         </label>
@@ -75,7 +77,9 @@ const Register = props => {
           value={password}
           onChange={e => setPassword(e.target.value)}
           style={{
-            borderColor: errors.includes("password") ? "red" : "rgb(51, 51, 51"
+            borderColor: errors.includes("password")
+              ? "#d72323"
+              : "rgb(51, 51, 51"
           }}
         />
 
