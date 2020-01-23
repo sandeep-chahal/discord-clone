@@ -1,19 +1,21 @@
-.fade-appear {
+.alert-enter {
   opacity: 0;
+  transform: translateY(-5rem) scale(1.1);
 }
-.fade-appear.fade-appear-active {
+.alert-enter-active {
   opacity: 1;
-  transition: opacity 300ms linear;
+  transform: translateY(0) scale(1);
+  transition: opacity 400ms 100ms, transform 400ms 100ms;
 }
-.fade-exit {
+.alert-exit {
   opacity: 1;
+  transform: translateY(0rem) scale(1);
+  // transition: opacity 400ms, transform 400ms;
 }
-.fade-exit.fade-exit-active {
+.alert-exit-active {
   opacity: 0;
-  transition: opacity 300ms linear;
-}
-.fade-exit-done {
-  opacity: 0;
+  transform: translateY(-5rem) scale(1.1);
+  transition: opacity 400ms, transform 400ms;
 }
 
 .auth {
@@ -25,8 +27,14 @@
   background: url("../../Assets/img/auth-bg.jpg");
   background-position: center;
   background-size: cover;
+  .wrapper {
+    width: 45rem;
+    min-height: 50vh;
+    height: auto;
+  }
   .register,
   .login {
+    position: absolute;
     background-color: #36393f;
     width: 45rem;
     min-height: 50vh;
@@ -61,14 +69,14 @@
     input {
       margin-bottom: 2rem;
       padding: 1rem;
-      border: 2px solid rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 0, 0, 0.3);
       display: block;
       width: 100%;
       background-color: rgba(0, 0, 0, 0.1);
       outline: none;
       color: #fff;
       &:hover {
-        border: 2px solid #7289d9;
+        border: 1px solid #000;
       }
     }
     a {

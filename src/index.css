@@ -21,6 +21,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   width: 100vw;
   height: 100vh;
+  overflow: hidden !important;
 }
 #root {
   width: 100vw;

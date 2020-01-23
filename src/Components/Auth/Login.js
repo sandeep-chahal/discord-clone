@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = props => {
@@ -22,44 +22,34 @@ const Login = props => {
     return !errors;
   };
 
-  let style = {};
-
-  useEffect(() => {
-    return () => {
-      style = { transform: "translate(0,100px)" };
-    };
-  }, []);
-
   return (
-    <div className="login" style={style}>
+    <div className="login">
       <h2>Welcome back!</h2>
       <h3>We're so excited to see you again!</h3>
       <form onSubmit={handleSubmit}>
         <label
-          for="email"
           style={{ color: errors.includes("email") ? "#d72323" : "white" }}
         >
           EMAIL
         </label>
         <input
-          id="email"
           type="email"
           autoComplete="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
           style={{
-            borderColor: errors.includes("email") ? "#d72323" : "rgb(51, 51, 51"
+            borderColor: errors.includes("email")
+              ? "#d72323"
+              : "rgba(0,0,0,0.2)"
           }}
         />
 
         <label
-          for="password"
           style={{ color: errors.includes("password") ? "#d72323" : "white" }}
         >
           PASSWORD
         </label>
         <input
-          id="password"
           type="password"
           autoComplete="password"
           value={password}
@@ -67,7 +57,10 @@ const Login = props => {
           style={{
             borderColor: errors.includes("password")
               ? "#d72323"
-              : "rgb(51, 51, 51"
+              : "rgba(0,0,0,0.2)"
+          }}
+          onFocus={() => {
+            console.log(this);
           }}
         />
 

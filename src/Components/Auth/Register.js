@@ -30,48 +30,44 @@ const Register = props => {
       <h2>Create an account</h2>
       <form onSubmit={handleSubmit}>
         <label
-          for="email"
           style={{ color: errors.includes("email") ? "#d72323" : "white" }}
         >
           EMAIL
         </label>
         <input
-          id="email"
           type="email"
           autoComplete="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
           style={{
-            borderColor: errors.includes("email") ? "#d72323" : "rgb(51, 51, 51"
+            borderColor: errors.includes("email")
+              ? "#d72323"
+              : "rgba(0,0,0,0.2)"
           }}
         />
 
         <label
-          for="username"
           style={{ color: errors.includes("username") ? "#d72323" : "white" }}
         >
           USERNAME
         </label>
         <input
-          id="username"
           type="text"
           value={username}
           onChange={e => setUsername(e.target.value)}
           style={{
             borderColor: errors.includes("username")
               ? "#d72323"
-              : "rgb(51, 51, 51"
+              : "rgba(0,0,0,0.2)"
           }}
         />
 
         <label
-          for="password"
           style={{ color: errors.includes("password") ? "#d72323" : "white" }}
         >
           PASSWORD
         </label>
         <input
-          id="password"
           type="password"
           autoComplete="password"
           value={password}
@@ -79,7 +75,7 @@ const Register = props => {
           style={{
             borderColor: errors.includes("password")
               ? "#d72323"
-              : "rgb(51, 51, 51"
+              : "rgba(0,0,0,0.2)"
           }}
         />
 
