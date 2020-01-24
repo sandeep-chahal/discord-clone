@@ -14,9 +14,16 @@ class Auth extends React.Component {
   };
   componentDidMount() {}
 
-  login = (email, password) => {};
+  login = (email, password) => {
+    this.setState({ loginError: null });
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(e => this.setState({ loginError: e }));
+  };
 
   register = (email, password, username) => {
+    this.setState({ registerError: null });
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)

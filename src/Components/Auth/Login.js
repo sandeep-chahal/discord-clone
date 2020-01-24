@@ -19,7 +19,7 @@ const Login = props => {
     if (password.trim().length < 6 || password.trim().length > 128)
       errors.push("password");
     setErrors(errors);
-    return !errors;
+    return errors.length === 0;
   };
 
   return (
@@ -59,13 +59,11 @@ const Login = props => {
               ? "#d72323"
               : "rgba(0,0,0,0.2)"
           }}
-          onFocus={() => {
-            console.log(this);
-          }}
         />
 
         <button type="submit">Login</button>
       </form>
+      {props.error ? <div className="error">{props.error.message}</div> : ""}
       <Link to="/register">Need an Account?</Link>
     </div>
   );
