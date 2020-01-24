@@ -11,6 +11,7 @@ const Register = props => {
     event.preventDefault();
     if (isValid()) {
       props.register(email, password, username);
+    } else {
     }
   };
 
@@ -22,7 +23,7 @@ const Register = props => {
     if (username.trim().length < 3 || username.trim().length > 8)
       errors.push("username");
     setErrors(errors);
-    return !errors;
+    return errors.length === 0;
   };
 
   return (
@@ -81,6 +82,7 @@ const Register = props => {
 
         <button type="submit">Continue</button>
       </form>
+      {props.error ? <div className="error">{props.error.message}</div> : ""}
       <Link to="/login">Already have an account?</Link>
     </div>
   );

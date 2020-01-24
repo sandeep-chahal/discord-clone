@@ -82,6 +82,7 @@
     a {
       color: #7289da;
       text-align: center;
+      margin: 2rem auto 0 0;
       display: block;
       margin-top: 2rem;
       font-size: 1.4rem;
@@ -98,6 +99,12 @@
       &:hover {
         background-color: #5b70bb;
       }
+    }
+    .error {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #fc5185;
+      margin-top: 2rem;
     }
   }
   .login {

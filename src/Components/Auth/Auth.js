@@ -5,12 +5,42 @@ import Register from "./Register";
 import { Route, Switch } from "react-router-dom";
 import { withRouter } from "react-router";
 import "./Auth.style.scss";
+import firebase from "../../firebase";
 
 class Auth extends React.Component {
+  state = {
+    registerError: null,
+    loginError: null
+  };
   componentDidMount() {}
 
   login = (email, password) => {};
-  register = (email, password, username) => {};
+
+  register = (email, password, username) => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(user => {
+        user.user
+          .updateProfile({
+            displayName: username,
+            photoURL: `https://avatars.dicebear.com/v2/male/${user.user.uid}.svg?options[mood][]=happy&options[mood][]=surprised`
+          })
+          .then(() => {
+            firebase
+              .database()
+              .ref("users")
+              .child(user.user.uid)
+              .set({
+                name: user.user.displayName,
+                avatar: user.user.photoURL
+              })
+              .then(() => console.log("success"));
+          })
+          .catch(e => console.log(e));
+      })
+      .catch(e => this.setState({ registerError: e }));
+  };
 
   render() {
     return (
@@ -23,15 +53,14 @@ class Auth extends React.Component {
               classNames="alert"
             >
               <Switch>
-                <Route exact path="/login">
-                  <Login />
-                </Route>
                 <Route exact path="/register">
-                  <Register />
+                  <Register
+                    register={this.register}
+                    error={this.state.registerError}
+                  />
                 </Route>
-                {/* in case if nothing renders and user is not logged in */}
-                <Route path="/*">
-                  <Login />
+                <Route exact path="/login">
+                  <Login login={this.login} error={this.state.loginError} />
                 </Route>
               </Switch>
             </CSSTransition>
