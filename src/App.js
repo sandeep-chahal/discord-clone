@@ -1,8 +1,10 @@
 import React, { lazy, Suspense } from "react";
 import Spinner from "./Components/Spinner/Spinner";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { withRouter } from "react-router";
 import firebase from "./firebase";
 const Auth = lazy(() => import("./Components/Auth/Auth"));
+const Main = lazy(() => import("./Components/Main/Main"));
 
 class App extends React.Component {
   state = { logged: false };
@@ -13,19 +15,34 @@ class App extends React.Component {
         console.log("gg");
         this.setState({ logged: true });
       } else {
-        console.log("oops");
+        this.props.history.replace("/login");
       }
     });
   }
   render() {
-    if (!this.state.logged)
-      return (
-        <Suspense fallback={<Spinner />}>
-          <Auth />
-        </Suspense>
-      );
-    else return <div>App</div>;
+    // if (!this.props.logged) {
+    //   this.props.history.replace("/login");
+    // }
+    return (
+      <Switch>
+        <Route path="/login">
+          <Suspense fallback={<Spinner />}>
+            <Auth />
+          </Suspense>
+        </Route>
+        <Route path="/register">
+          <Suspense fallback={<Spinner />}>
+            <Auth />
+          </Suspense>
+        </Route>
+        <Route path="/">
+          <Suspense fallback={<Spinner />}>
+            <Main />
+          </Suspense>
+        </Route>
+      </Switch>
+    );
   }
 }
 
-export default App;
+export default withRouter(App);

@@ -66,7 +66,7 @@ class Auth extends React.Component {
                     error={this.state.registerError}
                   />
                 </Route>
-                <Route exact path="/login">
+                <Route path="/login">
                   <Login login={this.login} error={this.state.loginError} />
                 </Route>
               </Switch>
