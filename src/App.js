@@ -1,48 +1,55 @@
 import React, { lazy, Suspense } from "react";
 import Spinner from "./Components/Spinner/Spinner";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { withRouter } from "react-router";
 import firebase from "./firebase";
+import { connect } from "react-redux";
+import { login, setLoading } from "./Reudux/Actions";
 const Auth = lazy(() => import("./Components/Auth/Auth"));
-const Main = lazy(() => import("./Components/Main/Main"));
+const Discord = lazy(() => import("./Components/Discord/Discord"));
 
 class App extends React.Component {
-  state = { logged: false };
-
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log("gg");
-        this.setState({ logged: true });
+        this.props.history.push("/");
+        this.props.login(user);
       } else {
         this.props.history.replace("/login");
+        this.props.setLoading(false);
       }
     });
   }
   render() {
-    // if (!this.props.logged) {
-    //   this.props.history.replace("/login");
-    // }
-    return (
-      <Switch>
-        <Route path="/login">
-          <Suspense fallback={<Spinner />}>
-            <Auth />
-          </Suspense>
-        </Route>
-        <Route path="/register">
-          <Suspense fallback={<Spinner />}>
-            <Auth />
-          </Suspense>
-        </Route>
-        <Route path="/">
-          <Suspense fallback={<Spinner />}>
-            <Main />
-          </Suspense>
-        </Route>
-      </Switch>
-    );
+    if (this.props.isLoading) return <Spinner />;
+    else
+      return (
+        <Switch>
+          <Route path="/(login|register)">
+            <Suspense fallback={<Spinner />}>
+              <Auth />
+            </Suspense>
+          </Route>
+          <Route path="/">
+            <Suspense fallback={<Spinner />}>
+              <Discord />
+            </Suspense>
+          </Route>
+        </Switch>
+      );
   }
 }
 
-export default withRouter(App);
+function mapDispatchToProps(dispatch) {
+  return {
+    login: user => dispatch(login(user)),
+    setLoading: isLoading => dispatch(setLoading(isLoading))
+  };
+}
+function mapStateToProps(state) {
+  return {
+    isLoading: state.isLoading
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));
