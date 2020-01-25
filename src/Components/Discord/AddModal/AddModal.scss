@@ -1,0 +1,72 @@
+.bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .addmodal {
+    width: 35rem;
+    height: 40rem;
+    background-color: #fff;
+    padding: 0;
+    padding-top: 2rem;
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    form {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      input {
+        padding: 0.3rem;
+        border: none;
+        border-bottom: 1.5px solid rgba(0, 0, 0, 0.5);
+        outline: none;
+        width: 60%;
+        transition: all 0.2s ease-out;
+        &:hover {
+          width: 70%;
+        }
+      }
+      label {
+        display: block;
+        border-radius: 50%;
+        background: url(https://www.freepnglogos.com/uploads/discord-logo-png/discord-logo-logodownload-download-logotipos-1.png);
+        background-position: center;
+        background-size: cover;
+        width: 15rem;
+        height: 15rem;
+      }
+
+      .button-group {
+        width: 100%;
+        height: 30%;
+        background-color: var(--light-2);
+        margin-bottom: -0.5rem;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-top: 2rem;
+      }
+
+      button {
+        display: inline-block;
+        width: 40%;
+        padding: 0.8rem;
+        background-color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+    }
+  }
+}

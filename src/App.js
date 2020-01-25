@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import Spinner from "./Components/Spinner/Spinner";
-import { Switch, Route } from "react-router-dom";
-import { withRouter } from "react-router";
+import { Switch, Route, withRouter } from "react-router-dom";
 import firebase from "./firebase";
 import { connect } from "react-redux";
 import { login, setLoading } from "./Reudux/Actions";

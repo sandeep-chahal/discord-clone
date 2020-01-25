@@ -1,0 +1,18 @@
+.sidepannel {
+  width: 7rem;
+  height: 100vh;
+  background-color: var(--light-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+
+  .underline {
+    content: "";
+    width: 60%;
+    height: 2px;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+}

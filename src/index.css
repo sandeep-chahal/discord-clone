@@ -9,6 +9,12 @@
   src: url("./Assets/fonts/Whitney-LightSC.otf");
   font-family: "whitney";
 }
+:root {
+  --light-1: #f5f5f5;
+  --light-2: #ececec;
+  --light-3: #d4d5d7;
+  --light-4: #d8d8d8;
+}
 
 html {
   font-size: 62%;
