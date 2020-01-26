@@ -36,9 +36,13 @@ const INITIAL_SERVER_STATE = {
 const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
   switch (action.type) {
     case actionTypes.ADD_JOINED_SERVER: {
+      let server = [];
+      if (Array.isArray(action.payload)) {
+        server = action.payload;
+      } else server = [...state.joinedServers, action.payload];
       return {
         ...state,
-        joinedServers: action.payload
+        joinedServers: server
       };
     }
     case actionTypes.ADD_TOTAL_SERVER: {

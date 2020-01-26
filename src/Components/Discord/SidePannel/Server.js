@@ -1,9 +1,4 @@
-// import React from "react";
 import styled from "styled-components";
-
-// const Server = props => {
-//   return <div className="server"></div>;
-// };
 
 const Server = styled.div`
   width: 50px;

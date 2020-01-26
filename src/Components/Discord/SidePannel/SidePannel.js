@@ -4,7 +4,7 @@ import "./SidePannel.scss";
 import AddModal from "../AddModal/AddModal";
 import uuidv4 from "uuid/v4";
 
-const SidePannel = ({ firebase, user, loadJoinedServers, joinedServers }) => {
+const SidePannel = ({ firebase, user, loadServer, joinedServers }) => {
   const [showModal, setShowModal] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const serverRef = firebase.database().ref("servers");
@@ -49,28 +49,27 @@ const SidePannel = ({ firebase, user, loadJoinedServers, joinedServers }) => {
         name,
         url,
         id: key,
-        admin: { name: user.displayName, uid: user.uid }
+        admin: { name: user.displayName, uid: user.uid },
+        channels: [{ name: "general", type: "text", messages: [] }]
       })
       .then(() => {
-        addServer(name, url, key);
+        addServer(key);
       })
       .catch(err => console.log(err));
   };
 
   //added created server to user data
-  const addServer = (name, url, id) => {
+  const addServer = id => {
     firebase
       .database()
       .ref("users")
       .child(`${user.uid}/servers/${id}`)
       .set({
-        name,
-        url,
         id
       })
       .then(() => {
-        setShowModal(false);
-        loadJoinedServers(user.uid);
+        setShowModal(false); //hide the modal
+        loadServer(id); //load the server that user has joined
       });
   };
 
