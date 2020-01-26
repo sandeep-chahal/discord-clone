@@ -112,9 +112,9 @@ const SidePannel = ({
       />
       {showModal ? (
         <AddModal
-          server
+          create="Server"
           show={showModal}
-          createServer={handleCreateServer}
+          onClick={handleCreateServer}
           handleClose={() => setShowModal(false)}
           status={createStatus}
           percentage={percentage}

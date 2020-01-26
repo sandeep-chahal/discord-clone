@@ -4,21 +4,24 @@ import "./AddModal.scss";
 const AddModal = props => {
   const [name, setName] = useState("");
   const [file, setFile] = useState("");
+  const [option, setOption] = useState("");
   const [errors, setErrors] = useState([]);
 
   const handleSubmit = e => {
     e.preventDefault();
     if (isFormVaild()) {
-      props.createServer(name, file);
-    } else {
-      alert("something wrong");
+      if (props.create === "Server") props.onClick(name, file);
+      if (props.create === "Channel") props.onClick(name, option);
+      if (props.create === "Category") props.onClick(name, option);
     }
   };
 
   const isFormVaild = () => {
     const errors = [];
     if (name.length < 3) errors.push("Name Must be Greater then 2");
-    if (!file) errors.push("Please Upload a pic");
+    if (props.create !== "Server" && option === "")
+      errors.push("Select a category");
+    if (!file && props.create === "Server") errors.push("Please Upload a pic");
     setErrors(errors);
     return errors.length === 0;
   };
@@ -49,20 +52,39 @@ const AddModal = props => {
       />
     </div>
   );
+  const selectInput = (
+    <select value={option} onChange={e => setOption(e.target.value)}>
+      <option value="">
+        Choose {props.create === "Channel" ? "category" : "type"}
+      </option>
+      {props.options
+        ? props.options.map(option => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))
+        : null}
+    </select>
+  );
 
   return (
     <div className="bg" onClick={closeModalOnBgClick}>
       <div className="addmodal">
-        <h2>
-          {props.server ? "Create Another Server!" : "IDK What r u trin to do"}
-        </h2>
+        <h2>{`Create Another ${props.create}`}</h2>
+        <div className="errors">
+          {errors
+            ? errors.map((err, i) => <span key={i + Math.random()}>{err}</span>)
+            : null}
+        </div>
         <form>
-          {props.server ? fileInput : ""}
+          {props.create === "Server" ? fileInput : ""}
+          {props.options ? selectInput : ""}
           <input
             type="text"
-            placeholder="Server Name"
+            placeholder={`${props.create} name`}
             value={name}
             onChange={handleNameChange}
+            style={{ marginBottom: "15rem" }}
           />
           {/* check wether we're uploading or not */}
           {!props.status ? (
