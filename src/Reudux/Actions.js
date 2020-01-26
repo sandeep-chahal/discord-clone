@@ -41,10 +41,10 @@ const setLoadingTotalServer = isLoading => {
   };
 };
 
-export const selectServer = id => {
+export const selectServer = server => {
   return {
     type: actionTypes.SELECT_SERVER,
-    payload: id
+    payload: server
   };
 };
 

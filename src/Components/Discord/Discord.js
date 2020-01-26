@@ -38,7 +38,7 @@ class Discord extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     loadServer: id => dispatch(loadServer(id)),
-    selectServer: id => dispatch(selectServer(id))
+    selectServer: server => dispatch(selectServer(server))
   };
 }
 

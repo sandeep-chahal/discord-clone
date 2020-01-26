@@ -2,4 +2,55 @@
   width: 20rem;
   height: 100vh;
   background-color: var(--light-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.6rem;
+
+  header {
+    width: 100%;
+    font-size: 2.5rem;
+    padding: 0.7rem 0;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--light-1);
+    }
+
+    .arrow {
+      display: inline-block;
+      background: url(../../../Assets/img/arrow.svg);
+      width: 2rem;
+      height: 2rem;
+      background-size: cover;
+      background-position: center;
+      margin-left: 5rem;
+      padding-top: 0.5rem;
+    }
+  }
+  .underline {
+    width: 100%;
+    height: 0.8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin-bottom: 1rem;
+  }
+  .channel {
+    background-color: var(--light-5);
+    width: 85%;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.8);
+    span {
+      font-size: 3rem;
+      margin-top: -0.5rem;
+      margin-right: 0.8rem;
+      color: rgba(0, 0, 0, 0.4);
+    }
+    &:hover {
+      background-color: var(--light-4);
+    }
+  }
 }

@@ -102,7 +102,7 @@ const SidePannel = ({
             <Server
               url={server.url}
               key={server.id}
-              onClick={() => selectServer(server.id)}
+              onClick={() => selectServer(server)}
             />
           ))
         : ""}
