@@ -24,7 +24,7 @@ const AddModal = props => {
     return errors.length === 0;
   };
 
-  const getFile = e => {
+  const handleFileChange = e => {
     const file = e.target.files[0];
     if (file) {
       setFile(file);
@@ -35,31 +35,30 @@ const AddModal = props => {
     if (name.length < 15) setName(name);
   };
 
+  const closeModalOnBgClick = e => {
+    if (e.target.classList[0] === "bg") props.handleClose(false);
+  };
+
+  const fileInput = (
+    <div>
+      <label for="file"></label>
+      <input
+        id="file"
+        type="file"
+        onChange={handleFileChange}
+        style={{ display: "none" }}
+      />
+    </div>
+  );
+
   return (
-    <div
-      className="bg"
-      onClick={e =>
-        e.target.classList[0] === "bg" ? props.handleClose(false) : null
-      }
-    >
+    <div className="bg" onClick={closeModalOnBgClick}>
       <div className="addmodal">
         <h2>
           {props.server ? "Create Another Server!" : "IDK What r u trin to do"}
         </h2>
         <form>
-          {props.server ? (
-            <div>
-              <label for="file"></label>
-              <input
-                id="file"
-                type="file"
-                onChange={e => getFile(e)}
-                style={{ display: "none" }}
-              />
-            </div>
-          ) : (
-            ""
-          )}
+          {props.server ? fileInput : ""}
           <input
             type="text"
             placeholder="Server Name"
