@@ -41,7 +41,7 @@ const AddModal = props => {
 
   const fileInput = (
     <div>
-      <label for="file"></label>
+      <label htmlFor="file"></label>
       <input
         id="file"
         type="file"
