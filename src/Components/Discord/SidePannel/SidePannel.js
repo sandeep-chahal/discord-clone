@@ -7,10 +7,13 @@ import uuidv4 from "uuid/v4";
 const SidePannel = ({ firebase, user, loadServer, joinedServers }) => {
   const [showModal, setShowModal] = useState(false);
   const [percentage, setPercentage] = useState(0);
+  const [createStatus, setStatus] = useState("");
   const serverRef = firebase.database().ref("servers");
   const storage = firebase.storage().ref("serversIcon");
 
   const handleCreateServer = (name, file) => {
+    setStatus("prepairing");
+
     //first we gonna upload the icon
     uploadFile(file, name);
     //after icon uploaded its gonna call createServer with url
@@ -28,12 +31,14 @@ const SidePannel = ({ firebase, user, loadServer, joinedServers }) => {
         var percentage =
           Math.round(snap.bytesTransferred / snap.totalBytes) * 100;
         setPercentage(percentage);
+        setStatus("uploading icon...");
       },
       err => console.log(err.message), //3. errors
       () => {
         //4. when upload is done
         //get url of icon
         task.snapshot.ref.getDownloadURL().then(url => {
+          setStatus("uploaded");
           createServer(name, url); //create server after icon uploaded
         });
       }
@@ -41,6 +46,7 @@ const SidePannel = ({ firebase, user, loadServer, joinedServers }) => {
   };
 
   const createServer = (name, url) => {
+    setStatus("creating Server");
     //create server in database with url and name
     const key = serverRef.push().getKey();
     serverRef
@@ -53,6 +59,7 @@ const SidePannel = ({ firebase, user, loadServer, joinedServers }) => {
         channels: [{ name: "general", type: "text", messages: [] }]
       })
       .then(() => {
+        setStatus("adding server");
         addServer(key);
       })
       .catch(err => console.log(err));
@@ -68,8 +75,10 @@ const SidePannel = ({ firebase, user, loadServer, joinedServers }) => {
         id
       })
       .then(() => {
-        setShowModal(false); //hide the modal
+        setStatus("done");
         loadServer(id); //load the server that user has joined
+        setShowModal(false); //hide the modal
+        setStatus("");
       });
   };
 
@@ -88,7 +97,6 @@ const SidePannel = ({ firebase, user, loadServer, joinedServers }) => {
             />
           ))
         : ""}
-
       <Add
         onClick={() => setShowModal(true)}
         url="https://cdn3.iconfinder.com/data/icons/stroke/53/Button-512.png"
@@ -99,6 +107,8 @@ const SidePannel = ({ firebase, user, loadServer, joinedServers }) => {
           show={showModal}
           createServer={handleCreateServer}
           handleClose={() => setShowModal(false)}
+          status={createStatus}
+          percentage={percentage}
         />
       ) : null}
     </div>

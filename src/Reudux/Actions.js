@@ -82,8 +82,10 @@ export const loadJoinedServers = uid => {
       joinedServers.forEach(server => {
         db.ref("servers/" + server.id).once("value", snap => {
           servers.push(snap.val());
-          if (servers.length === joinedServers.length)
-            dispatch(addJoinedServers(servers));
+          if (servers.length === joinedServers.length) {
+            const filtered = filterExists(servers, joinedServers, uid);
+            dispatch(addJoinedServers(filtered));
+          }
         });
       });
     });
@@ -94,4 +96,20 @@ const convertToArray = servers => {
   if (servers === null) return [];
   const keys = Object.keys(servers);
   return keys.map(key => servers[key]);
+};
+
+const filterExists = (filterables, servers, uid) => {
+  if (Array.isArray(filterables)) {
+    return filterables.filter((server, index) =>
+      !server ? removeDeletedServer(uid, servers[index].id) : server
+    );
+  } else return [];
+};
+
+const removeDeletedServer = (uid, id) => {
+  firebase
+    .database()
+    .ref("users/" + uid + "/servers/")
+    .child(id)
+    .remove();
 };

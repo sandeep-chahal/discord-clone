@@ -43,7 +43,7 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
       } else {
         if (Array.isArray(state.joinedServers))
           servers = [...state.joinedServers];
-        servers.push([action.payload]);
+        servers.push(action.payload);
       }
       return {
         ...state,

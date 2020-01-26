@@ -1,12 +1,11 @@
 import styled from "styled-components";
 
 const Server = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 5rem;
+  height: 5rem;
   background: ${props => `url(${props.url})`};
   background-size: cover;
   background-position: center;
-  border-radius: 50%;
   margin-top: 0.8rem;
   margin-bottom: 0.8rem;
   cursor: pointer;

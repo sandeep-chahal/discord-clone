@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./AddModal.scss";
-import { getQueriesForElement } from "@testing-library/react";
 
 const AddModal = props => {
   const [name, setName] = useState("");
@@ -65,14 +64,24 @@ const AddModal = props => {
             value={name}
             onChange={handleNameChange}
           />
-          <div className="button-group">
-            <button type="button" onClick={() => props.handleClose(false)}>
-              Cancel
-            </button>
-            <button type="submit" onClick={handleSubmit}>
-              Create
-            </button>
-          </div>
+          {/* check wether we're uploading or not */}
+          {!props.status ? (
+            <div className="button-group">
+              <button type="button" onClick={() => props.handleClose(false)}>
+                Cancel
+              </button>
+              <button type="submit" onClick={handleSubmit}>
+                Create
+              </button>
+            </div>
+          ) : (
+            <div className="status-bar">
+              <div className="status">{props.status}</div>
+              {/* <div className="bar">
+                {props.status === "uploading icon..." ? props.percentage : ""}
+              </div> */}
+            </div>
+          )}
         </form>
       </div>
     </div>
