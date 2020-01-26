@@ -3,7 +3,12 @@ import Spinner from "./Components/Spinner/Spinner";
 import { Switch, Route, withRouter } from "react-router-dom";
 import firebase from "./firebase";
 import { connect } from "react-redux";
-import { login, setLoading } from "./Reudux/Actions";
+import {
+  login,
+  setUserLoading,
+  loadTotalServers,
+  loadJoinedServers
+} from "./Reudux/Actions";
 const Auth = lazy(() => import("./Components/Auth/Auth"));
 const Discord = lazy(() => import("./Components/Discord/Discord"));
 
@@ -13,6 +18,8 @@ class App extends React.Component {
       if (user) {
         this.props.history.push("/");
         this.props.login(user);
+        this.props.loadTotalServers();
+        this.props.loadJoinedServers(user.uid);
       } else {
         this.props.history.replace("/login");
         this.props.setLoading(false);
@@ -42,12 +49,15 @@ class App extends React.Component {
 function mapDispatchToProps(dispatch) {
   return {
     login: user => dispatch(login(user)),
-    setLoading: isLoading => dispatch(setLoading(isLoading))
+    setLoading: isLoading => dispatch(setUserLoading(isLoading)),
+    loadTotalServers: () => dispatch(loadTotalServers()),
+    loadJoinedServers: uid => dispatch(loadJoinedServers(uid))
   };
 }
 function mapStateToProps(state) {
   return {
-    isLoading: state.isLoading
+    isLoading: state.user.isLoading,
+    user: state.user.user
   };
 }
 

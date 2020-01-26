@@ -4,14 +4,14 @@ import "./SidePannel.scss";
 import AddModal from "../AddModal/AddModal";
 import uuidv4 from "uuid/v4";
 
-const SidePannel = ({ firebase }) => {
+const SidePannel = ({ firebase, user, loadJoinedServers }) => {
   const [showModal, setShowModal] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const serverRef = firebase.database().ref("servers");
   const storage = firebase.storage().ref("serversIcon");
 
   const handleCreateServer = (name, file) => {
-    //first web gonn aupload the icon
+    //first we gonna upload the icon
     uploadFile(file, name);
     //after icon uploaded its gonna call createServer with url
   };
@@ -42,11 +42,35 @@ const SidePannel = ({ firebase }) => {
 
   const createServer = (name, url) => {
     //create server in database with url and name
+    const key = serverRef.push().getKey();
     serverRef
-      .push()
-      .set({ name, url })
-      .then(() => console.log("done"))
+      .child(key)
+      .set({
+        name,
+        url,
+        id: key,
+        admin: { name: user.displayName, uid: user.uid }
+      })
+      .then(() => {
+        addServer(name, url, key);
+      })
       .catch(err => console.log(err));
+  };
+
+  //added created server to user data
+  const addServer = (name, url, id) => {
+    firebase
+      .database()
+      .ref("users")
+      .child(`${user.uid}/servers/${id}`)
+      .set({
+        name,
+        url
+      })
+      .then(() => {
+        setShowModal(false);
+        loadJoinedServers(user.uid);
+      });
   };
 
   return (
