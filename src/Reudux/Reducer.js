@@ -36,13 +36,18 @@ const INITIAL_SERVER_STATE = {
 const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
   switch (action.type) {
     case actionTypes.ADD_JOINED_SERVER: {
-      let server = [];
+      //checking if we received one server obj or array of object
+      let servers = [];
       if (Array.isArray(action.payload)) {
-        server = action.payload;
-      } else server = [...state.joinedServers, action.payload];
+        servers = action.payload;
+      } else {
+        if (Array.isArray(state.joinedServers))
+          servers = [...state.joinedServers];
+        servers.push([action.payload]);
+      }
       return {
         ...state,
-        joinedServers: server
+        joinedServers: servers
       };
     }
     case actionTypes.ADD_TOTAL_SERVER: {
