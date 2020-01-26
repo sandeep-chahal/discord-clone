@@ -12,6 +12,8 @@ const Server = styled.div`
   background-size: cover;
   background-position: center;
   border-radius: 50%;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
   cursor: pointer;
   :hover {
     border: 2px solid #fff;

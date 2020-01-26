@@ -44,7 +44,8 @@ export const loadTotalServers = () => {
       .database()
       .ref("servers")
       .once("value", snap => {
-        dispatch(addTotalServers(snap.val()));
+        const servers = convertToArray(snap.val());
+        dispatch(addTotalServers(servers));
       });
   };
 };
@@ -57,9 +58,15 @@ export const loadJoinedServers = uid => {
       .database()
       .ref("users/" + uid + "/servers")
       .once("value", snap => {
-        console.log(snap);
+        const servers = convertToArray(snap.val());
 
-        dispatch(addJoinedServers(snap.val()));
+        dispatch(addJoinedServers(servers));
       });
   };
+};
+
+const convertToArray = servers => {
+  if (servers === null) return [];
+  const keys = Object.keys(servers);
+  return keys.map(key => servers[key]);
 };

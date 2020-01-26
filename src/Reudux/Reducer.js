@@ -66,7 +66,7 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
 
 const rootReducer = combineReducers({
   user: userReducer,
-  sever: serverReducer
+  server: serverReducer
 });
 
 export default rootReducer;

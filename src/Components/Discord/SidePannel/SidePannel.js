@@ -4,7 +4,7 @@ import "./SidePannel.scss";
 import AddModal from "../AddModal/AddModal";
 import uuidv4 from "uuid/v4";
 
-const SidePannel = ({ firebase, user, loadJoinedServers }) => {
+const SidePannel = ({ firebase, user, loadJoinedServers, joinedServers }) => {
   const [showModal, setShowModal] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const serverRef = firebase.database().ref("servers");
@@ -65,7 +65,8 @@ const SidePannel = ({ firebase, user, loadJoinedServers }) => {
       .child(`${user.uid}/servers/${id}`)
       .set({
         name,
-        url
+        url,
+        id
       })
       .then(() => {
         setShowModal(false);
@@ -77,9 +78,18 @@ const SidePannel = ({ firebase, user, loadJoinedServers }) => {
     <div className="sidepannel">
       <Switch url="https://i.imgur.com/qMgJs45.png" />
       <div className="underline"></div>
-      {
-        // servers
-      }
+
+      {/* display joined servers */}
+      {joinedServers
+        ? joinedServers.map(server => (
+            <Server
+              url={server.url}
+              key={server.id}
+              onClick={() => console.log(server.id)}
+            />
+          ))
+        : ""}
+
       <Add
         onClick={() => setShowModal(true)}
         url="https://cdn3.iconfinder.com/data/icons/stroke/53/Button-512.png"

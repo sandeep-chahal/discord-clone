@@ -6,13 +6,14 @@ import { loadJoinedServers } from "../../Reudux/Actions";
 
 class Discord extends Component {
   render() {
-    const { user } = this.props;
+    const { user, loadJoinedServers, joinedServers } = this.props;
     return (
       <div className="discord">
         <SidePannel
           firebase={firebase}
           user={user}
-          loadJoinedServers={this.props.loadJoinedServers}
+          loadJoinedServers={loadJoinedServers}
+          joinedServers={joinedServers}
         />
       </div>
     );
@@ -27,7 +28,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    user: state.user.user
+    user: state.user.user,
+    joinedServers: state.server.joinedServers
   };
 }
 
