@@ -41,6 +41,13 @@ const setLoadingTotalServer = isLoading => {
   };
 };
 
+export const selectServer = id => {
+  return {
+    type: actionTypes.SELECT_SERVER,
+    payload: id
+  };
+};
+
 // async func to load total servers from db
 export const loadTotalServers = () => {
   return dispatch => {
@@ -55,7 +62,7 @@ export const loadTotalServers = () => {
   };
 };
 
-//loading single servers async
+//loading single servers
 export const loadServer = id => {
   const db = firebase.database();
   console.log("loaded single server");
@@ -83,7 +90,7 @@ export const loadJoinedServers = uid => {
         db.ref("servers/" + server.id).once("value", snap => {
           servers.push(snap.val());
           if (servers.length === joinedServers.length) {
-            const filtered = filterExists(servers, joinedServers, uid);
+            const filtered = filterServers(servers, joinedServers, uid);
             dispatch(addJoinedServers(filtered));
           }
         });
@@ -98,7 +105,8 @@ const convertToArray = servers => {
   return keys.map(key => servers[key]);
 };
 
-const filterExists = (filterables, servers, uid) => {
+//checking if the server is deleted, if yes then removing from users db
+const filterServers = (filterables, servers, uid) => {
   if (Array.isArray(filterables)) {
     return filterables.filter((server, index) =>
       !server ? removeDeletedServer(uid, servers[index].id) : server
@@ -106,6 +114,7 @@ const filterExists = (filterables, servers, uid) => {
   } else return [];
 };
 
+//remove server from user db
 const removeDeletedServer = (uid, id) => {
   firebase
     .database()

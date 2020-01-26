@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import SidePannel from "./SidePannel/SidePannel";
 import firebase from "../../firebase";
 import { connect } from "react-redux";
-import { loadServer } from "../../Reudux/Actions";
+import { loadServer, selectServer } from "../../Reudux/Actions";
 
 class Discord extends Component {
   render() {
-    const { user, loadServer, joinedServers } = this.props;
+    const { user, loadServer, joinedServers, selectServer } = this.props;
     return (
       <div className="discord">
         <SidePannel
@@ -14,6 +14,7 @@ class Discord extends Component {
           user={user}
           loadServer={loadServer}
           joinedServers={joinedServers}
+          selectServer={selectServer}
         />
       </div>
     );
@@ -22,7 +23,8 @@ class Discord extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadServer: id => dispatch(loadServer(id))
+    loadServer: id => dispatch(loadServer(id)),
+    selectServer: id => dispatch(selectServer(id))
   };
 }
 

@@ -4,7 +4,13 @@ import "./SidePannel.scss";
 import AddModal from "../AddModal/AddModal";
 import uuidv4 from "uuid/v4";
 
-const SidePannel = ({ firebase, user, loadServer, joinedServers }) => {
+const SidePannel = ({
+  firebase,
+  user,
+  loadServer,
+  joinedServers,
+  selectServer
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const [createStatus, setStatus] = useState("");
@@ -84,7 +90,10 @@ const SidePannel = ({ firebase, user, loadServer, joinedServers }) => {
 
   return (
     <div className="sidepannel">
-      <Switch url="https://i.imgur.com/qMgJs45.png" />
+      <Switch
+        url="https://i.imgur.com/qMgJs45.png"
+        onClick={() => selectServer(null)}
+      />
       <div className="underline"></div>
 
       {/* display joined servers */}
@@ -93,7 +102,7 @@ const SidePannel = ({ firebase, user, loadServer, joinedServers }) => {
             <Server
               url={server.url}
               key={server.id}
-              onClick={() => console.log(server.id)}
+              onClick={() => selectServer(server.id)}
             />
           ))
         : ""}

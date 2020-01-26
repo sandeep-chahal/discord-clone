@@ -68,6 +68,12 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
         loadingTotalServers: action.payload
       };
     }
+    case actionTypes.SELECT_SERVER: {
+      return {
+        ...state,
+        currentSelected: action.payload
+      };
+    }
     default:
       return state;
   }
