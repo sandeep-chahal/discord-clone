@@ -53,4 +53,28 @@
       background-color: var(--light-4);
     }
   }
+
+  .dropdown {
+    position: absolute;
+    top: 4rem;
+    background-color: #fff;
+    width: 18rem;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    .item {
+      padding: 1rem;
+      cursor: pointer;
+      background-color: #fff;
+      &:hover {
+        background-color: var(--light-1);
+      }
+    }
+    .invite {
+      color: var(--blue-1);
+    }
+    .leave,
+    .delete {
+      color: var(--red-1);
+    }
+  }
 }

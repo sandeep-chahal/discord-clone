@@ -26,7 +26,7 @@ class Discord extends Component {
           selectServer={selectServer}
         />
         {selectedServer ? (
-          <Channels selectedServer={selectedServer} />
+          <Channels selectedServer={selectedServer} uid={user.uid} />
         ) : (
           <UserPannel />
         )}
