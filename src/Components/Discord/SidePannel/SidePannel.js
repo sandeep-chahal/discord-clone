@@ -62,7 +62,12 @@ const SidePannel = ({
         url,
         id: key,
         admin: { name: user.displayName, uid: user.uid },
-        channels: [{ name: "general", type: "text", messages: [] }]
+        category: {
+          general: {
+            name: "general",
+            channels: [{ name: "general", type: "text", messages: [] }]
+          }
+        }
       })
       .then(() => {
         setStatus("adding server");

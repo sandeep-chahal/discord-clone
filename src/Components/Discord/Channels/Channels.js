@@ -2,82 +2,125 @@ import React, { useState } from "react";
 import "./Channels.scss";
 import Channel from "./Channel";
 import AddModal from "../AddModal/AddModal";
+import firebase from "../../../firebase";
 
-const Channels = props => {
-  const [showDropdown, setDropdown] = useState(false);
-  const [showAddModal, setAddModal] = useState(false);
-  const [create, setCreate] = useState(""); //what are we creating channel or category
+class Channels extends React.Component {
+  state = {
+    showDropdown: false,
+    showAddModal: false,
+    options: [],
+    create: ""
+  };
 
-  const handleClose = () => setAddModal(false);
+  componentDidMount() {}
 
-  const handleInviteLink = () => console.log("getting invite link");
-  const handleCreateChannel = () => {
-    setAddModal(true);
-    setDropdown(false);
-    setCreate("Channel");
-  };
-  const handleCategory = () => {
-    setAddModal(true);
-    setDropdown(false);
-    setCreate("Category");
-  };
-  const handleLeaveServer = () => console.log("leaving channel");
-  const handleDeleteServer = () => console.log("deleting channel");
+  handleClose = () => this.setState({ showAddModal: false });
 
-  const createChannel = (name, option) => {
-    setCreate("");
-    console.log(name, option);
+  handleCreateChannel = () => {
+    this.setState({
+      create: "Channel",
+      showAddModal: true,
+      showDropdown: false
+    });
   };
-  const createCategory = (name, type) => {
-    setCreate("");
-    console.log(name, type);
+  handleCategory = () => {
+    this.setState({
+      create: "Category",
+      showAddModal: true,
+      showDropdown: false
+    });
   };
-  const dropdown = (
+  handleInviteLink = () => console.log("getting invite link");
+  handleLeaveServer = () => console.log("leaving channel");
+  handleDeleteServer = () => console.log("deleting channel");
+
+  createChannel = (name, option) => {
+    // setCreate("");
+    firebase
+      .database()
+      .ref("servers/" + this.props.selectedServer.id)
+      .child("category/" + option + "/channels")
+      .push({
+        name,
+        messages: [],
+        type: "text"
+      });
+  };
+
+  createCategory = (name, type) => {
+    firebase
+      .database()
+      .ref("servers/" + this.props.selectedServer.id)
+      .child("category/" + name)
+      .set({
+        name,
+        channels: []
+      });
+  };
+  dropdown = (
     <div className="dropdown">
-      <div className="item invite" onClick={handleInviteLink}>
+      <div className="item invite" onClick={this.handleInviteLink}>
         Invite
       </div>
-      <div className="item" onClick={handleCreateChannel}>
+      <div className="item" onClick={this.handleCreateChannel}>
         create channel
       </div>
-      <div className="item" onClick={handleCategory}>
+      <div className="item" onClick={this.handleCategory}>
         create category
       </div>
-      {props.uid !== props.selectedServer.admin.uid ? (
-        <div className="item leave" onClick={handleLeaveServer}>
+      {this.props.uid !== this.props.selectedServer.admin.uid ? (
+        <div className="item leave" onClick={this.handleLeaveServer}>
           leave server
         </div>
       ) : (
-        <div className="item delete" onClick={handleDeleteServer}>
+        <div className="item delete" onClick={this.handleDeleteServer}>
           delete server
         </div>
       )}
     </div>
   );
-
-  return (
-    <div className="channels">
-      <header onClick={() => setDropdown(!showDropdown)}>
-        {props.selectedServer.name}
-        <span className="arrow"></span>
-      </header>
-      <div className="underline"></div>
-      {showDropdown ? dropdown : null}
-      {props.selectedServer.channels.map((channel, index) => {
-        return <Channel channel={channel} key={channel.name + index} />;
-      })}
-      {showAddModal ? (
-        <AddModal
-          handleClose={handleClose}
-          create={create}
-          options={
-            create === "Channel" ? ["general", "fortinte"] : ["text", "voice"]
+  render() {
+    return (
+      <div className="channels">
+        <header
+          onClick={() =>
+            this.setState(prev => ({ showDropdown: !prev.showDropdown }))
           }
-          onClick={create == "Channel" ? createChannel : createCategory}
-        />
-      ) : null}
-    </div>
-  );
-};
+        >
+          {this.props.selectedServer.name}
+          <span className="arrow"></span>
+        </header>
+        <div className="underline"></div>
+        {this.state.showDropdown ? this.dropdown : null}
+        {this.props.selectedServer.channels
+          ? this.props.selectedServer.channels.map((channel, index) => {
+              return (
+                <Channel
+                  channel={channel}
+                  key={this.state.channel.name + index}
+                />
+              );
+            })
+          : null}
+        {this.state.showAddModal ? (
+          <AddModal
+            handleClose={this.handleClose}
+            create={this.state.create}
+            options={
+              this.state.create === "Channel"
+                ? ["general", "fortinte"]
+                : ["text", "voice"]
+            }
+            onClick={
+              this.state.create == "Channel"
+                ? this.createChannel
+                : this.createCategory
+            }
+          />
+        ) : null}
+      </div>
+    );
+  }
+}
 
 export default Channels;
