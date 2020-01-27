@@ -16,7 +16,7 @@ class Channels extends React.Component {
     const category = this.props.selectedServer.category;
     const keys = Object.keys(category);
     const options = [];
-    keys.forEach(key => options.push(category[key].name));
+    keys.forEach(key => options.push({ name: category[key].name, key }));
     this.setState({ options });
   };
 
@@ -25,13 +25,15 @@ class Channels extends React.Component {
   }
 
   displayChannels = () => {
-    return this.state.options.map((option, i) => {
+    const categoriesObj = this.props.selectedServer.category;
+    const categoriesKeys = Object.keys(categoriesObj || {});
+    return categoriesKeys.map((option, i) => {
       const channelsObj = this.props.selectedServer.category[option].channels;
       const channelsKeys = Object.keys(channelsObj || {});
 
       return (
         <div className="category" key={option + i}>
-          <h3>{option}</h3>
+          <h3>{categoriesObj[option].name}</h3>
           {channelsKeys.map((channel, i) => (
             <Channel
               channel={channelsObj[channel]}
@@ -73,18 +75,20 @@ class Channels extends React.Component {
         name,
         messages: [],
         type: "text"
-      });
+      })
+      .then(() => this.setState({ showAddModal: false }));
   };
 
   createCategory = (name, type) => {
     firebase
       .database()
       .ref("servers/" + this.props.selectedServer.id)
-      .child("category/" + name)
-      .set({
+      .child("category/")
+      .push({
         name,
         channels: []
-      });
+      })
+      .then(() => this.setState({ showAddModal: false }));
   };
   dropdown = (
     <div className="dropdown">
@@ -109,6 +113,8 @@ class Channels extends React.Component {
     </div>
   );
   render() {
+    console.log("why");
+
     return (
       <div className="channels">
         <header
@@ -137,9 +143,7 @@ class Channels extends React.Component {
             handleClose={this.handleClose}
             create={this.state.create}
             options={
-              this.state.create === "Channel"
-                ? this.state.options
-                : ["text", "voice"]
+              this.state.create === "Channel" ? this.state.options : null
             }
             onClick={
               this.state.create == "Channel"

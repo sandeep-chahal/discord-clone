@@ -59,8 +59,8 @@ const AddModal = props => {
       </option>
       {props.options
         ? props.options.map(option => (
-            <option key={option} value={option}>
-              {option}
+            <option key={option.key} value={option.key}>
+              {option.name}
             </option>
           ))
         : null}

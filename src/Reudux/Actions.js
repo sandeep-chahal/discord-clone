@@ -98,6 +98,7 @@ export const loadJoinedServers = uid => {
     });
   };
 };
+
 //convert db object to array before storing
 const convertToArray = servers => {
   if (servers === null) return [];
