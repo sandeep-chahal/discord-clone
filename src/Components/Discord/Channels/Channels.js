@@ -12,7 +12,36 @@ class Channels extends React.Component {
     create: ""
   };
 
-  componentDidMount() {}
+  getCategories = () => {
+    const category = this.props.selectedServer.category;
+    const keys = Object.keys(category);
+    const options = [];
+    keys.forEach(key => options.push(category[key].name));
+    this.setState({ options });
+  };
+
+  componentDidMount() {
+    this.getCategories();
+  }
+
+  displayChannels = () => {
+    return this.state.options.map((option, i) => {
+      const channelsObj = this.props.selectedServer.category[option].channels;
+      const channelsKeys = Object.keys(channelsObj || {});
+
+      return (
+        <div className="category" key={option + i}>
+          <h3>{option}</h3>
+          {channelsKeys.map((channel, i) => (
+            <Channel
+              channel={channelsObj[channel]}
+              key={option + channel + i}
+            />
+          ))}
+        </div>
+      );
+    });
+  };
 
   handleClose = () => this.setState({ showAddModal: false });
 
@@ -92,7 +121,7 @@ class Channels extends React.Component {
         </header>
         <div className="underline"></div>
         {this.state.showDropdown ? this.dropdown : null}
-        {this.props.selectedServer.channels
+        {/* {this.props.selectedServer.channels
           ? this.props.selectedServer.channels.map((channel, index) => {
               return (
                 <Channel
@@ -101,14 +130,15 @@ class Channels extends React.Component {
                 />
               );
             })
-          : null}
+          : null} */}
+        {this.displayChannels()}
         {this.state.showAddModal ? (
           <AddModal
             handleClose={this.handleClose}
             create={this.state.create}
             options={
               this.state.create === "Channel"
-                ? ["general", "fortinte"]
+                ? this.state.options
                 : ["text", "voice"]
             }
             onClick={
