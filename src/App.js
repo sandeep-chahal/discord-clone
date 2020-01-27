@@ -40,7 +40,7 @@ class App extends React.Component {
   };
 
   fetchServers = servers => {
-    const keys = Object.keys(servers);
+    const keys = Object.keys(servers || {});
     for (let i = 0; i < keys.length; i++) {
       firebase
         .database()

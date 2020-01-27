@@ -96,12 +96,16 @@ class Channels extends React.Component {
       <div className="item invite" onClick={this.handleInviteLink}>
         Invite
       </div>
-      <div className="item" onClick={this.handleCreateChannel}>
-        create channel
-      </div>
-      <div className="item" onClick={this.handleCategory}>
-        create category
-      </div>
+      {this.props.uid === this.props.selectedServer.admin.uid ? (
+        <div className="item" onClick={this.handleCreateChannel}>
+          create channel
+        </div>
+      ) : null}
+      {this.props.uid === this.props.selectedServer.admin.uid ? (
+        <div className="item" onClick={this.handleCategory}>
+          create category
+        </div>
+      ) : null}
       {this.props.uid !== this.props.selectedServer.admin.uid ? (
         <div className="item leave" onClick={this.handleLeaveServer}>
           leave server
@@ -114,8 +118,6 @@ class Channels extends React.Component {
     </div>
   );
   render() {
-    console.log("why");
-
     return (
       <div className="channels">
         <header
