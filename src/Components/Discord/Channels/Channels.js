@@ -9,7 +9,8 @@ class Channels extends React.Component {
     showDropdown: false,
     showAddModal: false,
     options: [],
-    create: ""
+    create: "",
+    selectedChannel: ""
   };
 
   getCategories = () => {
@@ -36,9 +37,11 @@ class Channels extends React.Component {
           <h3>{categoriesObj[option].name}</h3>
           {channelsKeys.map((channel, i) => (
             <Channel
+              active={channel === this.state.selectedChannel}
               id={channel}
               channel={channelsObj[channel]}
-              key={option + channel + i}
+              key={channel}
+              onClick={key => this.setState({ selectedChannel: key })}
             />
           ))}
         </div>

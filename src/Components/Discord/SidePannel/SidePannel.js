@@ -93,6 +93,7 @@ class SidePannel extends React.Component {
     const keys = Object.keys(servers);
     return keys.map(key => (
       <Server
+        active={key === this.props.selectedServer}
         key={key}
         url={servers[key].url || ""}
         onClick={() => this.props.selectServer(key)}

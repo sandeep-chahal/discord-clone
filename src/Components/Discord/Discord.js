@@ -33,6 +33,7 @@ class Discord extends Component {
           user={user}
           joinedServers={joinedServers}
           selectServer={selectServer}
+          selectedServer={selectedServer}
         />
         {selectedServer !== null ? (
           <Channels
@@ -49,9 +50,7 @@ class Discord extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    // loadServer: id => dispatch(loadServer(id)),
     selectServer: index => dispatch(selectServer(index))
-    // updateServer: (index, value) => dispatch(updateServer(index, value))
   };
 }
 

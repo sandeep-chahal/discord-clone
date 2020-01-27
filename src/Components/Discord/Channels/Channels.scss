@@ -53,6 +53,9 @@
     flex-direction: column;
     // align-items: center;
   }
+  .active {
+    background-color: var(--light-3) !important;
+  }
   .channel {
     background-color: var(--light-2);
     width: 85%;
