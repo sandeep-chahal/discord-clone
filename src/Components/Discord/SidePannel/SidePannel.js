@@ -4,17 +4,13 @@ import "./SidePannel.scss";
 import AddModal from "../AddModal/AddModal";
 import uuidv4 from "uuid/v4";
 
-// firebase,
-// user,
-// loadServer,
-// joinedServers,
-// selectServer
 class SidePannel extends React.Component {
   state = {
     showModal: false,
     percentage: 0,
     createStatus: ""
   };
+
   serverRef = this.props.firebase.database().ref("servers");
   storage = this.props.firebase.storage().ref("serversIcon");
 
@@ -106,11 +102,11 @@ class SidePannel extends React.Component {
 
         {/* display joined servers */}
         {joinedServers
-          ? joinedServers.map(server => (
+          ? joinedServers.map((server, index) => (
               <Server
                 url={server.url}
                 key={server.id}
-                onClick={() => selectServer(server)}
+                onClick={() => selectServer(index)}
               />
             ))
           : ""}

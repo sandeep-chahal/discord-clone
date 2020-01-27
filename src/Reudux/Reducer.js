@@ -30,7 +30,7 @@ const INITIAL_SERVER_STATE = {
   currentSelected: null,
   joinedServers: null,
   totalServers: null,
-  loadingTotalServers: true
+  isLoading: true
 };
 
 const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
@@ -47,7 +47,8 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
       }
       return {
         ...state,
-        joinedServers: servers
+        joinedServers: servers,
+        isLoading: false
       };
     }
     case actionTypes.ADD_TOTAL_SERVER: {
@@ -72,6 +73,15 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
       return {
         ...state,
         currentSelected: action.payload
+      };
+    }
+    case actionTypes.UPDATE_SERVER: {
+      let servers = [...state.joinedServers];
+      servers[action.payload.index] = action.payload.val;
+      return {
+        ...state,
+        joinedServers: servers
+        // SELECT_SERVER: joinedServers[]
       };
     }
     default:

@@ -3,11 +3,26 @@ import "./Discord.scss";
 import SidePannel from "./SidePannel/SidePannel";
 import firebase from "../../firebase";
 import { connect } from "react-redux";
-import { loadServer, selectServer } from "../../Reudux/Actions";
+import { loadServer, selectServer, updateServer } from "../../Reudux/Actions";
 import Channels from "./Channels/Channels";
 import UserPannel from "./UserPannel/UserPannel";
 
 class Discord extends Component {
+  componentDidMount() {
+    this.addListener(this.props.joinedServers);
+  }
+  addListener = servers => {
+    servers.forEach((server, i) => {
+      firebase
+        .database()
+        .ref("servers")
+        .child(server.id)
+        .on("value", snap => {
+          this.props.updateServer(i, snap.val());
+        });
+    });
+  };
+
   render() {
     const {
       user,
@@ -25,8 +40,11 @@ class Discord extends Component {
           joinedServers={joinedServers}
           selectServer={selectServer}
         />
-        {selectedServer ? (
-          <Channels selectedServer={selectedServer} uid={user.uid} />
+        {selectedServer !== null ? (
+          <Channels
+            selectedServer={joinedServers[selectedServer]}
+            uid={user.uid}
+          />
         ) : (
           <UserPannel />
         )}
@@ -38,7 +56,8 @@ class Discord extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     loadServer: id => dispatch(loadServer(id)),
-    selectServer: server => dispatch(selectServer(server))
+    selectServer: index => dispatch(selectServer(index)),
+    updateServer: (index, value) => dispatch(updateServer(index, value))
   };
 }
 

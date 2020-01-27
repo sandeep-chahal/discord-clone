@@ -19,7 +19,7 @@ const AddModal = props => {
   const isFormVaild = () => {
     const errors = [];
     if (name.length < 3) errors.push("Name Must be Greater then 2");
-    if (props.create !== "Server" && option === "")
+    if (props.create === "Channel" && option === "")
       errors.push("Select a category");
     if (!file && props.create === "Server") errors.push("Please Upload a pic");
     setErrors(errors);

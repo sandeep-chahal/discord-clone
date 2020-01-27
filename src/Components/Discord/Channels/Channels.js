@@ -36,6 +36,7 @@ class Channels extends React.Component {
           <h3>{categoriesObj[option].name}</h3>
           {channelsKeys.map((channel, i) => (
             <Channel
+              id={channel}
               channel={channelsObj[channel]}
               key={option + channel + i}
             />
@@ -127,16 +128,7 @@ class Channels extends React.Component {
         </header>
         <div className="underline"></div>
         {this.state.showDropdown ? this.dropdown : null}
-        {/* {this.props.selectedServer.channels
-          ? this.props.selectedServer.channels.map((channel, index) => {
-              return (
-                <Channel
-                  channel={channel}
-                  key={this.state.channel.name + index}
-                />
-              );
-            })
-          : null} */}
+
         {this.displayChannels()}
         {this.state.showAddModal ? (
           <AddModal

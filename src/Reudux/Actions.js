@@ -62,6 +62,16 @@ export const loadTotalServers = () => {
   };
 };
 
+export const updateServer = (index, val) => {
+  return {
+    type: actionTypes.UPDATE_SERVER,
+    payload: {
+      index,
+      val
+    }
+  };
+};
+
 //loading single servers
 export const loadServer = id => {
   const db = firebase.database();
@@ -77,7 +87,7 @@ export const loadServer = id => {
 // async func to load all joined servers from db
 // first we are fetch all the servers id's from user data after that
 //we are fetching individual server data using id's from servers ref
-export const loadJoinedServers = uid => {
+export const loadJoinedServers = (uid, addListner) => {
   console.clear();
   console.log("loaded all servers");
 
@@ -89,6 +99,7 @@ export const loadJoinedServers = uid => {
       joinedServers.forEach(server => {
         db.ref("servers/" + server.id).once("value", snap => {
           servers.push(snap.val());
+
           if (servers.length === joinedServers.length) {
             const filtered = filterServers(servers, joinedServers, uid);
             dispatch(addJoinedServers(filtered));

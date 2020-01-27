@@ -19,13 +19,14 @@ class App extends React.Component {
         this.props.history.push("/");
         this.props.login(user);
         this.props.loadTotalServers();
-        this.props.loadJoinedServers(user.uid);
+        this.props.loadJoinedServers(user.uid, this.addListner);
       } else {
         this.props.history.replace("/login");
         this.props.setLoading(false);
       }
     });
   }
+
   render() {
     if (this.props.isLoading) return <Spinner />;
     else
@@ -56,7 +57,7 @@ function mapDispatchToProps(dispatch) {
 }
 function mapStateToProps(state) {
   return {
-    isLoading: state.user.isLoading,
+    isLoading: state.server.isLoading,
     user: state.user.user
   };
 }
