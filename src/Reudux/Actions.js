@@ -9,19 +9,17 @@ export const login = user => {
   };
 };
 
-// wait untill we know if user has logged in or not
-export const setUserLoading = isLoading => {
-  return {
-    type: actionTypes.SET_USER_LOADING,
-    payload: isLoading
-  };
-};
-
 // servers list that user ahs joined
-export const addJoinedServers = server => {
+// export const addJoinedServers = server => {
+//   return {
+//     type: actionTypes.ADD_JOINED_SERVER,
+//     payload: server
+//   };
+// };
+export const setServerLoading = isLoading => {
   return {
-    type: actionTypes.ADD_JOINED_SERVER,
-    payload: server
+    type: actionTypes.SET_SERVER_LOADING,
+    payload: isLoading
   };
 };
 
@@ -33,13 +31,13 @@ const addTotalServers = servers => {
   };
 };
 
-// loading total server list or not
-const setLoadingTotalServer = isLoading => {
-  return {
-    type: actionTypes.SET_LOADING_TOTAL_SERVERS,
-    payload: isLoading
-  };
-};
+// // loading total server list or not
+// const setLoadingTotalServer = isLoading => {
+//   return {
+//     type: actionTypes.SET_LOADING_TOTAL_SERVERS,
+//     payload: isLoading
+//   };
+// };
 
 export const selectServer = server => {
   return {
@@ -51,7 +49,6 @@ export const selectServer = server => {
 // async func to load total servers from db
 export const loadTotalServers = () => {
   return dispatch => {
-    dispatch(setLoadingTotalServer(true));
     firebase
       .database()
       .ref("servers")
@@ -62,53 +59,62 @@ export const loadTotalServers = () => {
   };
 };
 
-export const updateServer = (index, val) => {
+export const updateServer = (id, server) => {
+  console.log("firing the aciton");
+
   return {
     type: actionTypes.UPDATE_SERVER,
     payload: {
-      index,
-      val
+      id,
+      server
     }
   };
 };
 
-//loading single servers
-export const loadServer = id => {
-  const db = firebase.database();
-  console.log("loaded single server");
-
-  return dispatch => {
-    db.ref("servers/" + id).once("value", snap => {
-      dispatch(addJoinedServers(snap.val()));
-    });
+export const removeServer = id => {
+  return {
+    type: actionTypes.REMOVE_SERVER,
+    payload: id
   };
 };
 
-// async func to load all joined servers from db
-// first we are fetch all the servers id's from user data after that
-//we are fetching individual server data using id's from servers ref
-export const loadJoinedServers = (uid, addListner) => {
-  console.clear();
-  console.log("loaded all servers");
+// //loading single server
+// export const loadServer = id => {
+//   const db = firebase.database();
+//   console.log("loaded single server");
 
-  return dispatch => {
-    const db = firebase.database();
-    db.ref("users/" + uid + "/servers").once("value", snap => {
-      const joinedServers = convertToArray(snap.val());
-      const servers = [];
-      joinedServers.forEach(server => {
-        db.ref("servers/" + server.id).once("value", snap => {
-          servers.push(snap.val());
+//   return dispatch => {
+//     db.ref("servers/" + id).once("value", snap => {
+//       dispatch(addJoinedServers(snap.val()));
+//     });
+//   };
+// };
 
-          if (servers.length === joinedServers.length) {
-            const filtered = filterServers(servers, joinedServers, uid);
-            dispatch(addJoinedServers(filtered));
-          }
-        });
-      });
-    });
-  };
-};
+// // async func to load all joined servers from db
+// // first we are fetch all the servers id's from user data after that
+// //we are fetching individual server data using id's from servers ref
+// export const loadJoinedServers = uid => {
+//   console.clear();
+//   console.log("loaded all servers");
+
+//   return dispatch => {
+//     const db = firebase.database();
+//     db.ref("users/" + uid + "/servers").once("value", snap => {
+//       const joinedServers = convertToArray(snap.val());
+//       const servers = [];
+//       joinedServers.forEach(server => {
+//         db.ref("servers/" + server.id).once("value", snap => {
+//           servers.push(snap.val());
+
+//           if (servers.length === joinedServers.length) {
+//             const filtered = filterServers(servers, joinedServers, uid);
+//             dispatch(addJoinedServers(filtered));
+//           }
+//         });
+//       });
+//     });
+//   };
+// };
 
 //convert db object to array before storing
 const convertToArray = servers => {
@@ -117,20 +123,20 @@ const convertToArray = servers => {
   return keys.map(key => servers[key]);
 };
 
-//checking if the server is deleted, if yes then removing from users db
-const filterServers = (filterables, servers, uid) => {
-  if (Array.isArray(filterables)) {
-    return filterables.filter((server, index) =>
-      !server ? removeDeletedServer(uid, servers[index].id) : server
-    );
-  } else return [];
-};
+// //checking if the server is deleted, if yes then removing from users db
+// const filterServers = (filterables, servers, uid) => {
+//   if (Array.isArray(filterables)) {
+//     return filterables.filter((server, index) =>
+//       !server ? removeDeletedServer(uid, servers[index].id) : server
+//     );
+//   } else return [];
+// };
 
-//remove server from user db
-const removeDeletedServer = (uid, id) => {
-  firebase
-    .database()
-    .ref("users/" + uid + "/servers/")
-    .child(id)
-    .remove();
-};
+// //remove server from user db
+// export const removeDeletedServer = (uid, id) => {
+//   firebase
+//     .database()
+//     .ref("users/" + uid + "/servers/")
+//     .child(id)
+//     .remove();
+// };

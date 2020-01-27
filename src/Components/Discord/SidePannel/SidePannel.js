@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Server, { Switch, Add } from "./Server";
 import "./SidePannel.scss";
 import AddModal from "../AddModal/AddModal";
@@ -86,8 +86,18 @@ class SidePannel extends React.Component {
           createStatus: "",
           showModal: false
         });
-        // this.props.loadServer(id); //load the server that user has joined
       });
+  };
+
+  displayServers = servers => {
+    const keys = Object.keys(servers);
+    return keys.map(key => (
+      <Server
+        key={key}
+        url={servers[key].url || ""}
+        onClick={() => this.props.selectServer(key)}
+      />
+    ));
   };
 
   render() {
@@ -101,15 +111,8 @@ class SidePannel extends React.Component {
         <div className="underline"></div>
 
         {/* display joined servers */}
-        {joinedServers
-          ? joinedServers.map((server, index) => (
-              <Server
-                url={server.url}
-                key={server.id}
-                onClick={() => selectServer(index)}
-              />
-            ))
-          : ""}
+        {joinedServers ? this.displayServers(joinedServers) : null}
+
         <Add
           onClick={() => this.setState({ showModal: true })}
           url="https://cdn3.iconfinder.com/data/icons/stroke/53/Button-512.png"

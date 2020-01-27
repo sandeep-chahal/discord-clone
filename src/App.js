@@ -5,9 +5,10 @@ import firebase from "./firebase";
 import { connect } from "react-redux";
 import {
   login,
-  setUserLoading,
+  setServerLoading,
   loadTotalServers,
-  loadJoinedServers
+  updateServer,
+  removeServer
 } from "./Reudux/Actions";
 const Auth = lazy(() => import("./Components/Auth/Auth"));
 const Discord = lazy(() => import("./Components/Discord/Discord"));
@@ -19,13 +20,49 @@ class App extends React.Component {
         this.props.history.push("/");
         this.props.login(user);
         this.props.loadTotalServers();
-        this.props.loadJoinedServers(user.uid, this.addListner);
+        this.addListnerToUser(user.uid);
       } else {
         this.props.history.replace("/login");
         this.props.setLoading(false);
       }
     });
   }
+
+  addListnerToUser = uid => {
+    firebase
+      .database()
+      .ref("users")
+      .child(uid)
+      .on("value", snap => {
+        const userData = snap.val();
+        this.fetchServers(userData.servers);
+      });
+  };
+
+  fetchServers = servers => {
+    const keys = Object.keys(servers);
+    for (let i = 0; i < keys.length; i++) {
+      firebase
+        .database()
+        .ref("servers/")
+        .child(keys[i])
+        .on("value", snap => {
+          if (snap.val()) this.props.updateServer(keys[i], snap.val());
+          else this.removeDeletedServer(keys[i], this.props.user.uid);
+        });
+    }
+    this.props.setLoading(false);
+  };
+  removeDeletedServer = (id, uid) => {
+    //remove from state
+    this.props.removeServer(id);
+    //remove from db
+    firebase
+      .database()
+      .ref("users/" + uid + "/servers/")
+      .child(id)
+      .remove();
+  };
 
   render() {
     if (this.props.isLoading) return <Spinner />;
@@ -50,15 +87,17 @@ class App extends React.Component {
 function mapDispatchToProps(dispatch) {
   return {
     login: user => dispatch(login(user)),
-    setLoading: isLoading => dispatch(setUserLoading(isLoading)),
+    setLoading: isLoading => dispatch(setServerLoading(isLoading)),
     loadTotalServers: () => dispatch(loadTotalServers()),
-    loadJoinedServers: uid => dispatch(loadJoinedServers(uid))
+    updateServer: (id, server) => dispatch(updateServer(id, server)),
+    removeServer: id => dispatch(removeServer(id))
   };
 }
 function mapStateToProps(state) {
   return {
     isLoading: state.server.isLoading,
-    user: state.user.user
+    user: state.user.user,
+    joinedServers: state.server.joinedServers
   };
 }
 

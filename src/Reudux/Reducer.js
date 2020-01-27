@@ -2,8 +2,7 @@ import * as actionTypes from "./actionTypes";
 import { combineReducers } from "redux";
 
 const INITIAL_USER_STATE = {
-  user: null,
-  isLoading: true
+  user: null
 };
 
 const userReducer = (state = INITIAL_USER_STATE, action) => {
@@ -13,12 +12,6 @@ const userReducer = (state = INITIAL_USER_STATE, action) => {
         ...state,
         user: action.payload.user,
         isLoading: false
-      };
-    }
-    case actionTypes.SET_USER_LOADING: {
-      return {
-        ...state,
-        isLoading: action.payload
       };
     }
     default:
@@ -35,22 +28,22 @@ const INITIAL_SERVER_STATE = {
 
 const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
   switch (action.type) {
-    case actionTypes.ADD_JOINED_SERVER: {
-      //checking if we received one server obj or array of object
-      let servers = [];
-      if (Array.isArray(action.payload)) {
-        servers = action.payload;
-      } else {
-        if (Array.isArray(state.joinedServers))
-          servers = [...state.joinedServers];
-        servers.push(action.payload);
-      }
-      return {
-        ...state,
-        joinedServers: servers,
-        isLoading: false
-      };
-    }
+    // case actionTypes.ADD_JOINED_SERVER: {
+    //   //checking if we received one server obj or array of object
+    //   let servers = [];
+    //   if (Array.isArray(action.payload)) {
+    //     servers = action.payload;
+    //   } else {
+    //     if (Array.isArray(state.joinedServers))
+    //       servers = [...state.joinedServers];
+    //     servers.push(action.payload);
+    //   }
+    //   return {
+    //     ...state,
+    //     joinedServers: servers,
+    //     isLoading: false
+    //   };
+    // }
     case actionTypes.ADD_TOTAL_SERVER: {
       return {
         ...state,
@@ -63,12 +56,12 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
         currentSelected: action.payload
       };
     }
-    case actionTypes.SET_LOADING_TOTAL_SERVERS: {
-      return {
-        ...state,
-        loadingTotalServers: action.payload
-      };
-    }
+    // case actionTypes.SET_LOADING_TOTAL_SERVERS: {
+    //   return {
+    //     ...state,
+    //     loadingTotalServers: action.payload
+    //   };
+    // }
     case actionTypes.SELECT_SERVER: {
       return {
         ...state,
@@ -76,12 +69,25 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
       };
     }
     case actionTypes.UPDATE_SERVER: {
-      let servers = [...state.joinedServers];
-      servers[action.payload.index] = action.payload.val;
+      const servers = { ...state.joinedServers } || {};
+      servers[action.payload.id] = action.payload.server;
       return {
         ...state,
         joinedServers: servers
-        // SELECT_SERVER: joinedServers[]
+      };
+    }
+    case actionTypes.SET_SERVER_LOADING: {
+      return {
+        ...state,
+        isLoading: action.payload
+      };
+    }
+    case actionTypes.REMOVE_SERVER: {
+      const servers = { ...state.joinedServers } || {};
+      delete servers[action.payload];
+      return {
+        ...state,
+        joinedServers: servers
       };
     }
     default:
