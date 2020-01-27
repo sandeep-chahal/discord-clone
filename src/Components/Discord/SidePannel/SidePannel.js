@@ -102,10 +102,11 @@ class SidePannel extends React.Component {
   };
 
   render() {
-    const { selectServer, joinedServers } = this.props;
+    const { selectedServer, selectServer, joinedServers } = this.props;
     return (
       <div className="sidepannel">
         <Switch
+          active={selectedServer === null}
           url="https://i.imgur.com/qMgJs45.png"
           onClick={() => selectServer(null)}
         />

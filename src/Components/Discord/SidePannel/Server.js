@@ -23,13 +23,14 @@ const Server = styled.div`
     height: ${props => (props.active ? "3.5rem" : "0rem")};
     background-color: #000;
     border-radius: 2rem;
-    transition: all 0.2s;
     transform-origin: bottom;
   }
 `;
 
 export const Switch = styled(Server)`
-  &:before {
+  border:${props => (props.active ? "2px solid #fff" : "none")}
+  &:hover{
+    border: 2px solid #fff
   }
 `;
 export const Add = styled(Server)`

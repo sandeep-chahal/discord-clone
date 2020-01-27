@@ -10,7 +10,7 @@ class Channels extends React.Component {
     showAddModal: false,
     options: [],
     create: "",
-    selectedChannel: ""
+    selectedChannel: "0"
   };
 
   getCategories = () => {
