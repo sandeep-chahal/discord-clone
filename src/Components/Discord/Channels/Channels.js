@@ -8,7 +8,6 @@ class Channels extends React.Component {
   state = {
     showDropdown: false,
     showAddModal: false,
-    options: [],
     create: "",
     selectedChannel: "0"
   };
@@ -16,14 +15,9 @@ class Channels extends React.Component {
   getCategories = () => {
     const category = this.props.selectedServer.category;
     const keys = Object.keys(category);
-    const options = [];
-    keys.forEach(key => options.push({ name: category[key].name, key }));
-    this.setState({ options });
+    const options = keys.map(key => category[key]);
+    return options;
   };
-
-  componentDidMount() {
-    this.getCategories();
-  }
 
   displayChannels = () => {
     const categoriesObj = this.props.selectedServer.category;
@@ -140,7 +134,7 @@ class Channels extends React.Component {
             handleClose={this.handleClose}
             create={this.state.create}
             options={
-              this.state.create === "Channel" ? this.state.options : null
+              this.state.create === "Channel" ? this.getCategories() : null
             }
             onClick={
               this.state.create == "Channel"
