@@ -72,7 +72,16 @@ class Channels extends React.Component {
       })
       .catch(err => console.log(err.message));
   };
-  handleDeleteServer = () => console.log("deleting channel");
+  handleDeleteServer = () => {
+    this.props.selectServer(null);
+    firebase
+      .database()
+      .ref("servers")
+      .child(this.props.selectedServer.id)
+      .remove()
+      .then(() => console.log("done"))
+      .catch(err => console.log(err.message));
+  };
 
   createChannel = (name, option) => {
     // setCreate("");
