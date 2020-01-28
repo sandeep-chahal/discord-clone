@@ -1,4 +1,5 @@
 .sidepannel {
+  flex-shrink: 0;
   width: 7rem;
   min-height: 100vh;
   background-color: var(--light-4);

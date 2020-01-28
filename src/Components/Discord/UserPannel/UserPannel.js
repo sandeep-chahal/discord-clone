@@ -11,18 +11,18 @@ class UserPannel extends React.Component {
   };
 
   render() {
+    const { selected } = this.state;
     return (
       <div className="userpannel">
         <div
-          className={this.state.selected === "server" ? "active item" : "item"}
+          className={selected === "server" ? "active item" : "item"}
           onClick={() => this.changeSelected("server")}
         >
           <span className="server-icon"></span>Servers
         </div>
+
         <div
-          className={
-            this.state.selected === "activity" ? "active item" : "item"
-          }
+          className={selected === "activity" ? "active item" : "item"}
           onClick={() => this.changeSelected("activity")}
         >
           <span className="activity-icon"></span>activity

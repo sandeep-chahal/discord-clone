@@ -1,5 +1,6 @@
 .userpannel {
-  width: 20rem;
+  width: 22rem;
+  flex-shrink: 0;
   height: 100vh;
   background-color: var(--light-2);
   display: flex;

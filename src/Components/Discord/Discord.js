@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { selectServer, updateServer } from "../../Reudux/Actions";
 import Channels from "./Channels/Channels";
 import UserPannel from "./UserPannel/UserPannel";
+import Main from "./Main/Main";
 
 class Discord extends Component {
   componentDidMount() {
@@ -43,6 +44,7 @@ class Discord extends Component {
         ) : (
           <UserPannel />
         )}
+        <Main />
       </div>
     );
   }
