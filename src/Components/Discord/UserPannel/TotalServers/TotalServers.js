@@ -14,20 +14,23 @@ const TotalServers = props => {
   };
   return (
     <div className="totalservers">
-      {props.totalServers.map(server => (
-        <Card
-          img={server.url}
-          onClick={() => joinServer(server.id)}
-          header={server.name}
-          joined={
-            props.joinedServer
-              ? props.joinedServer[server.id]
-                ? true
-                : false
-              : false
-          }
-        />
-      ))}
+      {props.totalServers
+        ? props.totalServers.map(server => (
+            <Card
+              key={server.id}
+              img={server.url}
+              onClick={() => joinServer(server.id)}
+              header={server.name}
+              joined={
+                props.joinedServer
+                  ? props.joinedServer[server.id]
+                    ? true
+                    : false
+                  : false
+              }
+            />
+          ))
+        : null}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import "./Discord.scss";
 import SidePannel from "./SidePannel/SidePannel";
 import firebase from "../../firebase";
 import { connect } from "react-redux";
-import { selectServer, updateServer } from "../../Reudux/Actions";
+import { selectServer, removeServer } from "../../Reudux/Actions";
 import Channels from "./Channels/Channels";
 import UserPannel from "./UserPannel/UserPannel";
 import Main from "./Main/Main";
@@ -26,7 +26,13 @@ class Discord extends Component {
   // };
 
   render() {
-    const { user, joinedServers, selectServer, selectedServer } = this.props;
+    const {
+      user,
+      joinedServers,
+      selectServer,
+      selectedServer,
+      removeServer
+    } = this.props;
     return (
       <div className="discord">
         <SidePannel
@@ -38,7 +44,9 @@ class Discord extends Component {
         />
         {selectedServer !== null ? (
           <Channels
+            selectServer={selectServer}
             selectedServer={joinedServers[selectedServer]}
+            removeServer={removeServer}
             uid={user.uid}
           />
         ) : (
@@ -52,7 +60,8 @@ class Discord extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectServer: index => dispatch(selectServer(index))
+    selectServer: index => dispatch(selectServer(index)),
+    removeServer: id => dispatch(removeServer(id))
   };
 }
 

@@ -60,7 +60,18 @@ class Channels extends React.Component {
     });
   };
   handleInviteLink = () => console.log("getting invite link");
-  handleLeaveServer = () => console.log("leaving channel");
+  handleLeaveServer = () => {
+    firebase
+      .database()
+      .ref("users/" + this.props.uid + "/servers")
+      .child(this.props.selectedServer.id)
+      .remove()
+      .then(() => {
+        this.props.selectServer(null);
+        this.props.removeServer(this.props.selectedServer.id);
+      })
+      .catch(err => console.log(err.message));
+  };
   handleDeleteServer = () => console.log("deleting channel");
 
   createChannel = (name, option) => {
