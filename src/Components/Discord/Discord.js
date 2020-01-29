@@ -9,22 +9,6 @@ import UserPannel from "./UserPannel/UserPannel";
 import Main from "./Main/Main";
 
 class Discord extends Component {
-  componentDidMount() {
-    // this.addListener(this.props.joinedServers);
-  }
-  // addListener = servers => {
-  //   servers.forEach((server, i) => {
-  //     firebase
-  //       .database()
-  //       .ref("servers")
-  //       .child(server.id)
-  //       .on("value", snap => {
-  //         if (snap.val() === null) console.log("oooooooo");
-  //         else this.props.updateServer(i, snap.val());
-  //       });
-  //   });
-  // };
-
   render() {
     const {
       user,
