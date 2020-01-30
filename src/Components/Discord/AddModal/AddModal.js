@@ -52,20 +52,22 @@ const AddModal = props => {
       />
     </div>
   );
-  const selectInput = (
-    <select value={option} onChange={e => setOption(e.target.value)}>
-      <option value="">
-        Choose {props.create === "Channel" ? "category" : "type"}
-      </option>
-      {props.options
-        ? props.options.map(option => (
-            <option key={option.key} value={option.key}>
-              {option.name}
-            </option>
-          ))
-        : null}
-    </select>
-  );
+  const selectInput = () => {
+    return (
+      <select value={option} onChange={e => setOption(e.target.value)}>
+        <option value="">
+          Choose {props.create === "Channel" ? "category" : "type"}
+        </option>
+        {props.options
+          ? props.options.map(option => (
+              <option key={option.key} value={option.key}>
+                {option.name}
+              </option>
+            ))
+          : null}
+      </select>
+    );
+  };
 
   return (
     <div className="bg" onClick={closeModalOnBgClick}>
@@ -78,7 +80,7 @@ const AddModal = props => {
         </div>
         <form>
           {props.create === "Server" ? fileInput : ""}
-          {props.options ? selectInput : ""}
+          {props.options ? selectInput() : ""}
           <input
             type="text"
             placeholder={`${props.create} name`}

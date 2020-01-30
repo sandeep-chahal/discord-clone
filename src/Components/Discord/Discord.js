@@ -13,7 +13,10 @@ const extra = ["totalServers"];
 class Discord extends Component {
   state = {
     server: null,
-    channel: "0",
+    channel: {
+      categoryID: "general",
+      id: "0"
+    },
     dm: "totalServers"
   };
 
@@ -47,7 +50,11 @@ class Discord extends Component {
           />
         )}
         {this.state.server ? (
-          <Messages />
+          <Messages
+            server={joinedServers[this.state.server]}
+            channel={this.state.channel}
+            user={this.props.user}
+          />
         ) : extra.includes(this.state.dm) ? (
           <Extra extra={this.state.dm} />
         ) : null}

@@ -11,12 +11,14 @@ class Channels extends React.Component {
     create: ""
   };
 
-  componentDidMount() {}
-
   getCategories = () => {
     const category = this.props.selectedServer.category;
     const keys = Object.keys(category);
-    const options = keys.map(key => category[key]);
+
+    const options = keys.map(key => ({
+      ...category[key],
+      key
+    }));
     return options;
   };
 
@@ -32,13 +34,16 @@ class Channels extends React.Component {
           <h3>{categoriesObj[option].name}</h3>
           {channelsKeys.map((channel, i) => (
             <Channel
-              active={channel === this.props.selectedChannel}
+              active={channel === this.props.selectedChannel.id}
               id={channel}
               channel={channelsObj[channel]}
               key={channel}
-              onClick={key => {
+              onClick={() => {
                 this.props.changeCurrentSelected({
-                  channel: key
+                  channel: {
+                    categoryID: channelsObj[channel].categoryID,
+                    id: channel
+                  }
                 });
               }}
             />
@@ -72,13 +77,15 @@ class Channels extends React.Component {
       .child(this.props.selectedServer.id)
       .remove()
       .then(() => {
-        this.props.selectServer(null);
+        this.changeCurrentSelected({ server: null });
         this.props.removeServer(this.props.selectedServer.id);
       })
       .catch(err => console.log(err.message));
   };
   handleDeleteServer = () => {
-    this.props.selectServer(null);
+    this.props.changeCurrentSelected({
+      server: null
+    });
     firebase
       .database()
       .ref("servers")
@@ -89,7 +96,6 @@ class Channels extends React.Component {
   };
 
   createChannel = (name, option) => {
-    // setCreate("");
     firebase
       .database()
       .ref("servers/" + this.props.selectedServer.id)
@@ -97,7 +103,8 @@ class Channels extends React.Component {
       .push({
         name,
         messages: [],
-        type: "text"
+        type: "text",
+        categoryID: option
       })
       .then(() => this.setState({ showAddModal: false }));
   };

@@ -61,7 +61,7 @@ class SidePannel extends React.Component {
         category: {
           general: {
             name: "general",
-            channels: [{ name: "general", type: "text", messages: [] }]
+            channels: [{ name: "general", type: "text", categoryID: "general" }]
           }
         }
       })
@@ -114,8 +114,7 @@ class SidePannel extends React.Component {
           url="https://i.imgur.com/qMgJs45.png"
           onClick={() => {
             this.props.changeCurrentSelected({
-              server: null,
-              channel: "0"
+              server: null
             });
           }}
         />

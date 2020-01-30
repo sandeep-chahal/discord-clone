@@ -1,15 +1,23 @@
 import React from "react";
+import moment from "moment";
 
-const Message = props => {
+const Message = ({ id, message, uid }) => {
   return (
     <div className="message">
-      <div className="user-icon"></div>
+      <div
+        className="user-icon"
+        style={{ backgroundImage: `url(${message.sender.photo})` }}
+      ></div>
       <div className="message-body">
         <div className="message-header">
-          <div className="user-name">spidy</div>
-          <div className="message-date">1 minute ago</div>
+          <div className="user-name">
+            {message.sender.uid === uid ? "you" : message.sender.name}
+          </div>
+          <div className="message-date">
+            {moment(message.timestamp).fromNow()}
+          </div>
         </div>
-        <div className="message-text">Hello, there nice to meet you</div>
+        <div className="message-text">{message.text}</div>
       </div>
       <div className="underline"></div>
     </div>
