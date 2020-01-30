@@ -8,6 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 4;
 
   .addmodal {
     position: relative;
@@ -16,6 +17,7 @@
     background-color: #fff;
     padding: 0;
     padding-top: 2rem;
+    z-index: 5;
 
     h2 {
       text-align: center;

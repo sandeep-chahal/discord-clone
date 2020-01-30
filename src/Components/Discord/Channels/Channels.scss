@@ -62,15 +62,14 @@
     background-color: var(--light-2);
     width: 85%;
     margin: 0.3rem auto;
-    padding: 0.5rem 0;
+    padding: 0.8rem 0.5rem;
     border-radius: 4px;
     display: flex;
     align-items: center;
     cursor: pointer;
     color: rgba(0, 0, 0, 0.8);
     span {
-      font-size: 3rem;
-      margin-top: -0.5rem;
+      font-size: 2rem;
       margin-right: 0.8rem;
       color: rgba(0, 0, 0, 0.4);
     }
