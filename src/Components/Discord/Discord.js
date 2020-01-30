@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { selectServer, removeServer } from "../../Reudux/Actions";
 import Channels from "./Channels/Channels";
 import UserPannel from "./UserPannel/UserPannel";
+import Messages from "./Messages/Messages";
+import Extra from "./Extra/Extra";
 
 const extra = ["totalServers"];
 class Discord extends Component {
@@ -44,8 +46,11 @@ class Discord extends Component {
             selectedDM={this.state.dm}
           />
         )}
-        {/* this.state.server ? <Messages /> : extra.includes(this.state.dm) ?{" "}
-        <Extra /> : <DM />; */}
+        {this.state.server ? (
+          <Messages />
+        ) : extra.includes(this.state.dm) ? (
+          <Extra extra={this.state.dm} />
+        ) : null}
       </div>
     );
   }
