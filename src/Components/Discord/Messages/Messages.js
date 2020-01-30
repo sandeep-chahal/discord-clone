@@ -4,6 +4,7 @@ import Message from "./Message";
 import MessageForm from "./MessageForm";
 
 class Messages extends React.Component {
+  message_container = null;
   displayMessages = messages => {
     const keys = Object.keys(messages);
     return keys.map(key => (
@@ -16,6 +17,18 @@ class Messages extends React.Component {
     ));
   };
 
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom = () => {
+    if (this.message_container)
+      this.message_container.scrollTo(0, this.message_container.scrollHeight);
+  };
+
   render() {
     const { server, channel, user } = this.props;
     const messages =
@@ -24,7 +37,10 @@ class Messages extends React.Component {
       <div className="messages">
         <div className="header">#General</div>
         <div className="underline"></div>
-        <div className="messages-container">
+        <div
+          className="messages-container"
+          ref={el => (this.message_container = el)}
+        >
           {messages ? this.displayMessages(messages) : null}
         </div>
         <MessageForm serverId={server.id} channel={channel} user={user} />
