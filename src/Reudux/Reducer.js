@@ -28,22 +28,6 @@ const INITIAL_SERVER_STATE = {
 
 const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
   switch (action.type) {
-    // case actionTypes.ADD_JOINED_SERVER: {
-    //   //checking if we received one server obj or array of object
-    //   let servers = [];
-    //   if (Array.isArray(action.payload)) {
-    //     servers = action.payload;
-    //   } else {
-    //     if (Array.isArray(state.joinedServers))
-    //       servers = [...state.joinedServers];
-    //     servers.push(action.payload);
-    //   }
-    //   return {
-    //     ...state,
-    //     joinedServers: servers,
-    //     isLoading: false
-    //   };
-    // }
     case actionTypes.ADD_TOTAL_SERVER: {
       return {
         ...state,
@@ -56,12 +40,7 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
         currentSelected: action.payload
       };
     }
-    // case actionTypes.SET_LOADING_TOTAL_SERVERS: {
-    //   return {
-    //     ...state,
-    //     loadingTotalServers: action.payload
-    //   };
-    // }
+
     case actionTypes.SELECT_SERVER: {
       return {
         ...state,
@@ -94,6 +73,15 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
       return state;
   }
 };
+
+const CURRENT_SELECTED_STATE = {
+  server: null,
+  channel: null,
+  extra: "totalServer",
+  dm: null
+};
+
+// const currentSelectedReducer
 
 const rootReducer = combineReducers({
   user: userReducer,

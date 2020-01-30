@@ -6,37 +6,46 @@ import { connect } from "react-redux";
 import { selectServer, removeServer } from "../../Reudux/Actions";
 import Channels from "./Channels/Channels";
 import UserPannel from "./UserPannel/UserPannel";
-import Main from "./Main/Main";
 
+const extra = ["totalServers"];
 class Discord extends Component {
+  state = {
+    server: null,
+    channel: "0",
+    dm: "totalServers"
+  };
+
+  changeCurrentSelected = to => {
+    this.setState(to);
+  };
+
   render() {
-    const {
-      user,
-      joinedServers,
-      selectServer,
-      selectedServer,
-      removeServer
-    } = this.props;
+    const { user, joinedServers, removeServer } = this.props;
     return (
       <div className="discord">
         <SidePannel
+          selectedServer={this.state.server}
+          changeCurrentSelected={this.changeCurrentSelected}
           firebase={firebase}
           user={user}
           joinedServers={joinedServers}
-          selectServer={selectServer}
-          selectedServer={selectedServer}
         />
-        {selectedServer !== null ? (
+        {this.state.server !== null ? (
           <Channels
-            selectServer={selectServer}
-            selectedServer={joinedServers[selectedServer]}
+            selectedServer={joinedServers[this.state.server]}
+            selectedChannel={this.state.channel}
             removeServer={removeServer}
             uid={user.uid}
+            changeCurrentSelected={this.changeCurrentSelected}
           />
         ) : (
-          <UserPannel />
+          <UserPannel
+            changeCurrentSelected={this.changeCurrentSelected}
+            selectedDM={this.state.dm}
+          />
         )}
-        <Main />
+        {/* this.state.server ? <Messages /> : extra.includes(this.state.dm) ?{" "}
+        <Extra /> : <DM />; */}
       </div>
     );
   }
@@ -44,7 +53,6 @@ class Discord extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectServer: index => dispatch(selectServer(index)),
     removeServer: id => dispatch(removeServer(id))
   };
 }
@@ -52,8 +60,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     user: state.user.user,
-    joinedServers: state.server.joinedServers,
-    selectedServer: state.server.currentSelected
+    joinedServers: state.server.joinedServers
   };
 }
 

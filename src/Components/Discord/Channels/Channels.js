@@ -8,9 +8,10 @@ class Channels extends React.Component {
   state = {
     showDropdown: false,
     showAddModal: false,
-    create: "",
-    selectedChannel: "0"
+    create: ""
   };
+
+  componentDidMount() {}
 
   getCategories = () => {
     const category = this.props.selectedServer.category;
@@ -31,11 +32,15 @@ class Channels extends React.Component {
           <h3>{categoriesObj[option].name}</h3>
           {channelsKeys.map((channel, i) => (
             <Channel
-              active={channel === this.state.selectedChannel}
+              active={channel === this.props.selectedChannel}
               id={channel}
               channel={channelsObj[channel]}
               key={channel}
-              onClick={key => this.setState({ selectedChannel: key })}
+              onClick={key => {
+                this.props.changeCurrentSelected({
+                  channel: key
+                });
+              }}
             />
           ))}
         </div>

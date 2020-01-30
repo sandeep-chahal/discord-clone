@@ -74,7 +74,7 @@ class App extends React.Component {
               <Auth />
             </Suspense>
           </Route>
-          <Route path="/">
+          <Route path="/*">
             <Suspense fallback={<Spinner />}>
               <Discord />
             </Suspense>

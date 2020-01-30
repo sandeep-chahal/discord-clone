@@ -2,27 +2,28 @@ import React from "react";
 import "./UserPannel.scss";
 
 class UserPannel extends React.Component {
-  state = {
-    selected: "server"
-  };
-
   changeSelected = to => {
-    this.setState({ selected: to });
+    this.props.changeCurrentSelected({
+      dm: to
+    });
   };
 
   render() {
-    const { selected } = this.state;
     return (
       <div className="userpannel">
         <div
-          className={selected === "server" ? "active item" : "item"}
-          onClick={() => this.changeSelected("server")}
+          className={
+            this.props.selectedDM === "totalServers" ? "active item" : "item"
+          }
+          onClick={() => this.changeSelected("totalServers")}
         >
           <span className="server-icon"></span>Servers
         </div>
 
         <div
-          className={selected === "activity" ? "active item" : "item"}
+          className={
+            this.props.selectedDM === "activity" ? "active item" : "item"
+          }
           onClick={() => this.changeSelected("activity")}
         >
           <span className="activity-icon"></span>activity

@@ -60,8 +60,6 @@ export const loadTotalServers = () => {
 };
 
 export const updateServer = (id, server) => {
-  console.log("firing the aciton");
-
   return {
     type: actionTypes.UPDATE_SERVER,
     payload: {
