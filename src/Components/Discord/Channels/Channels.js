@@ -113,7 +113,7 @@ class Channels extends React.Component {
       })
       .then(() => this.setState({ showAddModal: false }));
   };
-  dropdown = (
+  dropdown = () => (
     <div className="dropdown">
       <div className="item invite" onClick={this.handleInviteLink}>
         Invite
@@ -151,7 +151,7 @@ class Channels extends React.Component {
           <span className="arrow"></span>
         </header>
         <div className="underline"></div>
-        {this.state.showDropdown ? this.dropdown : null}
+        {this.state.showDropdown ? this.dropdown() : null}
 
         {this.displayChannels()}
         {this.state.showAddModal ? (
