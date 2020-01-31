@@ -19,9 +19,11 @@ class Messages extends React.Component {
 
   componentDidUpdate() {
     this.scrollToBottom();
+    setTimeout(this.scrollToBottom, 1000);
   }
   componentDidMount() {
     this.scrollToBottom();
+    setTimeout(this.scrollToBottom, 1000);
   }
 
   scrollToBottom = () => {

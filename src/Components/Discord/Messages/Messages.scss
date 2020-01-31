@@ -35,12 +35,15 @@
     }
   }
   .messages-container {
+    // display: flex;
+    // flex-direction: ;
+
     .underline {
       display: block;
-      width: 100%;
+      width: 95%;
       height: 1px;
       background-color: rgba(0, 0, 0, 0.08);
-      margin: 2rem 0;
+      margin: 2rem auto;
     }
     .message {
       margin: 0 5rem;
@@ -80,7 +83,8 @@
           overflow-wrap: break-word;
         }
         .message-file {
-          max-width: 50%;
+          max-height: 40rem;
+          max-width: 60rem;
         }
       }
     }

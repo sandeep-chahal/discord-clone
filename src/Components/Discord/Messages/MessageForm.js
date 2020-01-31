@@ -14,6 +14,7 @@ const MessageForm = props => {
   const [percentage, setPercentage] = useState(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showGiphyPicker, setShowGiphyPicker] = useState(false);
+  let inputRef = null;
 
   const createMessage = (message, isTextMessage) => {
     const newMessage = {
@@ -91,6 +92,9 @@ const MessageForm = props => {
     value += emoji.native;
     setMessage(value);
     setShowEmojiPicker(false);
+    if (inputRef) {
+      inputRef.focus();
+    }
   };
   const setGiphy = giphy => {
     const newMessage = createMessage(giphy.downsized_medium.url, false);
@@ -132,6 +136,8 @@ const MessageForm = props => {
           value={message}
           onChange={e => setMessage(e.target.value)}
           placeholder={`# message `}
+          autoFocus
+          ref={ref => (inputRef = ref)}
         />
       </form>
 
