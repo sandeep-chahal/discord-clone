@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import firebase from "../../../firebase";
-
+import FileUploadPrev from "./FileUploadPrev";
+import uuidv4 from "uuid";
 const MessageForm = props => {
   const [message, setMessage] = useState("");
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(false);
+  const [percentage, setPercentage] = useState(null);
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (message === "") return;
+  const createMessage = (message, isTextMessage) => {
     const newMessage = {
-      text: message,
+      text: isTextMessage ? message : null,
+      url: isTextMessage ? null : message,
       sender: {
         name: props.user.displayName,
         photo: props.user.photoURL,
@@ -16,12 +19,62 @@ const MessageForm = props => {
       },
       timestamp: new Date().getTime()
     };
+    return newMessage;
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (message === "") return;
+    const newMessage = createMessage(message, true);
     setMessage("");
     sendMessage(
       newMessage,
       props.serverId,
       props.channel.categoryID,
       props.channel.id
+    );
+  };
+
+  const openModal = e => {
+    setFile(e.target.files[0]);
+    if (e.target.files && e.target.files[0]) {
+      setPreview(true);
+    }
+  };
+  const closeModal = () => {
+    setFile(null);
+    setPreview(false);
+  };
+  const sendFile = () => {
+    const storageRef = firebase
+      .storage()
+      .ref("public/" + props.serverId + "/" + props.channel.id);
+    const task = storageRef.child(uuidv4() + ".jpg").put(file);
+    task.on(
+      "state_changed",
+      snap => {
+        var percentage =
+          Math.round(snap.bytesTransferred / snap.totalBytes) * 100;
+        setPercentage(percentage);
+      },
+      err => {
+        console.log(err.message);
+        setPercentage(null);
+      },
+      () => {
+        task.snapshot.ref.getDownloadURL().then(url => {
+          const newMessage = createMessage(url, false);
+          sendMessage(
+            newMessage,
+            props.serverId,
+            props.channel.categoryID,
+            props.channel.id
+          );
+          setPreview(false);
+          setFile(null);
+          setPercentage(null);
+        });
+      }
     );
   };
 
@@ -45,7 +98,7 @@ const MessageForm = props => {
     <div className="messageform">
       <div className="file">
         <label htmlFor="file">+</label>
-        <input type="file" id="file" />
+        <input type="file" id="file" onChange={openModal} />
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -56,6 +109,14 @@ const MessageForm = props => {
           placeholder="#message"
         />
       </form>
+      {preview ? (
+        <FileUploadPrev
+          file={file}
+          closeModal={closeModal}
+          sendFile={sendFile}
+          percentage={percentage}
+        />
+      ) : null}
     </div>
   );
 };
