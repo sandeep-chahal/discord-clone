@@ -10,6 +10,11 @@
     overflow-y: auto;
     overflow-x: hidden;
   }
+  .emoji-mart {
+    position: fixed;
+    bottom: 5rem;
+    right: 5rem;
+  }
 
   .header {
     position: fixed;
@@ -71,10 +76,10 @@
           }
         }
         .message-text {
-          font-size: 1.2rem;
+          font-size: 1.6rem;
+          overflow-wrap: break-word;
         }
         .message-file {
-          // display: block;
           width: 50%;
         }
       }
@@ -100,9 +105,22 @@
       background: var(--light-2);
       border: none;
       outline: none;
+
+      color: rgba(0, 0, 0, 0.7);
+    }
+    .emoji-picker {
+      padding: 1rem;
+      font-size: 2rem;
+      background-color: var(--light-2);
+      height: 100%;
       border-top-right-radius: 1rem;
       border-bottom-right-radius: 1rem;
-      color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      .emoji-picker-btn {
+        height: auto;
+        cursor: pointer;
+      }
     }
     .file {
       background: var(--light-2);

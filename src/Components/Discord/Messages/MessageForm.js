@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import firebase from "../../../firebase";
 import FileUploadPrev from "./FileUploadPrev";
 import uuidv4 from "uuid";
+// import Picker from "emoji-picker-react";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
 const MessageForm = props => {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(false);
   const [percentage, setPercentage] = useState(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const createMessage = (message, isTextMessage) => {
     const newMessage = {
@@ -41,6 +45,7 @@ const MessageForm = props => {
       setPreview(true);
     }
   };
+
   const closeModal = () => {
     setFile(null);
     setPreview(false);
@@ -78,6 +83,13 @@ const MessageForm = props => {
     );
   };
 
+  const setEmoji = emoji => {
+    let value = message;
+
+    value += emoji.native;
+    setMessage(value);
+  };
+
   const sendMessage = (message, serverID, categoryID, channelID) => {
     const path =
       "servers/" +
@@ -106,9 +118,21 @@ const MessageForm = props => {
           type="text"
           value={message}
           onChange={e => setMessage(e.target.value)}
-          placeholder="#message"
+          placeholder={`# message `}
         />
       </form>
+
+      <div className="emoji-picker">
+        <div
+          className="emoji-picker-btn"
+          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+        >
+          😀
+        </div>
+        {showEmojiPicker ? (
+          <Picker onSelect={emojiObj => setEmoji(emojiObj)} />
+        ) : null}
+      </div>
       {preview ? (
         <FileUploadPrev
           file={file}
