@@ -4,13 +4,16 @@ import FileUploadPrev from "./FileUploadPrev";
 import uuidv4 from "uuid";
 // import Picker from "emoji-picker-react";
 import "emoji-mart/css/emoji-mart.css";
-import { Picker } from "emoji-mart";
+import { Picker as EmojiPicker } from "emoji-mart";
+import GiphyPicker from "react-giphy-picker";
+
 const MessageForm = props => {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(false);
   const [percentage, setPercentage] = useState(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showGiphyPicker, setShowGiphyPicker] = useState(false);
 
   const createMessage = (message, isTextMessage) => {
     const newMessage = {
@@ -85,9 +88,19 @@ const MessageForm = props => {
 
   const setEmoji = emoji => {
     let value = message;
-
     value += emoji.native;
     setMessage(value);
+    setShowEmojiPicker(false);
+  };
+  const setGiphy = giphy => {
+    const newMessage = createMessage(giphy.downsized_medium.url, false);
+    sendMessage(
+      newMessage,
+      props.serverId,
+      props.channel.categoryID,
+      props.channel.id
+    );
+    setShowGiphyPicker(false);
   };
 
   const sendMessage = (message, serverID, categoryID, channelID) => {
@@ -125,14 +138,35 @@ const MessageForm = props => {
       <div className="emoji-picker">
         <div
           className="emoji-picker-btn"
-          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+          onClick={() => {
+            setShowEmojiPicker(!showEmojiPicker);
+            setShowGiphyPicker(false);
+          }}
         >
           😀
         </div>
         {showEmojiPicker ? (
-          <Picker onSelect={emojiObj => setEmoji(emojiObj)} />
+          <EmojiPicker onSelect={emojiObj => setEmoji(emojiObj)} />
         ) : null}
       </div>
+
+      <div className="giphy-picker">
+        <div
+          className="giphy-picker-btn"
+          onClick={() => {
+            setShowGiphyPicker(!showGiphyPicker);
+            setShowEmojiPicker(false);
+          }}
+        >
+          GIF
+        </div>
+        {showGiphyPicker ? (
+          <div className="giphy-picker-box">
+            <GiphyPicker onSelected={giphyObj => setGiphy(giphyObj)} />
+          </div>
+        ) : null}
+      </div>
+
       {preview ? (
         <FileUploadPrev
           file={file}

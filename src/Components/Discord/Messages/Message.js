@@ -25,7 +25,7 @@ const Message = ({ id, message, uid }) => {
           {isTextMessage(message) ? (
             <div className="message-text">{message.text}</div>
           ) : (
-            <img className="message-file" src={message.url} />
+            <img className="message-file" src={message.url} alt="Loading...." />
           )}
         </div>
       </div>
