@@ -14,7 +14,7 @@ class Messages extends React.Component {
         uid={user.uid}
         id={key}
         message={messages[key]}
-        color={roles[server.users[messages[key].sender.uid].role].color}
+        color={roles[messages[key].sender.role].color}
       />
     ));
   };
@@ -53,7 +53,12 @@ class Messages extends React.Component {
               ? this.displayMessages(this.props.messages)
               : null}
           </div>
-          <MessageForm serverId={server.id} channel={channel} user={user} />
+          <MessageForm
+            serverId={server.id}
+            channel={channel}
+            user={user}
+            userRole={this.props.userRole}
+          />
         </div>
         <div className="server-users"></div>
       </div>

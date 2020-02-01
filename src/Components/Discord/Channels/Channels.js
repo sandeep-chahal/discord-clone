@@ -71,35 +71,52 @@ class Channels extends React.Component {
   };
   handleInviteLink = () => console.log("getting invite link");
   handleLeaveServer = () => {
+    const serverId = this.props.selectedServer.id;
     firebase
       .database()
       .ref("servers")
-      .child(this.props.selectedServer.id)
+      .child(serverId)
       .off("value");
     firebase
       .database()
-      .ref("users/" + this.props.uid + "/servers")
-      .child(this.props.selectedServer.id)
+      .ref("servers/" + serverId + "/users/")
+      .child(this.props.uid)
       .remove()
       .then(() => {
-        const selectedServerId = this.props.selectedServer.id;
-        this.props.changeCurrentSelected({ server: null });
-        this.props.removeServer(selectedServerId);
-      })
-      .catch(err => console.log(err.message));
+        console.log("servers/" + serverId + "/users/" + this.props.uid);
+
+        firebase
+          .database()
+          .ref("users/" + this.props.uid + "/servers")
+          .child(serverId)
+          .remove()
+          .then(() => {
+            const selectedServerId = this.props.selectedServer.id;
+            this.props.changeCurrentSelected({ server: null });
+            this.props.removeServer(selectedServerId);
+          })
+          .catch(err => console.log(err.message));
+      });
   };
   handleDeleteServer = () => {
     this.props.changeCurrentSelected({
       server: null
     });
+    // firebase
+    //   .database()
+    //   .ref("servers")
+    //   .child(this.props.selectedServer.id)
+    //   .off("value");
     firebase
       .database()
       .ref("servers")
       .child(this.props.selectedServer.id)
-      .off("value");
+      .remove()
+      .then(() => console.log("done"))
+      .catch(err => console.log(err.message));
     firebase
       .database()
-      .ref("servers")
+      .ref("messages")
       .child(this.props.selectedServer.id)
       .remove()
       .then(() => console.log("done"))
@@ -131,32 +148,35 @@ class Channels extends React.Component {
       })
       .then(() => this.setState({ showAddModal: false }));
   };
-  dropdown = () => (
-    <div className="dropdown">
-      <div className="item invite" onClick={this.handleInviteLink}>
-        Invite
+  dropdown = () => {
+    const isAdmin = this.props.userRole.isAdmin;
+    return (
+      <div className="dropdown">
+        <div className="item invite" onClick={this.handleInviteLink}>
+          Invite
+        </div>
+        {isAdmin ? (
+          <div className="item" onClick={this.handleCreateChannel}>
+            create channel
+          </div>
+        ) : null}
+        {isAdmin ? (
+          <div className="item" onClick={this.handleCategory}>
+            create category
+          </div>
+        ) : null}
+        {!isAdmin ? (
+          <div className="item leave" onClick={this.handleLeaveServer}>
+            leave server
+          </div>
+        ) : (
+          <div className="item delete" onClick={this.handleDeleteServer}>
+            delete server
+          </div>
+        )}
       </div>
-      {this.props.userRole.isAdmin ? (
-        <div className="item" onClick={this.handleCreateChannel}>
-          create channel
-        </div>
-      ) : null}
-      {this.props.userRole.isAdmin ? (
-        <div className="item" onClick={this.handleCategory}>
-          create category
-        </div>
-      ) : null}
-      {this.props.userRole.isAdmin ? (
-        <div className="item leave" onClick={this.handleLeaveServer}>
-          leave server
-        </div>
-      ) : (
-        <div className="item delete" onClick={this.handleDeleteServer}>
-          delete server
-        </div>
-      )}
-    </div>
-  );
+    );
+  };
   render() {
     return (
       <div className="channels">

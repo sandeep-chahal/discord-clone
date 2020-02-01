@@ -9,7 +9,8 @@ import {
   loadTotalServers,
   updateServer,
   removeServer,
-  addMessages
+  addMessages,
+  selectServer
 } from "./Reudux/Actions";
 const Auth = lazy(() => import("./Components/Auth/Auth"));
 const Discord = lazy(() => import("./Components/Discord/Discord"));
@@ -71,6 +72,7 @@ class App extends React.Component {
   addListnerToChannel = channel => {};
   removeDeletedServer = (id, uid) => {
     //remove from state
+    this.props.selectServer(null);
     this.props.removeServer(id);
     //remove from db
     firebase
@@ -107,6 +109,7 @@ function mapDispatchToProps(dispatch) {
     loadTotalServers: () => dispatch(loadTotalServers()),
     updateServer: (id, server) => dispatch(updateServer(id, server)),
     removeServer: id => dispatch(removeServer(id)),
+    selectServer: id => dispatch(selectServer(id)),
     addMessages: (serverId, channels) =>
       dispatch(addMessages(serverId, channels))
   };

@@ -28,7 +28,7 @@ class Discord extends Component {
         this.props.user.uid
       ].role;
       const roles = this.props.joinedServers[to.server].roles;
-      const role = this.props.joinedServers[to.server].roles[userRole];
+      const role = this.props.joinedServers[to.server].roles[userRole] || null;
       to.role = role;
       to.roles = roles;
     }

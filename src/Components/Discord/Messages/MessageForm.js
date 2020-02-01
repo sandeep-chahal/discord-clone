@@ -23,7 +23,8 @@ const MessageForm = props => {
       sender: {
         name: props.user.displayName,
         photo: props.user.photoURL,
-        uid: props.user.uid
+        uid: props.user.uid,
+        role: props.userRole.name
       },
       serverId: props.serverId,
       channelId: props.channel.id,
