@@ -73,12 +73,18 @@ class Channels extends React.Component {
   handleLeaveServer = () => {
     firebase
       .database()
+      .ref("servers")
+      .child(this.props.selectedServer.id)
+      .off("value");
+    firebase
+      .database()
       .ref("users/" + this.props.uid + "/servers")
       .child(this.props.selectedServer.id)
       .remove()
       .then(() => {
-        this.changeCurrentSelected({ server: null });
-        this.props.removeServer(this.props.selectedServer.id);
+        const selectedServerId = this.props.selectedServer.id;
+        this.props.changeCurrentSelected({ server: null });
+        this.props.removeServer(selectedServerId);
       })
       .catch(err => console.log(err.message));
   };
@@ -86,6 +92,11 @@ class Channels extends React.Component {
     this.props.changeCurrentSelected({
       server: null
     });
+    firebase
+      .database()
+      .ref("servers")
+      .child(this.props.selectedServer.id)
+      .off("value");
     firebase
       .database()
       .ref("servers")

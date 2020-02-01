@@ -39,8 +39,10 @@ class Auth extends React.Component {
               .ref("users")
               .child(user.user.uid)
               .set({
-                name: user.user.displayName,
-                avatar: user.user.photoURL
+                profile: {
+                  name: user.user.displayName,
+                  avatar: user.user.photoURL
+                }
               })
               .then(() => console.log("success"));
           })
