@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 
-const Message = ({ id, message, uid }) => {
+const Message = ({ id, message, uid, color }) => {
   const isTextMessage = message => {
     return message.text;
   };
@@ -14,8 +14,8 @@ const Message = ({ id, message, uid }) => {
         ></div>
         <div className="message-body">
           <div className="message-header">
-            <div className="user-name">
-              {message.sender.uid === uid ? "you" : message.sender.name}
+            <div className="user-name" style={{ color: color }}>
+              {message.sender.uid === uid ? "You" : message.sender.name}
             </div>
             <div className="message-date">
               {moment(message.timestamp).fromNow()}

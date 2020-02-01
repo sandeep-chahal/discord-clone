@@ -57,7 +57,12 @@ class SidePannel extends React.Component {
         name,
         url,
         id: key,
-        roles: ["admin", "normal"],
+        roles: {
+          admin: {
+            isAdmin: true,
+            color: "#ff1f5a"
+          }
+        },
         users: {
           [this.props.user.uid]: {
             name: this.props.user.displayName,

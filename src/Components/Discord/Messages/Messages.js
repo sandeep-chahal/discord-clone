@@ -6,13 +6,15 @@ import MessageForm from "./MessageForm";
 class Messages extends React.Component {
   message_container = null;
   displayMessages = messages => {
+    const { user, roles, server } = this.props;
     const keys = Object.keys(messages);
     return keys.map(key => (
       <Message
         key={key}
-        uid={this.props.user.uid}
+        uid={user.uid}
         id={key}
         message={messages[key]}
+        color={roles[server.users[messages[key].sender.uid].role].color}
       />
     ));
   };

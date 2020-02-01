@@ -136,17 +136,17 @@ class Channels extends React.Component {
       <div className="item invite" onClick={this.handleInviteLink}>
         Invite
       </div>
-      {this.props.uid === this.props.selectedServer.admin.uid ? (
+      {this.props.userRole.isAdmin ? (
         <div className="item" onClick={this.handleCreateChannel}>
           create channel
         </div>
       ) : null}
-      {this.props.uid === this.props.selectedServer.admin.uid ? (
+      {this.props.userRole.isAdmin ? (
         <div className="item" onClick={this.handleCategory}>
           create category
         </div>
       ) : null}
-      {this.props.uid !== this.props.selectedServer.admin.uid ? (
+      {this.props.userRole.isAdmin ? (
         <div className="item leave" onClick={this.handleLeaveServer}>
           leave server
         </div>

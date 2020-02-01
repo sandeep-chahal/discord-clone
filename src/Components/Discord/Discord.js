@@ -17,10 +17,21 @@ class Discord extends Component {
       categoryID: "general",
       id: "0"
     },
-    dm: "totalServers"
+    dm: "totalServers",
+    role: null,
+    roles: null
   };
 
   changeCurrentSelected = to => {
+    if (to.server) {
+      const userRole = this.props.joinedServers[to.server].users[
+        this.props.user.uid
+      ].role;
+      const roles = this.props.joinedServers[to.server].roles;
+      const role = this.props.joinedServers[to.server].roles[userRole];
+      to.role = role;
+      to.roles = roles;
+    }
     this.setState(to);
   };
 
@@ -50,6 +61,7 @@ class Discord extends Component {
             removeServer={removeServer}
             uid={user.uid}
             changeCurrentSelected={this.changeCurrentSelected}
+            userRole={this.state.role}
           />
         ) : (
           <UserPannel
@@ -63,6 +75,8 @@ class Discord extends Component {
             messages={this.getMessages(messages)}
             channel={this.state.channel}
             user={this.props.user}
+            userRole={this.state.role}
+            roles={this.state.roles}
           />
         ) : extra.includes(this.state.dm) ? (
           <Extra extra={this.state.dm} />
