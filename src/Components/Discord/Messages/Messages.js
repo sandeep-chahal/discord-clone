@@ -36,16 +36,19 @@ class Messages extends React.Component {
     const messages =
       server.category[channel.categoryID].channels[channel.id].messages;
     return (
-      <div className="messages">
-        <div className="header">#General</div>
-        <div className="underline"></div>
-        <div
-          className="messages-container"
-          ref={el => (this.message_container = el)}
-        >
-          {messages ? this.displayMessages(messages) : null}
+      <div className="messages-wrapper">
+        <div className="messages">
+          <div className="header">#General</div>
+          <div className="underline"></div>
+          <div
+            className="messages-container"
+            ref={el => (this.message_container = el)}
+          >
+            {messages ? this.displayMessages(messages) : null}
+          </div>
+          <MessageForm serverId={server.id} channel={channel} user={user} />
         </div>
-        <MessageForm serverId={server.id} channel={channel} user={user} />
+        <div className="server-users"></div>
       </div>
     );
   }
