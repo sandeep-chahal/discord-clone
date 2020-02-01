@@ -3,7 +3,7 @@ import "./Discord.scss";
 import SidePannel from "./SidePannel/SidePannel";
 import firebase from "../../firebase";
 import { connect } from "react-redux";
-import { selectServer, removeServer } from "../../Reudux/Actions";
+import { removeServer } from "../../Reudux/Actions";
 import Channels from "./Channels/Channels";
 import UserPannel from "./UserPannel/UserPannel";
 import Messages from "./Messages/Messages";

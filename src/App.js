@@ -31,6 +31,20 @@ class App extends React.Component {
   }
 
   addListnerToUser = uid => {
+    const presenceRef = firebase
+      .database()
+      .ref("users")
+      .child(uid)
+      .child("presence");
+
+    firebase
+      .database()
+      .ref(".info/connected")
+      .on("value", snap => {
+        presenceRef.set(snap.val());
+      });
+    presenceRef.onDisconnect().set(false);
+
     firebase
       .database()
       .ref("users")
@@ -48,6 +62,14 @@ class App extends React.Component {
         .database()
         .ref("servers/")
         .child(keys[i])
+        .child("/users/")
+        .child(this.props.user.uid)
+        .child("presence")
+        .set(true);
+      firebase
+        .database()
+        .ref("servers/")
+        .child(keys[i])
         .on("value", snap => {
           if (snap.val()) {
             const server = snap.val();
@@ -55,6 +77,15 @@ class App extends React.Component {
             this.addListnerToChannels(server);
           } else this.removeDeletedServer(keys[i], this.props.user.uid);
         });
+      firebase
+        .database()
+        .ref("servers/")
+        .child(keys[i])
+        .child("/users/")
+        .child(this.props.user.uid)
+        .child("presence")
+        .onDisconnect()
+        .set(false);
     }
     this.props.setLoading(false);
   };
@@ -69,7 +100,6 @@ class App extends React.Component {
         this.props.addMessages(server.id, channels);
       });
   };
-  addListnerToChannel = channel => {};
   removeDeletedServer = (id, uid) => {
     //remove from state
     this.props.selectServer(null);

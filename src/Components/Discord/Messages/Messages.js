@@ -2,7 +2,7 @@ import React from "react";
 import "./Messages.scss";
 import Message from "./Message";
 import MessageForm from "./MessageForm";
-import ServerUsers from "./ServerUsers";
+import ServerUsers from "./ServerInfo/ServerUsers";
 
 class Messages extends React.Component {
   message_container = null;
@@ -61,7 +61,7 @@ class Messages extends React.Component {
             userRole={this.props.userRole}
           />
         </div>
-        <ServerUsers />
+        <ServerUsers roles={this.props.roles} users={this.props.server.users} />
       </div>
     );
   }

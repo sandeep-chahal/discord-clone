@@ -256,9 +256,54 @@
   }
 
   .server-users {
+    padding-top: 2rem;
     margin-top: 5vh;
     width: 16vw;
     height: 95vh;
     background-color: var(--light-2);
+    .category-container {
+      margin: 1rem;
+      margin-bottom: 2rem;
+      .category {
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .user {
+        width: 90%;
+        padding: 0.3rem;
+        padding-left: 1rem;
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+        cursor: pointer;
+        &:hover {
+          background-color: var(--light-1);
+        }
+        .user-icon {
+          width: 3rem;
+          height: 3rem;
+          background-size: cover;
+          background-position: center;
+          margin-right: 1rem;
+          border-radius: 50%;
+          position: relative;
+          .presence {
+            content: "";
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid var(--light-2);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-radius: 50%;
+          }
+        }
+
+        .name {
+          font-size: 1.5rem;
+        }
+      }
+    }
   }
 }
