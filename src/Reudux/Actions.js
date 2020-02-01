@@ -75,6 +75,15 @@ export const removeServer = id => {
     payload: id
   };
 };
+export const addMessages = (serverId, channels) => {
+  return {
+    type: actionTypes.ADD_MESSAGES,
+    payload: {
+      serverId,
+      channels
+    }
+  };
+};
 
 // //loading single server
 // export const loadServer = id => {

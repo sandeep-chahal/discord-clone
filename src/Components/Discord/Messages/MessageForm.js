@@ -25,6 +25,8 @@ const MessageForm = props => {
         photo: props.user.photoURL,
         uid: props.user.uid
       },
+      serverId: props.serverId,
+      channelId: props.channel.id,
       timestamp: new Date().getTime()
     };
     return newMessage;
@@ -108,17 +110,11 @@ const MessageForm = props => {
   };
 
   const sendMessage = (message, serverID, categoryID, channelID) => {
-    const path =
-      "servers/" +
-      serverID +
-      "/category/" +
-      categoryID +
-      "/channels/" +
-      channelID;
+    const path = "messages/" + serverID;
     firebase
       .database()
       .ref(path)
-      .child("messages")
+      .child(channelID)
       .push()
       .set(message);
   };

@@ -8,7 +8,8 @@ import {
   setServerLoading,
   loadTotalServers,
   updateServer,
-  removeServer
+  removeServer,
+  addMessages
 } from "./Reudux/Actions";
 const Auth = lazy(() => import("./Components/Auth/Auth"));
 const Discord = lazy(() => import("./Components/Discord/Discord"));
@@ -47,12 +48,27 @@ class App extends React.Component {
         .ref("servers/")
         .child(keys[i])
         .on("value", snap => {
-          if (snap.val()) this.props.updateServer(keys[i], snap.val());
-          else this.removeDeletedServer(keys[i], this.props.user.uid);
+          if (snap.val()) {
+            const server = snap.val();
+            this.props.updateServer(keys[i], server);
+            this.addListnerToChannels(server);
+          } else this.removeDeletedServer(keys[i], this.props.user.uid);
         });
     }
     this.props.setLoading(false);
   };
+  addListnerToChannels = server => {
+    firebase
+      .database()
+      .ref("messages")
+      .child(server.id)
+      .on("value", snap => {
+        const channels = snap.val();
+        console.log("channels", channels);
+        this.props.addMessages(server.id, channels);
+      });
+  };
+  addListnerToChannel = channel => {};
   removeDeletedServer = (id, uid) => {
     //remove from state
     this.props.removeServer(id);
@@ -90,7 +106,9 @@ function mapDispatchToProps(dispatch) {
     setLoading: isLoading => dispatch(setServerLoading(isLoading)),
     loadTotalServers: () => dispatch(loadTotalServers()),
     updateServer: (id, server) => dispatch(updateServer(id, server)),
-    removeServer: id => dispatch(removeServer(id))
+    removeServer: id => dispatch(removeServer(id)),
+    addMessages: (serverId, channels) =>
+      dispatch(addMessages(serverId, channels))
   };
 }
 function mapStateToProps(state) {

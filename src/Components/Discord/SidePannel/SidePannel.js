@@ -57,7 +57,15 @@ class SidePannel extends React.Component {
         name,
         url,
         id: key,
-        admin: { name: this.props.user.displayName, uid: this.props.user.uid },
+        roles: ["admin", "normal"],
+        users: {
+          [this.props.user.uid]: {
+            name: this.props.user.displayName,
+            uid: this.props.user.uid,
+            role: "admin",
+            photo: this.props.user.photoURL
+          }
+        },
         category: {
           general: {
             name: "general",

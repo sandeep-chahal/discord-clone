@@ -33,8 +33,11 @@ class Messages extends React.Component {
 
   render() {
     const { server, channel, user } = this.props;
-    const messages =
-      server.category[channel.categoryID].channels[channel.id].messages;
+    // let messages;
+    // try {
+    //   messages =
+    //     server.category[channel.categoryID].channels[channel.id].messages;
+    // } catch (e) {}
     return (
       <div className="messages-wrapper">
         <div className="messages">
@@ -44,7 +47,9 @@ class Messages extends React.Component {
             className="messages-container"
             ref={el => (this.message_container = el)}
           >
-            {messages ? this.displayMessages(messages) : null}
+            {this.props.messages
+              ? this.displayMessages(this.props.messages)
+              : null}
           </div>
           <MessageForm serverId={server.id} channel={channel} user={user} />
         </div>

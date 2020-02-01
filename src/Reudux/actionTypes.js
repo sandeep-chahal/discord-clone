@@ -10,3 +10,5 @@ export const SET_LOADING_TOTAL_SERVERS = "setLoadingTotalServers";
 export const SELECT_SERVER = "selectServer";
 export const UPDATE_SERVER = "updateServer";
 export const REMOVE_SERVER = "removeServer";
+export const ADD_MESSAGES = "addMessages";
+export const ADD_MESSAGE = "addMessage";

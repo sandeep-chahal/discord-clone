@@ -5,7 +5,6 @@ const Message = ({ id, message, uid }) => {
   const isTextMessage = message => {
     return message.text;
   };
-
   return (
     <div className="message-container">
       <div className="message">

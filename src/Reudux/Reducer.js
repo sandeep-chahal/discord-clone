@@ -23,7 +23,8 @@ const INITIAL_SERVER_STATE = {
   currentSelected: null,
   joinedServers: null,
   totalServers: null,
-  isLoading: true
+  isLoading: true,
+  messages: null
 };
 
 const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
@@ -69,19 +70,18 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
         joinedServers: servers
       };
     }
+    case actionTypes.ADD_MESSAGES: {
+      const messages = { ...state.messages };
+      messages[action.payload.serverId] = action.payload.channels;
+      return {
+        ...state,
+        messages
+      };
+    }
     default:
       return state;
   }
 };
-
-const CURRENT_SELECTED_STATE = {
-  server: null,
-  channel: null,
-  extra: "totalServer",
-  dm: null
-};
-
-// const currentSelectedReducer
 
 const rootReducer = combineReducers({
   user: userReducer,

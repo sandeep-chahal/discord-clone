@@ -24,8 +24,16 @@ class Discord extends Component {
     this.setState(to);
   };
 
+  getMessages = messages => {
+    try {
+      return messages[this.state.server][this.state.channel.id];
+    } catch (e) {
+      return null;
+    }
+  };
+
   render() {
-    const { user, joinedServers, removeServer } = this.props;
+    const { user, joinedServers, removeServer, messages } = this.props;
     return (
       <div className="discord">
         <SidePannel
@@ -52,6 +60,7 @@ class Discord extends Component {
         {this.state.server ? (
           <Messages
             server={joinedServers[this.state.server]}
+            messages={this.getMessages(messages)}
             channel={this.state.channel}
             user={this.props.user}
           />
@@ -72,7 +81,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     user: state.user.user,
-    joinedServers: state.server.joinedServers
+    joinedServers: state.server.joinedServers,
+    messages: state.server.messages
   };
 }
 
