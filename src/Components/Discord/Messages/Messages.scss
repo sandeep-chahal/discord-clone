@@ -77,9 +77,14 @@
             margin-bottom: 0.5rem;
 
             .user-name {
+              position: relative;
               font-size: 1.6rem;
               margin-right: 1rem;
               color: #000;
+              cursor: pointer;
+              &:hover {
+                text-decoration: underline;
+              }
             }
             .message-date {
             }
@@ -345,6 +350,7 @@
       }
 
       .user {
+        position: relative;
         width: 90%;
         padding: 0.3rem;
         padding-left: 1rem;

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import moment from "moment";
 import { Picker as EmojiPicker } from "emoji-mart";
 import firebase from "../../../firebase";
+import DMCard from "./DMCard/DMCard";
 
 const Message = props => {
   const [showOptions, setShowOptions] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showModifyOptions, setShowModifyOptions] = useState(false);
+  const [showDMCard, setShowDMCard] = useState(false);
   const {
     id,
     message,
@@ -86,8 +88,22 @@ const Message = props => {
         ></div>
         <div className="message-body">
           <div className="message-header">
-            <div className="user-name" style={{ color: color }}>
+            <div
+              className="user-name"
+              style={{ color: color }}
+              onClick={() => setShowDMCard(!showDMCard)}
+            >
               {message.sender.uid === uid ? "You" : message.sender.name}
+              {showDMCard ? (
+                <DMCard
+                  name={message.sender.name}
+                  photo={message.sender.photo}
+                  uid={message.sender.uid}
+                  role={message.sender.role}
+                  roleColor={color}
+                  close={() => setShowDMCard(false)}
+                />
+              ) : null}
             </div>
             <div className="message-date">
               {moment(message.timestamp).fromNow()}
