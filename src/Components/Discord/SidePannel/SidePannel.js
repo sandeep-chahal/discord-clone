@@ -61,7 +61,7 @@ class SidePannel extends React.Component {
           admin: {
             isAdmin: true,
             color: "#ff1f5a",
-            name: "isAdmin"
+            name: "admin"
           },
           normal: {
             isAdmin: false,
