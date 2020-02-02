@@ -94,6 +94,54 @@
             max-width: 60rem;
           }
         }
+        .message-options {
+          font-size: 1.5rem;
+          display: flex;
+          align-items: center;
+          .reactions {
+            cursor: pointer;
+            margin-right: 1rem;
+            .emoji-mart {
+              z-index: 3;
+            }
+          }
+          .message-modify {
+            cursor: pointer;
+            .dot {
+              width: 3px;
+              height: 3px;
+              margin: 1px;
+              background-color: #000;
+              border-radius: 50%;
+              opacity: 0.7;
+            }
+          }
+        }
+
+        .reactions {
+          display: flex;
+          .reaction {
+            cursor: pointer;
+            margin-top: 1rem;
+            margin-left: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-2);
+            width: 4rem;
+            border-radius: 2px;
+            &:hover {
+              background-color: rgba(202, 34, 34, 0.3);
+            }
+            .emoji {
+            }
+            .count {
+              margin-top: 5px;
+              margin-left: 5px;
+            }
+          }
+        }
       }
     }
 

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import firebase from "../../../firebase";
 import FileUploadPrev from "./FileUploadPrev";
 import uuidv4 from "uuid";
-// import Picker from "emoji-picker-react";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker as EmojiPicker } from "emoji-mart";
 import GiphyPicker from "react-giphy-picker";
