@@ -99,11 +99,17 @@
           font-size: 1.5rem;
           display: flex;
           align-items: center;
-          .reactions {
+          // position: relative;
+          .reaction-picker {
             cursor: pointer;
             margin-right: 1rem;
+
             .emoji-mart {
-              z-index: 3;
+              top: 0;
+              right: 0;
+              position: absolute;
+              z-index: 5;
+              height: 45rem;
             }
           }
           .message-modify {

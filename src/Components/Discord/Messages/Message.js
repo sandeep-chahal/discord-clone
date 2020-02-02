@@ -130,7 +130,7 @@ const Message = props => {
         {showOptions ? (
           <div className="message-options">
             <div
-              className="reactions"
+              className="reaction-picker"
               onClick={() => setShowEmojiPicker(!showEmojiPicker)}
             >
               ☻
