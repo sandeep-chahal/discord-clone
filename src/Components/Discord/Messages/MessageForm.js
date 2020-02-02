@@ -45,6 +45,12 @@ const MessageForm = props => {
     );
   };
 
+  const handleKeyDown = e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      handleSubmit(e);
+    }
+  };
+
   const openModal = e => {
     setFile(e.target.files[0]);
     if (e.target.files && e.target.files[0]) {
@@ -127,10 +133,11 @@ const MessageForm = props => {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <input
+        <textarea
           type="text"
           value={message}
           onChange={e => setMessage(e.target.value)}
+          onKeyPress={e => handleKeyDown(e)}
           placeholder={`# message `}
           autoFocus
           ref={ref => (inputRef = ref)}

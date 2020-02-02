@@ -58,7 +58,7 @@ const Message = props => {
       className="message-container"
       onMouseLeave={() => {
         setShowOptions(false);
-        // setShowEmojiPicker(false);
+        setShowEmojiPicker(false);
       }}
       onMouseEnter={() => setShowOptions(true)}
     >
@@ -90,6 +90,7 @@ const Message = props => {
             {message.reactions
               ? Object.keys(message.reactions).map(reactionKey => (
                   <div
+                    key={reactionKey}
                     className="reaction"
                     onClick={() =>
                       sendReaction({
