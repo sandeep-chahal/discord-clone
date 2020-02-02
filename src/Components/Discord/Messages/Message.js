@@ -1,10 +1,11 @@
 import React from "react";
 import moment from "moment";
 
-const Message = ({ id, message, uid, color }) => {
+const Message = ({ id, message, uid, color, scrollToBottom }) => {
   const isTextMessage = message => {
     return message.text;
   };
+
   return (
     <div className="message-container">
       <div className="message">
@@ -24,7 +25,12 @@ const Message = ({ id, message, uid, color }) => {
           {isTextMessage(message) ? (
             <div className="message-text">{message.text}</div>
           ) : (
-            <img className="message-file" src={message.url} alt="Loading...." />
+            <img
+              className="message-file"
+              src={message.url}
+              alt="Loading...."
+              onLoad={scrollToBottom}
+            />
           )}
         </div>
       </div>

@@ -15,17 +15,13 @@ class Messages extends React.Component {
         id={key}
         message={messages[key]}
         color={roles[messages[key].sender.role].color}
+        scrollToBottom={this.scrollToBottom}
       />
     ));
   };
 
   componentDidUpdate() {
     this.scrollToBottom();
-    setTimeout(this.scrollToBottom, 1000);
-  }
-  componentDidMount() {
-    this.scrollToBottom();
-    setTimeout(this.scrollToBottom, 1000);
   }
 
   scrollToBottom = () => {
@@ -35,17 +31,13 @@ class Messages extends React.Component {
 
   render() {
     const { server, channel, user } = this.props;
-    // let messages;
-    // try {
-    //   messages =
-    //     server.category[channel.categoryID].channels[channel.id].messages;
-    // } catch (e) {}
     return (
       <div className="messages">
         <div className="header">#General</div>
         <div className="underline"></div>
         <div
           className="messages-container"
+          id="scrolldownpls"
           ref={el => (this.message_container = el)}
         >
           {this.props.messages
