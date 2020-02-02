@@ -6,6 +6,7 @@ import firebase from "../../../firebase";
 const Message = props => {
   const [showOptions, setShowOptions] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showModifyOptions, setShowModifyOptions] = useState(false);
   const {
     id,
     message,
@@ -53,12 +54,28 @@ const Message = props => {
       .update(newMessage);
   };
 
+  const deleteMessage = () => {
+    firebase
+      .database()
+      .ref("messages")
+      .child(serverId)
+      .child(channelId)
+      .child(id)
+      .remove();
+  };
+
+  const copyMessage = async () => {
+    if (message.text) await navigator.clipboard.writeText(message.text);
+    else await navigator.clipboard.writeText(message.url);
+  };
+
   return (
     <div
       className="message-container"
       onMouseLeave={() => {
         setShowOptions(false);
         setShowEmojiPicker(false);
+        setShowModifyOptions(false);
       }}
       onMouseEnter={() => setShowOptions(true)}
     >
@@ -121,11 +138,24 @@ const Message = props => {
                 <EmojiPicker onSelect={e => sendReaction(e)} />
               ) : null}
             </div>
-            {message.sender.uid === uid ? (
-              <div className="message-modify">
+            {true ? (
+              <div
+                className="message-modify"
+                onClick={() => setShowModifyOptions(!showModifyOptions)}
+              >
                 <div className="dot"></div>
                 <div className="dot"></div>
                 <div className="dot"></div>
+                {showModifyOptions ? (
+                  <div className="modify-options">
+                    {message.text ? (
+                      <div onClick={copyMessage}>copy message</div>
+                    ) : null}
+                    {message.sender.uid === uid ? (
+                      <div onClick={deleteMessage}>delete message</div>
+                    ) : null}
+                  </div>
+                ) : null}
               </div>
             ) : null}
           </div>

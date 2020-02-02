@@ -108,6 +108,8 @@
           }
           .message-modify {
             cursor: pointer;
+            position: relative;
+
             .dot {
               width: 3px;
               height: 3px;
@@ -115,6 +117,21 @@
               background-color: #000;
               border-radius: 50%;
               opacity: 0.7;
+            }
+            .modify-options {
+              position: absolute;
+              z-index: 3;
+              top: 0;
+              right: 0;
+              width: 15rem;
+              background-color: var(--light-2);
+              & > div {
+                opacity: 0.7;
+                padding: 1rem;
+                &:hover {
+                  opacity: 1;
+                }
+              }
             }
           }
         }
