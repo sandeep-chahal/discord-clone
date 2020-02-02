@@ -33,7 +33,7 @@ class Messages extends React.Component {
     const { server, channel, user } = this.props;
     return (
       <div className="messages">
-        <div className="header">#General</div>
+        <div className="header"># {channel.name}</div>
         <div className="underline"></div>
         <div
           className="messages-container"

@@ -42,7 +42,8 @@ class Channels extends React.Component {
                 this.props.changeCurrentSelected({
                   channel: {
                     categoryID: channelsObj[channel].categoryID,
-                    id: channel
+                    id: channel,
+                    name: channelsObj[channel].name
                   }
                 });
               }}

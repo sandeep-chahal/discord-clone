@@ -27,7 +27,8 @@ const INITIAL_SERVER_STATE = {
   server: null,
   channel: {
     categoryID: "general",
-    id: "0"
+    id: "0",
+    name: "general"
   },
   dm: "totalServers",
   role: null,
