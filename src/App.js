@@ -96,7 +96,6 @@ class App extends React.Component {
       .child(server.id)
       .on("value", snap => {
         const channels = snap.val();
-        console.log("channels", channels);
         this.props.addMessages(server.id, channels);
       });
   };

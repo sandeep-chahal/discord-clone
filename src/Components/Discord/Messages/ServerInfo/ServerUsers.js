@@ -1,5 +1,6 @@
 import React from "react";
 import User from "./User";
+import { connect } from "react-redux";
 
 const ServerUsers = props => {
   const displayUsers = (_roles, users) => {
@@ -25,7 +26,6 @@ const ServerUsers = props => {
         roles[user.role].users[_user] = user;
       }
     });
-    console.log(roles);
 
     return Object.keys(roles).map(role =>
       roles[role].users ? (
@@ -52,4 +52,11 @@ const ServerUsers = props => {
   );
 };
 
-export default ServerUsers;
+function mapStateToProps(state) {
+  return {
+    user: state.user.user,
+    joinedServers: state.server.joinedServers
+  };
+}
+
+export default connect(mapStateToProps)(ServerUsers);

@@ -2,7 +2,6 @@ import React from "react";
 import "./Messages.scss";
 import Message from "./Message";
 import MessageForm from "./MessageForm";
-import ServerUsers from "./ServerInfo/ServerUsers";
 
 class Messages extends React.Component {
   message_container = null;
@@ -42,26 +41,23 @@ class Messages extends React.Component {
     //     server.category[channel.categoryID].channels[channel.id].messages;
     // } catch (e) {}
     return (
-      <div className="messages-wrapper">
-        <div className="messages">
-          <div className="header">#General</div>
-          <div className="underline"></div>
-          <div
-            className="messages-container"
-            ref={el => (this.message_container = el)}
-          >
-            {this.props.messages
-              ? this.displayMessages(this.props.messages)
-              : null}
-          </div>
-          <MessageForm
-            serverId={server.id}
-            channel={channel}
-            user={user}
-            userRole={this.props.userRole}
-          />
+      <div className="messages">
+        <div className="header">#General</div>
+        <div className="underline"></div>
+        <div
+          className="messages-container"
+          ref={el => (this.message_container = el)}
+        >
+          {this.props.messages
+            ? this.displayMessages(this.props.messages)
+            : null}
         </div>
-        <ServerUsers roles={this.props.roles} users={this.props.server.users} />
+        <MessageForm
+          serverId={server.id}
+          channel={channel}
+          user={user}
+          userRole={this.props.userRole}
+        />
       </div>
     );
   }

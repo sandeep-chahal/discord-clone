@@ -20,11 +20,18 @@ const userReducer = (state = INITIAL_USER_STATE, action) => {
 };
 
 const INITIAL_SERVER_STATE = {
-  currentSelected: null,
   joinedServers: null,
   totalServers: null,
   isLoading: true,
-  messages: null
+  messages: null,
+  server: null,
+  channel: {
+    categoryID: "general",
+    id: "0"
+  },
+  dm: "totalServers",
+  role: null,
+  roles: null
 };
 
 const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
@@ -35,17 +42,11 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
         totalServers: action.payload
       };
     }
-    case actionTypes.SET_CURRENT_SELECTED: {
-      return {
-        ...state,
-        currentSelected: action.payload
-      };
-    }
 
     case actionTypes.SELECT_SERVER: {
       return {
         ...state,
-        currentSelected: action.payload
+        ...action.payload
       };
     }
     case actionTypes.UPDATE_SERVER: {

@@ -3,24 +3,16 @@ import "./Discord.scss";
 import SidePannel from "./SidePannel/SidePannel";
 import firebase from "../../firebase";
 import { connect } from "react-redux";
-import { removeServer } from "../../Reudux/Actions";
+import { removeServer, selectServer } from "../../Reudux/Actions";
 import Channels from "./Channels/Channels";
 import UserPannel from "./UserPannel/UserPannel";
 import Messages from "./Messages/Messages";
 import Extra from "./Extra/Extra";
+import ServerUsers from "./Messages/ServerInfo/ServerUsers";
 
 const extra = ["totalServers"];
 class Discord extends Component {
-  state = {
-    server: null,
-    channel: {
-      categoryID: "general",
-      id: "0"
-    },
-    dm: "totalServers",
-    role: null,
-    roles: null
-  };
+  state = {};
 
   changeCurrentSelected = to => {
     if (to.server) {
@@ -32,54 +24,67 @@ class Discord extends Component {
       to.role = role;
       to.roles = roles;
     }
-    this.setState(to);
+    this.props.selectServer(to);
   };
 
   getMessages = messages => {
     try {
-      return messages[this.state.server][this.state.channel.id];
+      return messages[this.props.server][this.props.channel.id];
     } catch (e) {
       return null;
     }
   };
 
   render() {
-    const { user, joinedServers, removeServer, messages } = this.props;
+    const {
+      user,
+      joinedServers,
+      removeServer,
+      messages,
+      server,
+      channel,
+      role,
+      roles,
+      dm
+    } = this.props;
     return (
       <div className="discord">
         <SidePannel
-          selectedServer={this.state.server}
+          selectedServer={server}
           changeCurrentSelected={this.changeCurrentSelected}
           firebase={firebase}
           user={user}
           joinedServers={joinedServers}
         />
-        {this.state.server !== null ? (
+        {server !== null ? (
           <Channels
-            selectedServer={joinedServers[this.state.server]}
-            selectedChannel={this.state.channel}
+            selectedServer={joinedServers[server]}
+            selectedChannel={channel}
             removeServer={removeServer}
             uid={user.uid}
             changeCurrentSelected={this.changeCurrentSelected}
-            userRole={this.state.role}
+            userRole={role}
           />
         ) : (
           <UserPannel
             changeCurrentSelected={this.changeCurrentSelected}
-            selectedDM={this.state.dm}
+            selectedDM={dm}
           />
         )}
-        {this.state.server ? (
-          <Messages
-            server={joinedServers[this.state.server]}
-            messages={this.getMessages(messages)}
-            channel={this.state.channel}
-            user={this.props.user}
-            userRole={this.state.role}
-            roles={this.state.roles}
-          />
-        ) : extra.includes(this.state.dm) ? (
-          <Extra extra={this.state.dm} />
+        {server ? (
+          <div className="messages-wrapper">
+            <Messages
+              server={joinedServers[server]}
+              messages={this.getMessages(messages)}
+              channel={channel}
+              user={this.props.user}
+              userRole={role}
+              roles={roles}
+            />
+            <ServerUsers roles={roles} users={joinedServers[server].users} />
+          </div>
+        ) : extra.includes(dm) ? (
+          <Extra extra={dm} />
         ) : null}
       </div>
     );
@@ -88,7 +93,8 @@ class Discord extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    removeServer: id => dispatch(removeServer(id))
+    removeServer: id => dispatch(removeServer(id)),
+    selectServer: id => dispatch(selectServer(id))
   };
 }
 
@@ -96,7 +102,12 @@ function mapStateToProps(state) {
   return {
     user: state.user.user,
     joinedServers: state.server.joinedServers,
-    messages: state.server.messages
+    messages: state.server.messages,
+    server: state.server.server,
+    channel: state.server.channel,
+    dm: state.server.dm,
+    role: state.server.role,
+    roles: state.server.roles
   };
 }
 
