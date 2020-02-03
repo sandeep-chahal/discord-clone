@@ -32,7 +32,8 @@ const INITIAL_SERVER_STATE = {
   },
   dm: "totalServers",
   role: null,
-  roles: null
+  roles: null,
+  dms: null
 };
 
 const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
@@ -78,6 +79,16 @@ const serverReducer = (state = INITIAL_SERVER_STATE, action) => {
       return {
         ...state,
         messages
+      };
+    }
+    case actionTypes.ADD_DM: {
+      const dms = { ...state.dms } || {};
+      dms[action.payload.id] = action.payload.dms;
+      console.log(action.payload);
+
+      return {
+        ...state,
+        dms: dms
       };
     }
     default:

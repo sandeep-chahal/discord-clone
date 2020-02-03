@@ -12,7 +12,6 @@ const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
       firebase
         .database()
         .ref("messages")
-        .child("dm")
         .child(path)
         .once("value", snap => {
           if (snap.val()) {
@@ -21,8 +20,11 @@ const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
               .ref("messages")
               .child(path)
               .child("messages")
-              .push({
-                text: message
+              .push()
+              .set({
+                sender: userUid,
+                text: message,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
               });
           } else {
             firebase
@@ -30,11 +32,19 @@ const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
               .ref("messages")
               .child(path)
               .set({
-                user1: userUid,
-                user2: uid,
+                user1: {
+                  uid: userUid,
+                  photo: firebase.auth().currentUser.photoURL
+                },
+                user2: {
+                  uid: uid,
+                  photo: photo
+                },
                 messages: {
                   0: {
-                    text: message
+                    text: message,
+                    sender: userUid,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
                   }
                 }
               });

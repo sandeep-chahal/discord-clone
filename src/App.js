@@ -10,7 +10,8 @@ import {
   updateServer,
   removeServer,
   addMessages,
-  selectServer
+  selectServer,
+  addDm
 } from "./Reudux/Actions";
 const Auth = lazy(() => import("./Components/Auth/Auth"));
 const Discord = lazy(() => import("./Components/Discord/Discord"));
@@ -52,6 +53,7 @@ class App extends React.Component {
       .on("value", snap => {
         const userData = snap.val();
         this.fetchServers(userData.servers);
+        this.fetchDm(userData.dm);
       });
   };
 
@@ -111,6 +113,21 @@ class App extends React.Component {
       .remove();
   };
 
+  fetchDm = dm => {
+    console.log(dm);
+
+    const keys = Object.keys(dm || {});
+    keys.forEach(key => {
+      firebase
+        .database()
+        .ref("messages")
+        .child(key)
+        .on("value", snap => {
+          this.props.addDm(key, snap.val());
+        });
+    });
+  };
+
   render() {
     if (this.props.isLoading) return <Spinner />;
     else
@@ -137,6 +154,7 @@ function mapDispatchToProps(dispatch) {
     setLoading: isLoading => dispatch(setServerLoading(isLoading)),
     loadTotalServers: () => dispatch(loadTotalServers()),
     updateServer: (id, server) => dispatch(updateServer(id, server)),
+    addDm: (id, dms) => dispatch(addDm(id, dms)),
     removeServer: id => dispatch(removeServer(id)),
     selectServer: id => dispatch(selectServer(id)),
     addMessages: (serverId, channels) =>

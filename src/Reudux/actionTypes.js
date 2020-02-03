@@ -12,3 +12,4 @@ export const UPDATE_SERVER = "updateServer";
 export const REMOVE_SERVER = "removeServer";
 export const ADD_MESSAGES = "addMessages";
 export const ADD_MESSAGE = "addMessage";
+export const ADD_DM = "addDm";
