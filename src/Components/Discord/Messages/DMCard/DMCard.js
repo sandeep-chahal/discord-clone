@@ -34,11 +34,13 @@ const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
               .set({
                 user1: {
                   uid: userUid,
-                  photo: firebase.auth().currentUser.photoURL
+                  photo: firebase.auth().currentUser.photoURL,
+                  name: firebase.auth().currentUser.displayName
                 },
                 user2: {
                   uid: uid,
-                  photo: photo
+                  photo: photo,
+                  name: name
                 },
                 messages: {
                   0: {

@@ -20,7 +20,8 @@
     }
   }
 
-  .item {
+  .item,
+  .user {
     margin: 0.5rem 0;
     padding: 1rem;
     width: 100%;
@@ -35,7 +36,8 @@
       opacity: 1;
     }
 
-    span {
+    span,
+    .photo {
       display: inline-block;
       width: 2rem;
       height: 2rem;
@@ -51,4 +53,26 @@
       background: url(../../../Assets/img/activity.svg);
     }
   }
+
+  // .user {
+  //   display: flex;
+  //   align-items: center;
+  //   width: 90%;
+  //   opacity: 0.9;
+  //   cursor: pointer;
+  //   &:hover {
+  //     color: #000;
+  //     opacity: 1;
+  //   }
+  //   .photo {
+  //     width: 3rem;
+  //     height: 3rem;
+  //     background-position: center;
+  //     background-size: cover;
+  //     margin-right: 1rem;
+  //   }
+  //   .name {
+  //     font-size: 1.5rem;
+  //   }
+  // }
 }

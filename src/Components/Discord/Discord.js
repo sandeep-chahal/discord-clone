@@ -45,7 +45,8 @@ class Discord extends Component {
       channel,
       role,
       roles,
-      dm
+      selectedDM,
+      dms
     } = this.props;
     return (
       <div className="discord">
@@ -68,7 +69,9 @@ class Discord extends Component {
         ) : (
           <UserPannel
             changeCurrentSelected={this.changeCurrentSelected}
-            selectedDM={dm}
+            selectedDM={selectedDM}
+            dms={dms}
+            userUid={user.uid}
           />
         )}
         {server ? (
@@ -77,14 +80,14 @@ class Discord extends Component {
               server={joinedServers[server]}
               messages={this.getMessages(messages)}
               channel={channel}
-              user={this.props.user}
+              user={user}
               userRole={role}
               roles={roles}
             />
             <ServerUsers roles={roles} users={joinedServers[server].users} />
           </div>
-        ) : extra.includes(dm) ? (
-          <Extra extra={dm} />
+        ) : extra.includes(selectedDM) ? (
+          <Extra extra={selectedDM} />
         ) : null}
       </div>
     );
@@ -105,9 +108,10 @@ function mapStateToProps(state) {
     messages: state.server.messages,
     server: state.server.server,
     channel: state.server.channel,
-    dm: state.server.dm,
+    selectedDM: state.server.dm,
     role: state.server.role,
-    roles: state.server.roles
+    roles: state.server.roles,
+    dms: state.server.dms
   };
 }
 

@@ -68,6 +68,15 @@ export const updateServer = (id, server) => {
     }
   };
 };
+export const addDm = (id, dms) => {
+  return {
+    type: actionTypes.ADD_DM,
+    payload: {
+      id,
+      dms
+    }
+  };
+};
 
 export const removeServer = id => {
   return {

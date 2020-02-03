@@ -1,10 +1,29 @@
 import React from "react";
 import "./UserPannel.scss";
+import DmUser from "./DmUser";
 
 class UserPannel extends React.Component {
   changeSelected = to => {
     this.props.changeCurrentSelected({
       dm: to
+    });
+  };
+
+  displayDms = dms => {
+    if (!dms) return null;
+    const keys = Object.keys(dms);
+    return keys.map(key => {
+      const otherUser =
+        this.props.uid === dms[key].user1.uid ? dms[key].user1 : dms[key].user2;
+      return (
+        <DmUser
+          key={key}
+          name={otherUser.name}
+          photo={otherUser.photo}
+          active={this.props.selectedDM === key}
+          onClick={() => this.changeSelected(key)}
+        />
+      );
     });
   };
 
@@ -30,6 +49,7 @@ class UserPannel extends React.Component {
         </div>
 
         <h3>DIRECT MESSAGE</h3>
+        {this.displayDms(this.props.dms)}
       </div>
     );
   }
