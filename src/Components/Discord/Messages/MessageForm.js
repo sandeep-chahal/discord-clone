@@ -16,19 +16,24 @@ const MessageForm = props => {
   let inputRef = null;
 
   const createMessage = (message, isTextMessage) => {
+    if (props.server) {
+      var { serverId, channel } = props.server;
+    }
     const newMessage = {
       text: isTextMessage ? message : null,
       url: isTextMessage ? null : message,
       sender: {
         name: props.user.displayName,
         photo: props.user.photoURL,
-        uid: props.user.uid,
-        role: props.userRole.name
+        uid: props.user.uid
       },
-      serverId: props.serverId,
-      channelId: props.channel.id,
       timestamp: new Date().getTime()
     };
+    if (props.server) {
+      newMessage.sender.role = props.userRole.name;
+      newMessage.serverId = serverId;
+      newMessage.channelId = channel.id;
+    }
     return newMessage;
   };
 
@@ -37,12 +42,7 @@ const MessageForm = props => {
     if (message === "") return;
     const newMessage = createMessage(message, true);
     setMessage("");
-    sendMessage(
-      newMessage,
-      props.serverId,
-      props.channel.categoryID,
-      props.channel.id
-    );
+    sendMessage(newMessage);
   };
 
   const handleKeyDown = e => {
@@ -81,12 +81,7 @@ const MessageForm = props => {
       () => {
         task.snapshot.ref.getDownloadURL().then(url => {
           const newMessage = createMessage(url, false);
-          sendMessage(
-            newMessage,
-            props.serverId,
-            props.channel.categoryID,
-            props.channel.id
-          );
+          sendMessage(newMessage);
           setPreview(false);
           setFile(null);
           setPercentage(null);
@@ -106,21 +101,20 @@ const MessageForm = props => {
   };
   const setGiphy = giphy => {
     const newMessage = createMessage(giphy.downsized_medium.url, false);
-    sendMessage(
-      newMessage,
-      props.serverId,
-      props.channel.categoryID,
-      props.channel.id
-    );
+    sendMessage(newMessage);
     setShowGiphyPicker(false);
   };
 
   const sendMessage = (message, serverID, categoryID, channelID) => {
-    const path = "messages/" + serverID;
+    const path =
+      "messages/" +
+      (props.server
+        ? props.server.serverId + "/" + props.server.channel.id
+        : props.dm.id + "/messages");
+    console.log(path, props.server);
     firebase
       .database()
       .ref(path)
-      .child(channelID)
       .push()
       .set(message);
   };

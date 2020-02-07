@@ -10,7 +10,7 @@ import Messages from "./Messages/Messages";
 import Extra from "./Extra/Extra";
 import ServerUsers from "./Messages/ServerInfo/ServerUsers";
 
-const extra = ["totalServers"];
+const extra = ["totalServers", "activity"];
 class Discord extends Component {
   state = {};
 
@@ -46,6 +46,7 @@ class Discord extends Component {
       role,
       roles,
       selectedDM,
+      dm,
       dms
     } = this.props;
     return (
@@ -80,6 +81,7 @@ class Discord extends Component {
               server={joinedServers[server]}
               messages={this.getMessages(messages)}
               channel={channel}
+              headerName={"# " + channel.name}
               user={user}
               userRole={role}
               roles={roles}
@@ -88,7 +90,20 @@ class Discord extends Component {
           </div>
         ) : extra.includes(selectedDM) ? (
           <Extra extra={selectedDM} />
-        ) : null}
+        ) : (
+          <div className="messages-wrapper">
+            <Messages
+              dm={{ ...dms[dm], id: dm }}
+              headerName={
+                "@ " +
+                (dms[dm].user1 === user.uid
+                  ? dms[dm].user2.name
+                  : dms[dm].user1.name)
+              }
+              user={user}
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -111,7 +126,8 @@ function mapStateToProps(state) {
     selectedDM: state.server.dm,
     role: state.server.role,
     roles: state.server.roles,
-    dms: state.server.dms
+    dms: state.server.dms,
+    dm: state.server.dm
   };
 }
 
