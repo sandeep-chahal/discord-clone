@@ -63,9 +63,14 @@ const MessageForm = props => {
     setPreview(false);
   };
   const sendFile = () => {
-    const storageRef = firebase
-      .storage()
-      .ref("public/" + props.serverId + "/" + props.channel.id);
+    let path = "";
+    if (props.server) {
+      const { serverId, channel } = props.server;
+      path = "public/" + serverId + "/" + channel.id;
+    } else {
+      path = "private/" + props.dm.id;
+    }
+    const storageRef = firebase.storage().ref(path);
     const task = storageRef.child(uuidv4() + ".jpg").put(file);
     task.on(
       "state_changed",
