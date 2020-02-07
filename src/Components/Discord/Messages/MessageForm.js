@@ -120,7 +120,10 @@ const MessageForm = props => {
   };
 
   return (
-    <div className="messageform">
+    <div
+      className="messageform"
+      style={{ width: props.server ? "65%" : "81%" }}
+    >
       <div className="file">
         <label htmlFor="file">+</label>
         <input type="file" id="file" onChange={openModal} />

@@ -22,7 +22,11 @@ const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
               .child("messages")
               .push()
               .set({
-                sender: userUid,
+                sender: {
+                  uid: userUid,
+                  name: name,
+                  photo: photo
+                },
                 text: message,
                 timestamp: firebase.database.ServerValue.TIMESTAMP
               });
@@ -45,7 +49,11 @@ const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
                 messages: {
                   0: {
                     text: message,
-                    sender: userUid,
+                    sender: {
+                      uid: userUid,
+                      name: name,
+                      photo: photo
+                    },
                     timestamp: firebase.database.ServerValue.TIMESTAMP
                   }
                 }

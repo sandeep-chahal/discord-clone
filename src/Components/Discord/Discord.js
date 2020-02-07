@@ -96,7 +96,7 @@ class Discord extends Component {
               dm={{ ...dms[dm], id: dm }}
               headerName={
                 "@ " +
-                (dms[dm].user1 === user.uid
+                (dms[dm].user1.uid === user.uid
                   ? dms[dm].user2.name
                   : dms[dm].user1.name)
               }

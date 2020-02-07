@@ -36,7 +36,7 @@ class Messages extends React.Component {
   render() {
     const { server, channel, user, headerName, dm, messages } = this.props;
     return (
-      <div className="messages">
+      <div className="messages" style={{ width: server ? "65vw" : "81vw" }}>
         <div className="header">{headerName}</div>
         <div className="underline"></div>
         <div
