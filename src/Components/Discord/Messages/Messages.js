@@ -6,14 +6,15 @@ import MessageForm from "./MessageForm";
 class Messages extends React.Component {
   message_container = null;
   displayMessages = messages => {
-    const { user, roles, server, channel } = this.props;
+    const { user, roles, server, channel, dm } = this.props;
+    const path = server ? server.id + "/" + channel.id : dm.id + "/messages";
+    console.log(messages);
 
     const keys = Object.keys(messages);
     return keys.map(key => (
       <Message
         key={key}
-        serverId={server.id}
-        channelId={channel.id}
+        path={path}
         uid={user.uid}
         id={key}
         message={messages[key]}
@@ -43,9 +44,7 @@ class Messages extends React.Component {
           id="scrolldownpls"
           ref={el => (this.message_container = el)}
         >
-          {this.props.messages
-            ? this.displayMessages(server ? messages : dm.messages)
-            : null}
+          {this.displayMessages(server ? messages : dm.messages)}
         </div>
         <MessageForm
           server={

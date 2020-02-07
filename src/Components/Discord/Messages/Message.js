@@ -9,15 +9,7 @@ const Message = props => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showModifyOptions, setShowModifyOptions] = useState(false);
   const [showDMCard, setShowDMCard] = useState(false);
-  const {
-    id,
-    message,
-    uid,
-    color,
-    scrollToBottom,
-    serverId,
-    channelId
-  } = props;
+  const { id, message, uid, color, scrollToBottom, path } = props;
 
   const isTextMessage = message => {
     return message.text;
@@ -50,8 +42,7 @@ const Message = props => {
     firebase
       .database()
       .ref("messages")
-      .child(serverId)
-      .child(channelId)
+      .child(path)
       .child(id)
       .update(newMessage);
   };
@@ -60,8 +51,7 @@ const Message = props => {
     firebase
       .database()
       .ref("messages")
-      .child(serverId)
-      .child(channelId)
+      .child(path)
       .child(id)
       .remove();
   };
