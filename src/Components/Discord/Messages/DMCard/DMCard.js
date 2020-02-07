@@ -4,11 +4,12 @@ import firebase from "../../../../firebase";
 
 const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
   const [message, setMessage] = useState("");
-  const userUid = firebase.auth().currentUser.uid;
+  const currentUser = firebase.auth().currentUser;
 
   const handleSubmit = e => {
     if (e.key === "Enter") {
-      const path = userUid < uid ? userUid + uid : uid + userUid;
+      const path =
+        currentUser.uid < uid ? currentUser.uid + uid : uid + currentUser.uid;
       firebase
         .database()
         .ref("messages")
@@ -23,7 +24,7 @@ const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
               .push()
               .set({
                 sender: {
-                  uid: userUid,
+                  uid: currentUser.uid,
                   name: name,
                   photo: photo
                 },
@@ -37,7 +38,7 @@ const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
               .child(path)
               .set({
                 user1: {
-                  uid: userUid,
+                  uid: currentUser.uid,
                   photo: firebase.auth().currentUser.photoURL,
                   name: firebase.auth().currentUser.displayName
                 },
@@ -50,7 +51,7 @@ const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
                   0: {
                     text: message,
                     sender: {
-                      uid: userUid,
+                      uid: currentUser.uid,
                       name: name,
                       photo: photo
                     },
@@ -68,7 +69,7 @@ const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
             firebase
               .database()
               .ref("users")
-              .child(userUid)
+              .child(currentUser.uid)
               .child("dm")
               .child(path)
               .set(path);
@@ -96,7 +97,7 @@ const DMCard = ({ photo, name, uid, role, roleColor, close }) => {
           {role !== "normal" ? role : "no role"}
         </div>
       </div>
-      {userUid !== uid ? (
+      {currentUser.uid !== uid ? (
         <textarea
           onKeyDown={handleSubmit}
           autoFocus

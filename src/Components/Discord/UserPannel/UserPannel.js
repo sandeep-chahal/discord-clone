@@ -14,7 +14,9 @@ class UserPannel extends React.Component {
     const keys = Object.keys(dms);
     return keys.map(key => {
       const otherUser =
-        this.props.uid === dms[key].user1.uid ? dms[key].user1 : dms[key].user2;
+        this.props.userUid === dms[key].user1.uid
+          ? dms[key].user2
+          : dms[key].user1;
       return (
         <DmUser
           key={key}

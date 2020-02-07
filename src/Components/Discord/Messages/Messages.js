@@ -10,7 +10,7 @@ class Messages extends React.Component {
     const path = server ? server.id + "/" + channel.id : dm.id + "/messages";
     console.log(messages);
 
-    const keys = Object.keys(messages);
+    const keys = Object.keys(messages || {});
     return keys.map(key => (
       <Message
         key={key}
