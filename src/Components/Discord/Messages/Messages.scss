@@ -1,389 +1,396 @@
 .messages-wrapper {
-  display: flex;
-  // width: 71rem;
-  .messages {
-    position: relative;
-    flex: 1;
-    margin-top: 6rem;
-    height: 100vh;
-    width: 65vw;
-    overflow: hidden;
-    .messages-container {
-      display: block;
-      height: 80vh;
-      width: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-    .emoji-mart {
-      position: fixed;
-      bottom: 5rem;
-      right: 5rem;
-    }
+	display: flex;
+	// width: 71rem;
+	.messages {
+		position: relative;
+		flex: 1;
+		margin-top: 6rem;
+		height: 100vh;
+		width: 65vw;
+		overflow: hidden;
+		.messages-container {
+			display: block;
+			height: 80vh;
+			width: 100%;
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+		.emoji-mart {
+			position: fixed;
+			bottom: 5rem;
+			right: 5rem;
+		}
 
-    .header {
-      position: fixed;
-      top: 0;
-      display: flex;
-      align-items: center;
-      padding-left: 2rem;
-      width: 100%;
-      height: 5rem;
-      font-size: 2rem;
-      background-color: #fff;
-      border-bottom: 1px solid var(--light-3);
-      & + div {
-        position: fixed;
-        top: 0;
-        height: 1px;
-        width: 100%;
-        background-color: var(--light-3);
-      }
-    }
-    .messages-container {
-      // display: flex;
-      // flex-direction: ;
-      width: 100%;
+		.header {
+			position: fixed;
+			top: 0;
+			display: flex;
+			align-items: center;
+			padding-left: 2rem;
+			width: 81%;
+			height: 5rem;
+			font-size: 2rem;
+			background-color: #fff;
+			border-bottom: 1px solid var(--light-3);
+			& + div {
+				position: fixed;
+				top: 0;
+				height: 1px;
+				width: 100%;
+				background-color: var(--light-3);
+			}
+			.filterInput {
+				padding: 0.5rem 1rem;
+				margin-left: auto;
+				margin-right: 2rem;
+				border: 1px solid var(--light-3);
+				border-radius: 5px;
+			}
+		}
+		.messages-container {
+			// display: flex;
+			// flex-direction: ;
+			width: 100%;
 
-      .underline {
-        display: block;
-        width: 95%;
-        height: 1px;
-        background-color: rgba(0, 0, 0, 0.08);
-        margin: 2rem auto;
-      }
-      .message {
-        margin: 0 5rem;
-        width: 100%;
-        display: flex;
+			.underline {
+				display: block;
+				width: 95%;
+				height: 1px;
+				background-color: rgba(0, 0, 0, 0.08);
+				margin: 2rem auto;
+			}
+			.message {
+				margin: 0 5rem;
+				width: 100%;
+				display: flex;
 
-        .user-icon {
-          display: inline-block;
-          width: 4rem;
-          height: 4rem;
-          margin-right: 1rem;
-          border-radius: 50%;
-          background-position: center;
-          background-size: cover;
-        }
-        .message-body {
-          display: inline-block;
-          flex-direction: column;
-          width: 80%;
-          .message-header {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            margin-bottom: 0.5rem;
+				.user-icon {
+					display: inline-block;
+					width: 4rem;
+					height: 4rem;
+					margin-right: 1rem;
+					border-radius: 50%;
+					background-position: center;
+					background-size: cover;
+				}
+				.message-body {
+					display: inline-block;
+					flex-direction: column;
+					width: 80%;
+					.message-header {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						margin-bottom: 0.5rem;
 
-            .user-name {
-              position: relative;
-              font-size: 1.6rem;
-              margin-right: 1rem;
-              color: #000;
-              cursor: pointer;
-              &:hover {
-                text-decoration: underline;
-              }
-            }
-            .message-date {
-            }
-          }
-          .message-text {
-            font-size: 1.6rem;
-            overflow-wrap: break-word;
-            white-space: pre-wrap;
-            line-height: 1.5;
-          }
-          .message-file {
-            max-height: 40rem;
-            max-width: 60rem;
-          }
-        }
-        .message-options {
-          font-size: 1.5rem;
-          display: flex;
-          align-items: center;
-          // position: relative;
-          .reaction-picker {
-            cursor: pointer;
-            margin-right: 1rem;
+						.user-name {
+							position: relative;
+							font-size: 1.6rem;
+							margin-right: 1rem;
+							color: #000;
+							cursor: pointer;
+							&:hover {
+								text-decoration: underline;
+							}
+						}
+						.message-date {
+						}
+					}
+					.message-text {
+						font-size: 1.6rem;
+						overflow-wrap: break-word;
+						white-space: pre-wrap;
+						line-height: 1.5;
+					}
+					.message-file {
+						max-height: 40rem;
+						max-width: 60rem;
+					}
+				}
+				.message-options {
+					font-size: 1.5rem;
+					display: flex;
+					align-items: center;
+					.reaction-picker {
+						cursor: pointer;
+						margin-right: 1rem;
+						font-size: 2rem;
 
-            .emoji-mart {
-              top: 0;
-              right: 0;
-              position: absolute;
-              z-index: 5;
-              height: 45rem;
-            }
-          }
-          .message-modify {
-            cursor: pointer;
-            position: relative;
+						.emoji-mart {
+							top: 0;
+							right: 0;
+							position: absolute;
+							z-index: 5;
+							height: 45rem;
+						}
+					}
+					.message-modify {
+						cursor: pointer;
+						position: relative;
 
-            .dot {
-              width: 3px;
-              height: 3px;
-              margin: 1px;
-              background-color: #000;
-              border-radius: 50%;
-              opacity: 0.7;
-            }
-            .modify-options {
-              position: absolute;
-              z-index: 3;
-              top: 0;
-              right: 0;
-              width: 15rem;
-              background-color: var(--light-2);
-              & > div {
-                opacity: 0.7;
-                padding: 1rem;
-                &:hover {
-                  opacity: 1;
-                }
-              }
-            }
-          }
-        }
+						.dot {
+							width: 3px;
+							height: 3px;
+							margin: 1px;
+							background-color: #000;
+							border-radius: 50%;
+							opacity: 0.7;
+						}
+						.modify-options {
+							position: absolute;
+							z-index: 3;
+							top: 0;
+							right: 0;
+							width: 15rem;
+							background-color: var(--light-2);
+							& > div {
+								opacity: 0.7;
+								padding: 1rem;
+								&:hover {
+									opacity: 1;
+								}
+							}
+						}
+					}
+				}
 
-        .reactions {
-          display: flex;
-          .reaction {
-            cursor: pointer;
-            margin-top: 1rem;
-            margin-left: 1rem;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--light-2);
-            width: 4rem;
-            border-radius: 2px;
-            &:hover {
-              background-color: rgba(202, 34, 34, 0.3);
-            }
-            .emoji {
-            }
-            .count {
-              margin-top: 5px;
-              margin-left: 5px;
-            }
-          }
-        }
-      }
-    }
+				.reactions {
+					display: flex;
+					.reaction {
+						cursor: pointer;
+						margin-top: 1rem;
+						margin-left: 1rem;
+						font-size: 1.5rem;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						background-color: var(--light-2);
+						width: 4rem;
+						border-radius: 2px;
+						&:hover {
+							background-color: rgba(202, 34, 34, 0.3);
+						}
+						.emoji {
+						}
+						.count {
+							margin-top: 5px;
+							margin-left: 5px;
+						}
+					}
+				}
+			}
+		}
 
-    .messageform {
-      padding: 3rem;
-      display: flex;
-      align-items: center;
-      height: 10rem;
-      position: fixed;
-      bottom: 0;
+		.messageform {
+			padding: 3rem;
+			display: flex;
+			align-items: center;
+			height: 10rem;
+			position: fixed;
+			bottom: 0;
 
-      form {
-        height: 100%;
-        flex: 1;
-      }
-      textarea {
-        width: 100%;
-        height: 100%;
-        background: var(--light-2);
-        padding: 1rem;
-        border: none;
-        outline: none;
-        resize: none;
-        color: rgba(0, 0, 0, 0.7);
-      }
-      .emoji-picker {
-        padding: 0.8rem;
-        font-size: 2rem;
-        height: 100%;
-        background-color: var(--light-2);
-        display: flex;
-        align-items: center;
-        .emoji-picker-btn {
-          filter: grayscale(1);
-          cursor: pointer;
-          &:hover {
-            filter: grayscale(0);
-          }
-        }
-      }
+			form {
+				height: 100%;
+				flex: 1;
+			}
+			textarea {
+				width: 100%;
+				height: 100%;
+				background: var(--light-2);
+				padding: 1rem;
+				border: none;
+				outline: none;
+				resize: none;
+				color: rgba(0, 0, 0, 0.7);
+			}
+			.emoji-picker {
+				padding: 0.8rem;
+				font-size: 2rem;
+				height: 100%;
+				background-color: var(--light-2);
+				display: flex;
+				align-items: center;
+				.emoji-picker-btn {
+					filter: grayscale(1);
+					cursor: pointer;
+					&:hover {
+						filter: grayscale(0);
+					}
+				}
+			}
 
-      .giphy-picker {
-        display: flex;
-        align-items: center;
-        border-top-right-radius: 1rem;
-        height: 100%;
-        border-bottom-right-radius: 1rem;
-        background-color: var(--light-2);
-        padding: 1rem;
+			.giphy-picker {
+				display: flex;
+				align-items: center;
+				border-top-right-radius: 1rem;
+				height: 100%;
+				border-bottom-right-radius: 1rem;
+				background-color: var(--light-2);
+				padding: 1rem;
 
-        .giphy-picker-btn {
-          font-size: 1.2rem;
-          background-color: rgb(54, 54, 54);
-          color: #fff;
-          padding: 0.3rem 0.5rem;
-          cursor: pointer;
-          transition: all 0.2s linear;
-          &:hover {
-            background-color: #000;
-          }
-        }
+				.giphy-picker-btn {
+					font-size: 1.2rem;
+					background-color: rgb(54, 54, 54);
+					color: #fff;
+					padding: 0.3rem 0.5rem;
+					cursor: pointer;
+					transition: all 0.2s linear;
+					&:hover {
+						background-color: #000;
+					}
+				}
 
-        .giphy-picker-box {
-          position: absolute;
-          right: 2rem;
-          bottom: 8rem;
-          width: 80%;
-          & > div:first-child {
-            width: 100%;
-            & > div {
-              width: 100%;
-              input {
-                height: 1rem;
-              }
-              & > div {
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                flex-wrap: wrap;
-              }
-            }
-          }
-        }
-      }
-      .file {
-        background: var(--light-2);
-        font-size: 3rem;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        border-top-left-radius: 1rem;
-        border-bottom-left-radius: 1rem;
-        label {
-          padding: 1rem;
-          cursor: pointer;
-        }
-        input {
-          display: none;
-        }
-      }
-    }
-    .fileuploadmodal {
-      background-color: #fff;
-      width: 20vw;
-      height: 50vh;
-      padding: 3rem;
-      position: relative;
-      border-radius: 5px;
-      h2 {
-        text-align: center;
-      }
-      .percentage {
-        font-size: 3rem;
-      }
-      .fileprev {
-        display: block;
-        border-radius: 50%;
-        margin: 3rem auto 0 auto;
-        background-color: #000;
-        width: 18rem;
-        height: 18rem;
-        background-position: center;
-        background-size: cover;
-      }
-      .btngrp {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        width: 100%;
-        height: 8rem;
-        .cancelbtn,
-        .sendbtn {
-          padding: 1rem;
-          font-size: 1.5rem;
-          color: #fff;
-          width: 30%;
-          text-align: center;
-          cursor: pointer;
-        }
-        .cancelbtn {
-          background-color: var(--red-1);
-        }
-        .sendbtn {
-          background-color: var(--green-1);
-        }
-      }
-    }
-    .fileuploadmodalbg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-  }
+				.giphy-picker-box {
+					position: absolute;
+					right: 2rem;
+					bottom: 8rem;
+					width: 80%;
+					& > div:first-child {
+						width: 100%;
+						& > div {
+							width: 100%;
+							input {
+								height: 1rem;
+							}
+							& > div {
+								flex-direction: row;
+								justify-content: center;
+								align-items: center;
+								flex-wrap: wrap;
+							}
+						}
+					}
+				}
+			}
+			.file {
+				background: var(--light-2);
+				font-size: 3rem;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				border-top-left-radius: 1rem;
+				border-bottom-left-radius: 1rem;
+				label {
+					padding: 1rem;
+					cursor: pointer;
+				}
+				input {
+					display: none;
+				}
+			}
+		}
+		.fileuploadmodal {
+			background-color: #fff;
+			width: 20vw;
+			height: 50vh;
+			padding: 3rem;
+			position: relative;
+			border-radius: 5px;
+			h2 {
+				text-align: center;
+			}
+			.percentage {
+				font-size: 3rem;
+			}
+			.fileprev {
+				display: block;
+				border-radius: 50%;
+				margin: 3rem auto 0 auto;
+				background-color: #000;
+				width: 18rem;
+				height: 18rem;
+				background-position: center;
+				background-size: cover;
+			}
+			.btngrp {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				display: flex;
+				justify-content: space-evenly;
+				align-items: center;
+				width: 100%;
+				height: 8rem;
+				.cancelbtn,
+				.sendbtn {
+					padding: 1rem;
+					font-size: 1.5rem;
+					color: #fff;
+					width: 30%;
+					text-align: center;
+					cursor: pointer;
+				}
+				.cancelbtn {
+					background-color: var(--red-1);
+				}
+				.sendbtn {
+					background-color: var(--green-1);
+				}
+			}
+		}
+		.fileuploadmodalbg {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: rgba(0, 0, 0, 0.5);
+		}
+	}
 
-  .server-users {
-    padding-top: 2rem;
-    margin-top: 5vh;
-    width: 16vw;
-    height: 95vh;
-    background-color: var(--light-2);
-    .category-container {
-      margin: 1rem;
-      margin-bottom: 2rem;
-      .category {
-        font-size: 1.6rem;
-        margin-bottom: 0.5rem;
-      }
+	.server-users {
+		padding-top: 2rem;
+		margin-top: 5vh;
+		width: 16vw;
+		height: 95vh;
+		background-color: var(--light-2);
+		.category-container {
+			margin: 1rem;
+			margin-bottom: 2rem;
+			.category {
+				font-size: 1.6rem;
+				margin-bottom: 0.5rem;
+			}
 
-      .user {
-        position: relative;
-        width: 90%;
-        padding: 0.3rem;
-        padding-left: 1rem;
-        display: flex;
-        align-items: center;
-        border-radius: 5px;
-        cursor: pointer;
-        &:hover {
-          background-color: var(--light-1);
-        }
-        .user-icon {
-          width: 3rem;
-          height: 3rem;
-          background-size: cover;
-          background-position: center;
-          margin-right: 1rem;
-          border-radius: 50%;
-          position: relative;
-          .presence {
-            content: "";
-            width: 1.5rem;
-            height: 1.5rem;
-            border: 3px solid var(--light-2);
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            border-radius: 50%;
-          }
-        }
+			.user {
+				position: relative;
+				width: 90%;
+				padding: 0.3rem;
+				padding-left: 1rem;
+				display: flex;
+				align-items: center;
+				border-radius: 5px;
+				cursor: pointer;
+				&:hover {
+					background-color: var(--light-1);
+				}
+				.user-icon {
+					width: 3rem;
+					height: 3rem;
+					background-size: cover;
+					background-position: center;
+					margin-right: 1rem;
+					border-radius: 50%;
+					position: relative;
+					.presence {
+						content: "";
+						width: 1.5rem;
+						height: 1.5rem;
+						border: 3px solid var(--light-2);
+						position: absolute;
+						bottom: 0;
+						right: 0;
+						border-radius: 50%;
+					}
+				}
 
-        .name {
-          font-size: 1.5rem;
-        }
-      }
-    }
-  }
+				.name {
+					font-size: 1.5rem;
+				}
+			}
+		}
+	}
 }

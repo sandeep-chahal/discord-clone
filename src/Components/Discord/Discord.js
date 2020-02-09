@@ -12,9 +12,7 @@ import ServerUsers from "./Messages/ServerInfo/ServerUsers";
 
 const extra = ["totalServers", "activity"];
 class Discord extends Component {
-	state = {
-		temp: null
-	};
+	state = {};
 
 	changeCurrentSelected = to => {
 		if (to.server) {
