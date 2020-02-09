@@ -1,0 +1,47 @@
+.userbar {
+	position: absolute;
+	bottom: 0;
+	height: 5rem;
+	width: 22rem;
+	background-color: rgba(0, 0, 0, 0.03);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.8rem;
+	& > * {
+		display: flex;
+		align-items: center;
+	}
+
+	.photo {
+		border-radius: 50%;
+		width: 3rem;
+		height: 3rem;
+		background-position: center;
+		background-size: cover;
+		margin-right: 1rem;
+	}
+
+	.icon {
+		width: 2rem;
+		height: 2rem;
+		background-position: center;
+		background-size: cover;
+		opacity: 0.7;
+		margin: 0 0.5rem;
+		cursor: pointer;
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	.mic-icon {
+		background-image: url(../../../Assets/img/mic.png);
+	}
+	.headphone-icon {
+		background-image: url(../../../Assets/img/headphones.png);
+	}
+	.settings-icon {
+		background-image: url(../../../Assets/img/settings.svg);
+	}
+}
