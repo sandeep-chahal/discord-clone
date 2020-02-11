@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./UserBar.scss";
 import firebase from "../../../firebase";
 import UserSettings from "./UserSettings";
+import { connect } from "react-redux";
 
 const UserBar = props => {
 	const [showSettings, setShowSettings] = useState(false);
@@ -14,7 +15,7 @@ const UserBar = props => {
 		const task = firebase
 			.storage()
 			.ref("users/")
-			.child(user + ".jpg")
+			.child(user.uid + ".jpg")
 			.put(file);
 		task.on(
 			"state_changed",
@@ -41,6 +42,7 @@ const UserBar = props => {
 								.child("avatar")
 								.set(url)
 								.then(() => {
+									updateProfileOnServers(Object.keys(props.servers || {}), url);
 									setShowSettings(false);
 									setUploading(false);
 								})
@@ -50,6 +52,20 @@ const UserBar = props => {
 				});
 			}
 		);
+	};
+
+	const updateProfileOnServers = (servers, url) => {
+		servers.forEach(server => {
+			firebase
+				.database()
+				.ref("servers/")
+				.child(server)
+				.child("/users/")
+				.child(user.uid)
+				.update({
+					photo: url
+				});
+		});
 	};
 
 	return (
@@ -80,4 +96,9 @@ const UserBar = props => {
 		</div>
 	);
 };
-export default UserBar;
+
+const mapStateToProps = state => ({
+	servers: state.server.joinedServers
+});
+
+export default connect(mapStateToProps)(UserBar);
