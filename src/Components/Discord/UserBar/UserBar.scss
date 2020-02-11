@@ -44,4 +44,43 @@
 	.settings-icon {
 		background-image: url(../../../Assets/img/settings.svg);
 	}
+
+	.user-settings-bg {
+		z-index: 5;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.4);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.user-settings {
+			padding: 5rem 2rem;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			background-color: #fff;
+			border-radius: 1rem;
+			.file-prev {
+				background-position: center;
+				background-size: cover;
+				width: 20rem;
+				height: 20rem;
+				border-radius: 50%;
+				cursor: pointer;
+				margin: 3rem 0;
+			}
+			.update-btn {
+				padding: 0.5rem 0.8rem;
+				background-color: var(--green-1);
+				width: 10rem;
+				text-align: center;
+				cursor: pointer;
+			}
+		}
+	}
 }
