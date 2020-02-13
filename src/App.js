@@ -60,20 +60,15 @@ class App extends React.Component {
 	fetchServers = servers => {
 		const keys = Object.keys(servers || {});
 		for (let i = 0; i < keys.length; i++) {
+			this.addPresence(keys[i]);
+
+			//fetching server
 			firebase
 				.database()
 				.ref("servers/")
 				.child(keys[i])
 				.on("value", snap => {
 					if (snap.val()) {
-						firebase
-							.database()
-							.ref("servers/")
-							.child(keys[i])
-							.child("/users/")
-							.child(this.props.user.uid)
-							.child("presence")
-							.set(true);
 						const server = snap.val();
 						this.props.updateServer(keys[i], server);
 						this.addListnerToChannels(server);
@@ -126,6 +121,25 @@ class App extends React.Component {
 					this.props.addDm(key, snap.val());
 				});
 		});
+	};
+
+	addPresence = serverId => {
+		firebase
+			.database()
+			.ref("servers/")
+			.child(serverId)
+			.once("value", snap => {
+				if (snap.exists()) {
+					firebase
+						.database()
+						.ref("servers/")
+						.child(serverId)
+						.child("/users/")
+						.child(this.props.user.uid)
+						.child("presence")
+						.set(true);
+				}
+			});
 	};
 
 	render() {
