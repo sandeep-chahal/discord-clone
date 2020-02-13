@@ -90,7 +90,7 @@ const UserBar = props => {
 					updateProfile={updateProfile}
 					photo={user.photoURL}
 					uploading={uploading}
-					close={() => uploading && setShowSettings(false)}
+					close={() => !uploading && setShowSettings(false)}
 				/>
 			) : null}
 		</div>

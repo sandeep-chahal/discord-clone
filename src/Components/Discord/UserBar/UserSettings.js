@@ -4,7 +4,7 @@ const UserSettings = props => {
 	const [file, setFile] = useState(null);
 
 	const handleSubmit = () => {
-		if (file) props.updateProfile(file);
+		if (file && !props.uploading) props.updateProfile(file);
 	};
 
 	const handleClose = e => {
