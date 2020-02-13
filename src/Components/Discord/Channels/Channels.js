@@ -1,10 +1,9 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import "./Channels.scss";
 import Channel from "./Channel";
 import AddModal from "../AddModal/AddModal";
 import firebase from "../../../firebase";
 import UserBar from "../UserBar/UserBar";
-import { Category } from "emoji-mart";
 
 class Channels extends React.Component {
 	state = {
@@ -97,20 +96,23 @@ class Channels extends React.Component {
 					serverId,
 					() => {
 						//changing selectedServer to null
-						const selectedServerId = this.props.selectedServer.id;
 						this.props.changeCurrentSelected({ server: null });
-						this.props.removeServer(selectedServerId);
+						this.props.removeServer(serverId);
+						this.removePresenceListner(serverId, this.props.uid);
 					}
 				);
 			}
 		);
 	};
 	handleDeleteServer = () => {
+		const serverId = this.props.selectedServer.id;
 		this.props.changeCurrentSelected({
 			server: null
 		});
-		this.removeFromFirebase("servers", this.props.selectedServer.id);
-		this.removeFromFirebase("messages", this.props.selectedServer.id);
+		this.removeFromFirebase("servers", serverId, () => {
+			this.removePresenceListner(serverId, this.props.uid);
+		});
+		this.removeFromFirebase("messages", serverId);
 	};
 
 	removeFromFirebase = (ref, child, fn) => {
@@ -159,6 +161,18 @@ class Channels extends React.Component {
 			},
 			this.handleCloseModal //callback function
 		);
+	};
+
+	removePresenceListner = (serverId, userUid) => {
+		firebase
+			.database()
+			.ref("servers/")
+			.child(serverId)
+			.child("/users/")
+			.child(userUid)
+			.child("presence")
+			.onDisconnect()
+			.cancel();
 	};
 	dropdown = () => {
 		const isAdmin = this.props.userRole.isAdmin;
