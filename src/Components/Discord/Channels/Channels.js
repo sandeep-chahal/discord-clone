@@ -1,53 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import "./Channels.scss";
 import Channel from "./Channel";
 import AddModal from "../AddModal/AddModal";
 import firebase from "../../../firebase";
 import UserBar from "../UserBar/UserBar";
+import { Category } from "emoji-mart";
 
 class Channels extends React.Component {
 	state = {
 		showDropdown: false,
-		showAddModal: false,
-		create: ""
+		addModal: null
 	};
 
-	getCategories = () => {
-		const category = this.props.selectedServer.category;
-		const keys = Object.keys(category);
-
-		const options = keys.map(key => ({
-			...category[key],
+	objToArray = obj => {
+		const keys = Object.keys(obj || {});
+		const arr = keys.map(key => ({
+			...obj[key],
 			key
 		}));
-		return options;
+		return arr;
 	};
 
 	displayChannels = () => {
-		const categoriesObj = this.props.selectedServer.category;
-		const categoriesKeys = Object.keys(categoriesObj || {});
-		return categoriesKeys.map((option, i) => {
-			const channelsObj = this.props.selectedServer.category[option].channels;
-			const channelsKeys = Object.keys(channelsObj || {});
+		const categories = this.objToArray(this.props.selectedServer.category);
 
+		return categories.map(category => {
+			const channels = this.objToArray(category.channels);
 			return (
-				<div className="category" key={option + i}>
-					<h3>{categoriesObj[option].name}</h3>
-					{channelsKeys.map((channel, i) => (
+				<div className="category" key={category.key}>
+					<h3>{category.name}</h3>
+					{channels.map(channel => (
 						<Channel
-							active={channel === this.props.selectedChannel.id}
-							id={channel}
-							channel={channelsObj[channel]}
-							key={channel}
-							onClick={() => {
-								this.props.changeCurrentSelected({
-									channel: {
-										categoryID: channelsObj[channel].categoryID,
-										id: channel,
-										name: channelsObj[channel].name
-									}
-								});
-							}}
+							active={channel.key === this.props.selectedChannel.id}
+							id={channel.key}
+							channel={channel}
+							key={channel.key}
+							onClick={() => this.handleChannelClick(channel)}
 						/>
 					))}
 				</div>
@@ -55,100 +43,122 @@ class Channels extends React.Component {
 		});
 	};
 
-	handleClose = () => this.setState({ showAddModal: false });
+	handleChannelClick = channel => {
+		this.props.changeCurrentSelected({
+			channel: {
+				categoryID: channel.categoryID,
+				id: channel.key,
+				name: channel.name
+			}
+		});
+	};
 
-	handleCreateChannel = () => {
+	handleCloseModal = () =>
+		this.setState({ addModal: null, showDropdown: false });
+
+	handleCreate = create => {
+		const addModal = (
+			<AddModal
+				handleClose={this.handleCloseModal}
+				create={create}
+				options={
+					create === "Channel"
+						? this.objToArray(this.props.selectedServer.category)
+						: null
+				}
+				onClick={
+					create === "Channel" ? this.createChannel : this.createCategory
+				}
+			/>
+		);
 		this.setState({
-			create: "Channel",
-			showAddModal: true,
-			showDropdown: false
+			addModal: addModal
 		});
 	};
-	handleCategory = () => {
-		this.setState({
-			create: "Category",
-			showAddModal: true,
-			showDropdown: false
-		});
-	};
+
 	handleInviteLink = () => console.log("getting invite link");
+
 	handleLeaveServer = () => {
 		const serverId = this.props.selectedServer.id;
+		// removeing listner
 		firebase
 			.database()
 			.ref("servers")
 			.child(serverId)
 			.off("value");
-		firebase
-			.database()
-			.ref("servers/" + serverId + "/users/")
-			.child(this.props.uid)
-			.remove()
-			.then(() => {
-				console.log("servers/" + serverId + "/users/" + this.props.uid);
-
-				firebase
-					.database()
-					.ref("users/" + this.props.uid + "/servers")
-					.child(serverId)
-					.remove()
-					.then(() => {
+		// removing users from server
+		this.removeFromFirebase(
+			"servers/" + serverId + "/users/",
+			this.props.uid,
+			() => {
+				// removing server from user joined server list
+				this.removeFromFirebase(
+					"users/" + this.props.uid + "/servers",
+					serverId,
+					() => {
+						//changing selectedServer to null
 						const selectedServerId = this.props.selectedServer.id;
 						this.props.changeCurrentSelected({ server: null });
 						this.props.removeServer(selectedServerId);
-					})
-					.catch(err => console.log(err.message));
-			});
+					}
+				);
+			}
+		);
 	};
 	handleDeleteServer = () => {
 		this.props.changeCurrentSelected({
 			server: null
 		});
-		// firebase
-		//   .database()
-		//   .ref("servers")
-		//   .child(this.props.selectedServer.id)
-		//   .off("value");
+		this.removeFromFirebase("servers", this.props.selectedServer.id);
+		this.removeFromFirebase("messages", this.props.selectedServer.id);
+	};
+
+	removeFromFirebase = (ref, child, fn) => {
 		firebase
 			.database()
-			.ref("servers")
-			.child(this.props.selectedServer.id)
+			.ref(ref)
+			.child(child)
 			.remove()
-			.then(() => console.log("done"))
-			.catch(err => console.log(err.message));
+			.then(() => fn && fn())
+			.catch(err => console.warn(err.message));
+	};
+
+	createInFirebase = (ref, child, obj, fn) => {
 		firebase
 			.database()
-			.ref("messages")
-			.child(this.props.selectedServer.id)
-			.remove()
-			.then(() => console.log("done"))
+			.ref(ref)
+			.child(child)
+			.push(obj)
+			.then(() => fn && fn())
 			.catch(err => console.log(err.message));
 	};
 
 	createChannel = (name, option) => {
-		firebase
-			.database()
-			.ref("servers/" + this.props.selectedServer.id)
-			.child("category/" + option + "/channels")
-			.push({
+		this.createInFirebase(
+			"servers/" + this.props.selectedServer.id, //ref
+			"category/" + option + "/channels", //child
+			{
+				//push object
 				name,
 				messages: [],
 				type: "text",
 				categoryID: option
-			})
-			.then(() => this.setState({ showAddModal: false }));
+			},
+			this.handleCloseModal //callback function
+		);
 	};
 
 	createCategory = (name, type) => {
-		firebase
-			.database()
-			.ref("servers/" + this.props.selectedServer.id)
-			.child("category/")
-			.push({
+		this.createInFirebase(
+			"servers/" + this.props.selectedServer.id, //ref
+			"category/", //child
+			{
+				//push object
 				name,
 				channels: []
-			})
-			.then(() => this.setState({ showAddModal: false }));
+			},
+			this.handleCloseModal //callback function
+		);
 	};
 	dropdown = () => {
 		const isAdmin = this.props.userRole.isAdmin;
@@ -158,57 +168,40 @@ class Channels extends React.Component {
 					Invite
 				</div>
 				{isAdmin ? (
-					<div className="item" onClick={this.handleCreateChannel}>
-						create channel
-					</div>
-				) : null}
-				{isAdmin ? (
-					<div className="item" onClick={this.handleCategory}>
-						create category
-					</div>
-				) : null}
-				{!isAdmin ? (
+					<Fragment>
+						<div className="item" onClick={() => this.handleCreate("Channel")}>
+							create channel
+						</div>
+						<div className="item" onClick={() => this.handleCreate("Category")}>
+							create category
+						</div>
+						<div className="item delete" onClick={this.handleDeleteServer}>
+							delete server
+						</div>
+					</Fragment>
+				) : (
 					<div className="item leave" onClick={this.handleLeaveServer}>
 						leave server
-					</div>
-				) : (
-					<div className="item delete" onClick={this.handleDeleteServer}>
-						delete server
 					</div>
 				)}
 			</div>
 		);
 	};
+
+	handleHeaderClick = () =>
+		this.setState(prev => ({ showDropdown: !prev.showDropdown }));
+
 	render() {
 		return (
 			<div className="channels">
-				<header
-					onClick={() =>
-						this.setState(prev => ({ showDropdown: !prev.showDropdown }))
-					}
-				>
-					{this.props.selectedServer.name}
-					<span className="arrow"></span>
+				<header onClick={this.handleHeaderClick}>
+					{this.props.selectedServer.name} {/* header name */}
+					<span className="arrow"></span> {/* arrow img */}
 				</header>
 				<div className="underline"></div>
-
 				{this.state.showDropdown ? this.dropdown() : null}
-
 				{this.displayChannels()}
-				{this.state.showAddModal ? (
-					<AddModal
-						handleClose={this.handleClose}
-						create={this.state.create}
-						options={
-							this.state.create === "Channel" ? this.getCategories() : null
-						}
-						onClick={
-							this.state.create == "Channel"
-								? this.createChannel
-								: this.createCategory
-						}
-					/>
-				) : null}
+				{this.state.addModal} {/* modal for creating channel or category */}
 				<UserBar />
 			</div>
 		);
