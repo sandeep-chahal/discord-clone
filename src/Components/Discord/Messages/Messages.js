@@ -61,18 +61,45 @@ class Messages extends React.Component {
 		});
 	};
 
+	handleAudioCallClick = (dm, user, type) => {
+		const callee = dm.user1.uid === user.uid ? dm.user2.uid : dm.user1.uid;
+		const caller = user.uid;
+		console.log(callee, caller, user.uid);
+
+		const call = {
+			caller,
+			callee,
+			type
+		};
+		this.props.startAudioCall(call);
+	};
+
 	render() {
 		const { server, channel, user, headerName, dm, messages } = this.props;
 		return (
 			<div className="messages" style={{ width: server ? "65vw" : "81vw" }}>
 				<div className="header">
-					{headerName}
-					<input
-						className="filterInput"
-						type="text"
-						onChange={this.handleSearchInput}
-						placeholder="search"
-					/>
+					<div className="header-name">{headerName}</div>
+					<div className="header-options">
+						{dm ? (
+							<div className="call-btn">
+								<div
+									className="video-call-btn"
+									onClick={() => this.handleAudioCallClick(dm, user, "video")}
+								></div>
+								<div
+									className="audio-call-btn"
+									onClick={() => this.handleAudioCallClick(dm, user, "audio")}
+								></div>
+							</div>
+						) : null}
+						<input
+							className="filterInput"
+							type="text"
+							onChange={this.handleSearchInput}
+							placeholder="search"
+						/>
+					</div>
 				</div>
 				<div className="underline"></div>
 				<div

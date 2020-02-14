@@ -13,3 +13,4 @@ export const REMOVE_SERVER = "removeServer";
 export const ADD_MESSAGES = "addMessages";
 export const ADD_MESSAGE = "addMessage";
 export const ADD_DM = "addDm";
+export const SET_CALL = "setCall";

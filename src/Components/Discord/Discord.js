@@ -9,10 +9,113 @@ import UserPannel from "./UserPannel/UserPannel";
 import Messages from "./Messages/Messages";
 import Extra from "./Extra/Extra";
 import ServerUsers from "./Messages/ServerInfo/ServerUsers";
+import Peer from "peerjs";
 
 const extra = ["totalServers", "activity"];
 class Discord extends Component {
-	state = {};
+	state = {
+		call: null,
+		peer: null,
+		audioRemoteStream: null
+	};
+
+	startAudioCall = call => {
+		console.clear();
+		const peer = new Peer();
+		this.setState({ peer: peer });
+		peer.on("open", id => {
+			const key = firebase
+				.database()
+				.ref("calls")
+				.push()
+				.getKey();
+			this.addDataToFireBase("calls/" + key, {
+				...call,
+				id
+			});
+			this.setState({ call: { ...call, id } });
+			this.addDataToFireBase("users/" + call.callee + "/call/", key);
+			this.addDataToFireBase("users/" + call.caller + "/call/", key);
+			firebase
+				.database()
+				.ref("calls")
+				.child(key)
+				.onDisconnect()
+				.remove();
+		});
+
+		peer.on("call", call => {
+			console.log("getting call");
+			navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+				call.answer(stream);
+			});
+			call.on("stream", remoteStream => {
+				console.log("getting stream");
+				this.setState({ audioRemoteStream: remoteStream });
+			});
+		});
+	};
+
+	componentDidMount() {
+		document.addEventListener("keydown", e => {
+			if (e.key === "Enter") {
+				const id = prompt("enter key");
+				const peer = new Peer();
+				peer.connect(id);
+				navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+					const call = peer.call(id, stream);
+					call.on("stream", remoteStream => {
+						console.log("yeahhh");
+					});
+				});
+			}
+		});
+	}
+
+	componentWillReceiveProps(props) {
+		if (this.state.call == null && props.call) {
+			this.setState({ call: props.call });
+			firebase
+				.database()
+				.ref("calls")
+				.child(props.call)
+				.once("value", snap => {
+					const callObj = snap.val();
+					this.setState({ call: callObj });
+					alert("someone is calling");
+
+					if (true) {
+						const peer = new Peer();
+						this.setState({ peer: peer });
+						console.log(peer);
+						peer.connect(callObj.id);
+						if (callObj.type === "audio") {
+							navigator.mediaDevices
+								.getUserMedia({ audio: true })
+								.then(stream => {
+									const call = peer.call(callObj.id, stream);
+									call.on("stream", remoteStream => {
+										console.log("connected");
+										this.setState({ audioRemoteStream: remoteStream });
+									});
+								});
+						}
+					}
+				});
+		}
+	}
+
+	addDataToFireBase = (ref, data) => {
+		firebase
+			.database()
+			.ref(ref)
+			.set(data);
+		firebase
+			.database()
+			.ref(ref)
+			.onDisconnect()
+			.remove();
+	};
 
 	changeCurrentSelected = to => {
 		if (to.server) {
@@ -101,9 +204,13 @@ class Discord extends Component {
 									: dms[dm].user1.name)
 							}
 							user={user}
+							startAudioCall={this.startAudioCall}
 						/>
 					</div>
 				)}
+				{this.state.audioRemoteStream ? (
+					<audio src={this.state.audioRemoteStream}></audio>
+				) : null}
 			</div>
 		);
 	}
@@ -127,7 +234,8 @@ function mapStateToProps(state) {
 		role: state.server.role,
 		roles: state.server.roles,
 		dms: state.server.dms,
-		dm: state.server.dm
+		dm: state.server.dm,
+		call: state.server.call
 	};
 }
 

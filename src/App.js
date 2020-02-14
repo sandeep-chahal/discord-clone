@@ -11,7 +11,8 @@ import {
 	removeServer,
 	addMessages,
 	selectServer,
-	addDm
+	addDm,
+	setCall
 } from "./Reudux/Actions";
 const Auth = lazy(() => import("./Components/Auth/Auth"));
 const Discord = lazy(() => import("./Components/Discord/Discord"));
@@ -52,6 +53,7 @@ class App extends React.Component {
 			.child(uid)
 			.on("value", snap => {
 				const userData = snap.val();
+				this.props.setCall(userData.call);
 				this.fetchServers(userData.servers);
 				this.fetchDm(userData.dm);
 			});
@@ -109,8 +111,6 @@ class App extends React.Component {
 	};
 
 	fetchDm = dm => {
-		console.log(dm);
-
 		const keys = Object.keys(dm || {});
 		keys.forEach(key => {
 			firebase
@@ -172,7 +172,8 @@ function mapDispatchToProps(dispatch) {
 		removeServer: id => dispatch(removeServer(id)),
 		selectServer: id => dispatch(selectServer(id)),
 		addMessages: (serverId, channels) =>
-			dispatch(addMessages(serverId, channels))
+			dispatch(addMessages(serverId, channels)),
+		setCall: call => dispatch(setCall(call))
 	};
 }
 function mapStateToProps(state) {
