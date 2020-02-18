@@ -11,7 +11,7 @@ class Messages extends React.Component {
 
 	message_container = null;
 	displayMessages = messages => {
-		const { user, roles, server, channel, dm } = this.props;
+		const { user, roles, server, channel, dm, users } = this.props;
 		const path = server ? server.id + "/" + channel.id : dm.id + "/messages";
 
 		const keys = Object.keys(
@@ -23,6 +23,7 @@ class Messages extends React.Component {
 				key={key}
 				path={path}
 				uid={user.uid}
+				user={users[messages[key].sender.uid]}
 				id={key}
 				message={messages[key]}
 				color={roles ? roles[messages[key].sender.role].color : null}
