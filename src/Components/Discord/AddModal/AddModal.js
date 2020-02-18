@@ -4,7 +4,7 @@ import "./AddModal.scss";
 const AddModal = props => {
 	const [name, setName] = useState("");
 	const [file, setFile] = useState("");
-	const [option, setOption] = useState("");
+	const [option, setOption] = useState(props.defaultValue || "");
 	const [errors, setErrors] = useState([]);
 
 	const handleSubmit = e => {

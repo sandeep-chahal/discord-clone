@@ -27,7 +27,12 @@ class Channels extends React.Component {
 			const channels = this.objToArray(category.channels);
 			return (
 				<div className="category" key={category.key}>
-					<h3>{category.name}</h3>
+					<h3>
+						{category.name}
+						<span onClick={() => this.handleCreate("Channel", category.key)}>
+							+
+						</span>
+					</h3>
 					{channels.map(channel => (
 						<Channel
 							active={channel.key === this.props.selectedChannel.id}
@@ -55,7 +60,7 @@ class Channels extends React.Component {
 	handleCloseModal = () =>
 		this.setState({ addModal: null, showDropdown: false });
 
-	handleCreate = create => {
+	handleCreate = (create, defaultValue) => {
 		const addModal = (
 			<AddModal
 				handleClose={this.handleCloseModal}
@@ -65,6 +70,7 @@ class Channels extends React.Component {
 						? this.objToArray(this.props.selectedServer.category)
 						: null
 				}
+				defaultValue={defaultValue}
 				onClick={
 					create === "Channel" ? this.createChannel : this.createCategory
 				}

@@ -64,14 +64,7 @@ class Discord extends Component {
 		this.addListnersToConnection(peer);
 	};
 
-	componentDidMount() {
-		document.addEventListener("keydown", e => {
-			if (e.key === "Enter") {
-				this.state.peer.destroy();
-				this.disconnectFromCall();
-			}
-		});
-	}
+	componentDidMount() {}
 
 	componentWillReceiveProps(props) {
 		if (this.state.call == null && props.call) {
