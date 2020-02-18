@@ -24,14 +24,17 @@ class Channels extends React.Component {
 		const categories = this.objToArray(this.props.selectedServer.category);
 
 		return categories.map(category => {
+			const isAdmin = this.props.userRole.isAdmin;
 			const channels = this.objToArray(category.channels);
 			return (
 				<div className="category" key={category.key}>
 					<h3>
 						{category.name}
-						<span onClick={() => this.handleCreate("Channel", category.key)}>
-							+
-						</span>
+						{isAdmin ? (
+							<span onClick={() => this.handleCreate("Channel", category.key)}>
+								+
+							</span>
+						) : null}
 					</h3>
 					{channels.map(channel => (
 						<Channel
@@ -40,11 +43,34 @@ class Channels extends React.Component {
 							channel={channel}
 							key={channel.key}
 							onClick={() => this.handleChannelClick(channel)}
+							isAdmin={isAdmin}
+							handleDeleteChannel={
+								isAdmin
+									? () => this.handleDeleteChannel(channel.key, channel)
+									: null
+							}
 						/>
 					))}
 				</div>
 			);
 		});
+	};
+
+	handleDeleteChannel = (id, channel) => {
+		console.clear();
+		console.log(
+			"messages/" + this.props.selectedServer.id + "/" + channel.categoryID,
+			id
+		);
+		this.removeFromFirebase(
+			"servers/" +
+				this.props.selectedServer.id +
+				"/category/" +
+				channel.categoryID +
+				"/channels/",
+			id
+		);
+		this.removeFromFirebase("messages/" + this.props.selectedServer.id, id);
 	};
 
 	handleChannelClick = channel => {
