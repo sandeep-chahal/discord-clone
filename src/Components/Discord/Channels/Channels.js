@@ -31,8 +31,19 @@ class Channels extends React.Component {
 					<h3>
 						{category.name}
 						{isAdmin ? (
-							<span onClick={() => this.handleCreate("Channel", category.key)}>
-								+
+							<span>
+								<span
+									onClick={() => this.handleCreate("Channel", category.key)}
+								>
+									+
+								</span>
+								<span
+									onClick={() =>
+										this.handleDeleteCategory(category.key, channels)
+									}
+								>
+									&#x2715;
+								</span>
 							</span>
 						) : null}
 					</h3>
@@ -54,6 +65,20 @@ class Channels extends React.Component {
 				</div>
 			);
 		});
+	};
+
+	handleDeleteCategory = (id, channels) => {
+		channels.forEach(channel => {
+			// this.handleDeleteChannel(channel.key, channel);
+			this.removeFromFirebase(
+				"messages/" + this.props.selectedServer.id,
+				channel.key
+			);
+		});
+		this.removeFromFirebase(
+			"servers/" + this.props.selectedServer.id + "/category",
+			id
+		);
 	};
 
 	handleDeleteChannel = (id, channel) => {
