@@ -23,7 +23,7 @@ class Messages extends React.Component {
 				key={key}
 				path={path}
 				uid={user.uid}
-				user={users[messages[key].sender.uid]}
+				user={users ? users[messages[key].sender.uid] : null}
 				id={key}
 				message={messages[key]}
 				color={roles ? roles[messages[key].sender.role].color : null}

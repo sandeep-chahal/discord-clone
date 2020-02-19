@@ -17,7 +17,7 @@ const Channel = ({
 				{channel.type === "text" ? <span className="hash">#</span> : null}{" "}
 				{channel.name}
 			</span>
-			{isAdmin ? (
+			{isAdmin && id !== "0" ? (
 				<span className="delete" onClick={() => handleDeleteChannel()}>
 					&#x2715;
 				</span>

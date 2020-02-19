@@ -37,13 +37,15 @@ class Channels extends React.Component {
 								>
 									+
 								</span>
-								<span
-									onClick={() =>
-										this.handleDeleteCategory(category.key, channels)
-									}
-								>
-									&#x2715;
-								</span>
+								{category.key !== "general" ? (
+									<span
+										onClick={() =>
+											this.handleDeleteCategory(category.key, channels)
+										}
+									>
+										&#x2715;
+									</span>
+								) : null}
 							</span>
 						) : null}
 					</h3>
@@ -82,18 +84,18 @@ class Channels extends React.Component {
 	};
 
 	handleDeleteChannel = (id, channel) => {
-		console.clear();
-		console.log(
-			"messages/" + this.props.selectedServer.id + "/" + channel.categoryID,
-			id
-		);
 		this.removeFromFirebase(
 			"servers/" +
 				this.props.selectedServer.id +
 				"/category/" +
 				channel.categoryID +
 				"/channels/",
-			id
+			id,
+			this.handleChannelClick({
+				categoryID: "general",
+				id: "0",
+				name: "general"
+			})
 		);
 		this.removeFromFirebase("messages/" + this.props.selectedServer.id, id);
 	};
