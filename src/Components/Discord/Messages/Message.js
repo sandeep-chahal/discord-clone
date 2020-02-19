@@ -101,7 +101,6 @@ const Message = props => {
 							{showDMCard ? (
 								<DMCard
 									name={message.sender.name}
-									photo={message.sender.photo}
 									uid={message.sender.uid}
 									role={message.sender.role}
 									roleColor={color}
