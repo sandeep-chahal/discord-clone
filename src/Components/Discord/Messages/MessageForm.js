@@ -154,9 +154,7 @@ const MessageForm = props => {
 						setShowEmojiPicker(!showEmojiPicker);
 						setShowGiphyPicker(false);
 					}}
-				>
-					😀
-				</span>
+				></span>
 				{showEmojiPicker ? (
 					<EmojiPicker onSelect={emojiObj => setEmoji(emojiObj)} />
 				) : null}

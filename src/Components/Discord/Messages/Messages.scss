@@ -242,8 +242,18 @@
 				.emoji-picker-btn {
 					filter: grayscale(1);
 					cursor: pointer;
+					transition: transform 0.1s ease-out;
+					$list-space: "😀", "😁", "😂", "🤣", "😃", "😄", "😅", "😆", "😉",
+						"😊", "😋", "😎", "😍", "😘", "🥰", "😚", "🙂", "🤗", "🤩";
+					&::after {
+						content: nth($list-space, random(20));
+					}
 					&:hover {
 						filter: grayscale(0);
+						transform: scale(1.25);
+						&::after {
+							content: nth($list-space, random(19));
+						}
 					}
 				}
 			}
