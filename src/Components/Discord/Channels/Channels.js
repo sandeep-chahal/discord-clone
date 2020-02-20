@@ -84,19 +84,22 @@ class Channels extends React.Component {
 	};
 
 	handleDeleteChannel = (id, channel) => {
+		this.props.changeCurrentSelected({
+			channel: {
+				categoryID: "general",
+				id: "0",
+				name: "general"
+			}
+		});
 		this.removeFromFirebase(
 			"servers/" +
 				this.props.selectedServer.id +
 				"/category/" +
 				channel.categoryID +
 				"/channels/",
-			id,
-			this.handleChannelClick({
-				categoryID: "general",
-				id: "0",
-				name: "general"
-			})
+			id
 		);
+
 		this.removeFromFirebase("messages/" + this.props.selectedServer.id, id);
 	};
 

@@ -3,10 +3,12 @@
 	bottom: 0;
 	height: 5rem;
 	width: 22rem;
-	background-color: rgba(0, 0, 0, 0.03);
+	background-color: var(--color-4);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	color: var(--color-0);
+
 	padding: 0.8rem;
 	& > * {
 		display: flex;
@@ -29,6 +31,9 @@
 		background-size: cover;
 		opacity: 0.7;
 		margin: 0 0.5rem;
+		@media (prefers-color-scheme: dark) {
+			filter: invert(1);
+		}
 		cursor: pointer;
 		&:hover {
 			opacity: 1;
@@ -63,7 +68,7 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			background-color: #fff;
+			background-color: var(--color-6);
 			border-radius: 1rem;
 			.file-prev {
 				background-position: center;

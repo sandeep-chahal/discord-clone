@@ -9,152 +9,9 @@ import UserPannel from "./UserPannel/UserPannel";
 import Messages from "./Messages/Messages";
 import Extra from "./Extra/Extra";
 import ServerUsers from "./Messages/ServerInfo/ServerUsers";
-import Peer from "peerjs";
 
 const extra = ["totalServers", "activity"];
 class Discord extends Component {
-	state = {
-		call: null,
-		peer: null,
-		audioRemoteStream: null
-	};
-
-	startAudioCall = call => {
-		const peer = new Peer();
-		this.setState({ peer: peer });
-
-		// pushing call obj to database
-		peer.on("open", id => {
-			const key = firebase
-				.database()
-				.ref("calls")
-				.push()
-				.getKey();
-			this.addDataToFireBase("calls/" + key, {
-				...call,
-				id,
-				key
-			});
-			this.setState({ call: { ...call, id, key } });
-			this.addDataToFireBase("users/" + call.callee + "/call/", key);
-			this.addDataToFireBase("users/" + call.caller + "/call/", key);
-			firebase
-				.database()
-				.ref("calls")
-				.child(key)
-				.onDisconnect()
-				.remove();
-		});
-		// listening for call event
-		peer.on("connection", () => {
-			peer.on("call", call => {
-				console.log("getting call");
-				navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-					call.answer(stream);
-					this.setState({
-						audioOwnStream: stream
-					});
-				});
-				call.on("stream", remoteStream => {
-					console.log("getting stream");
-					this.setState({ audioRemoteStream: remoteStream });
-				});
-			});
-		});
-		this.addListnersToConnection(peer);
-	};
-
-	componentDidMount() {}
-
-	componentWillReceiveProps(props) {
-		if (this.state.call == null && props.call) {
-			this.setState({ call: props.call });
-			firebase
-				.database()
-				.ref("calls")
-				.child(props.call)
-				.once("value", snap => {
-					const callObj = snap.val();
-					this.setState({ call: callObj });
-					alert("someone is calling");
-
-					const peer = new Peer();
-					this.setState({ peer: peer });
-					const conn = peer.connect(callObj.id);
-					this.addListnersToConnection(conn);
-					this.addListnersToConnection(peer);
-					return;
-
-					conn.on("connection", () => {
-						if (callObj.type === "audio") {
-							navigator.mediaDevices
-								.getUserMedia({ audio: true })
-								.then(stream => {
-									this.setState({ audioOwnStream: stream });
-									const call = peer.call(callObj.id, stream);
-									call.on("stream", remoteStream => {
-										this.setState({ audioRemoteStream: remoteStream });
-									});
-								});
-						}
-					});
-				});
-		} else if (this.state.call && props.call == null) {
-			if (this.state.audioOwnStream)
-				this.state.audioOwnStream.getTracks().forEach(function(track) {
-					track.stop();
-				});
-			this.setState({
-				call: null,
-				peer: null,
-				audioRemoteStream: null,
-				audioOwnStream: null
-			});
-		}
-	}
-
-	addListnersToConnection = peer => {
-		peer.on("open", msg => console.log("opened", msg));
-		peer.on("connection", msg => console.log("connected"));
-		peer.on("close", msg => console.log(msg));
-		peer.on("data", msg => console.log(msg));
-		peer.on("disconnected", msg => console.log(msg));
-		peer.on("error", msg => console.log(msg));
-	};
-
-	disconnectFromCall = () => {
-		if (this.state.audioOwnStream)
-			this.state.audioOwnStream.getTracks().forEach(function(track) {
-				track.stop();
-			});
-		const callee = this.state.call.callee;
-		const caller = this.state.call.caller;
-		const key = this.state.call.key;
-		this.removeFromFirebase("calls", key);
-		this.removeFromFirebase("users", callee + "/call");
-		this.removeFromFirebase("users", caller + "/call");
-	};
-
-	removeFromFirebase = (ref, child) => {
-		firebase
-			.database()
-			.ref(ref)
-			.child(child)
-			.remove();
-	};
-
-	addDataToFireBase = (ref, data) => {
-		firebase
-			.database()
-			.ref(ref)
-			.set(data);
-		firebase
-			.database()
-			.ref(ref)
-			.onDisconnect()
-			.remove();
-	};
-
 	changeCurrentSelected = to => {
 		if (to.server) {
 			const userRole = this.props.joinedServers[to.server].users[
@@ -243,15 +100,9 @@ class Discord extends Component {
 									: dms[dm].user1.name)
 							}
 							user={user}
-							startAudioCall={this.startAudioCall}
 						/>
 					</div>
 				)}
-				{this.state.audioRemoteStream ? (
-					<audio
-						ref={ref => (ref.srcObject = this.state.audioRemoteStream)}
-					></audio>
-				) : null}
 			</div>
 		);
 	}

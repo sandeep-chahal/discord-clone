@@ -1,62 +1,58 @@
 .totalservers {
-  // padding: 3rem;
-  width: 100%;
-  height: 100%;
-  // display: flex;
-  // flex-wrap: wrap;
-  // justify-content: flex-start;
-  // align-items: flex-start ;
-  overflow-y: auto;
-  h1 {
-    display: block;
-    width: 100%;
-    // background-color: var(--light-3);
-    border-bottom: 1px solid var(--light-3);
-    height: 5rem;
-    padding: 1rem;
-  }
-  .card {
-    display: inline-flex;
-    flex-direction: column;
-    border: 1px solid var(--light-3);
-    border-radius: 1rem;
-    margin: 2rem;
-    width: 30rem;
-    height: 25rem;
-    transition: all 0.2s ease-out;
+	background-color: var(--color-4);
+	width: 100%;
+	height: 100vh;
+	overflow-y: auto;
+	color: var(--color-0);
+	h1 {
+		display: block;
+		width: 100%;
+		border-bottom: 1px solid var(--color-6);
+		height: 5rem;
+		padding: 1rem;
+	}
+	.card {
+		display: inline-flex;
+		flex-direction: column;
+		border: 1px solid var(--color-5);
+		border-radius: 1rem;
+		margin: 2rem;
+		width: 30rem;
+		height: 25rem;
+		transition: all 0.2s ease-out;
 
-    &:hover {
-      transform: translateY(-0.75rem);
-      box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
-    }
+		&:hover {
+			transform: translateY(-0.75rem);
+			box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
+		}
 
-    .card-bg {
-      width: 100%;
-      height: 80%;
-      background-size: cover;
-      background-position: center;
-      border-top-left-radius: 1rem;
-      border-top-right-radius: 1rem;
-    }
-    .btn {
-      padding: 0.5rem 2rem;
-      font-size: 2rem;
-    }
-    .joined-btn {
-      background-color: var(--light-3);
-    }
-    .join-btn {
-      background-color: var(--green-1);
-      cursor: pointer;
-    }
-    h2 {
-      font-size: 2rem;
-    }
-    .grp {
-      height: 20%;
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-    }
-  }
+		.card-bg {
+			width: 100%;
+			height: 80%;
+			background-size: cover;
+			background-position: center;
+			border-top-left-radius: 1rem;
+			border-top-right-radius: 1rem;
+		}
+		.btn {
+			padding: 0.5rem 2rem;
+			font-size: 2rem;
+		}
+		.joined-btn {
+			background-color: var(--color-5);
+		}
+		.join-btn {
+			background-color: var(--green-1);
+			cursor: pointer;
+		}
+		h2 {
+			font-size: 2rem;
+		}
+		.grp {
+			height: 20%;
+			display: flex;
+			justify-content: space-evenly;
+			align-items: center;
+		}
+	}
 }

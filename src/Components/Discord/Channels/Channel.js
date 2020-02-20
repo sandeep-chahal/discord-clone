@@ -11,7 +11,11 @@ const Channel = ({
 	return (
 		<div
 			className={active ? "active channel" : "channel"}
-			onClick={() => onClick(id)}
+			onClick={e => {
+				if (!e.target.classList.contains("delete")) {
+					onClick(id);
+				}
+			}}
 		>
 			<span>
 				{channel.type === "text" ? <span className="hash">#</span> : null}{" "}

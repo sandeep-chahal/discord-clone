@@ -2,7 +2,7 @@
 	flex-shrink: 0;
 	width: 22rem;
 	height: 100vh;
-	background-color: var(--light-2);
+	background-color: var(--color-5);
 	font-size: 1.6rem;
 	overflow-y: auto;
 
@@ -28,9 +28,11 @@
 		display: flex;
 		justify-content: space-evenly;
 		align-items: center;
+		color: var(--color-1);
+
 		cursor: pointer;
 		&:hover {
-			background-color: var(--light-1);
+			background-color: var(--color-6);
 		}
 
 		.arrow {
@@ -45,7 +47,7 @@
 	.underline {
 		width: 100%;
 		height: 0.8px;
-		background-color: rgba(0, 0, 0, 0.2);
+		background-color: var(--color-3);
 		margin-bottom: 1rem;
 	}
 	.category {
@@ -53,6 +55,8 @@
 		margin: 0 1rem 2rem 1rem;
 		display: flex;
 		flex-direction: column;
+		color: var(--color-1);
+
 		&:hover {
 			span {
 				display: inline-block;
@@ -73,10 +77,10 @@
 		}
 	}
 	.active {
-		background-color: var(--light-3) !important;
+		background-color: var(--color-4) !important;
 	}
 	.channel {
-		background-color: var(--light-2);
+		// background-color: var(--color-4);
 		width: 85%;
 		margin: 0.3rem auto;
 		padding: 0.8rem 0.5rem;
@@ -85,18 +89,18 @@
 		align-items: center;
 		justify-content: space-between;
 		cursor: pointer;
-		color: rgba(0, 0, 0, 0.8);
+		color: var(--color-1);
 		.hash {
 			font-size: 2rem;
 			margin-right: 0.8rem;
-			color: rgba(0, 0, 0, 0.4);
+			// color: rgba(0, 0, 0, 0.4);
 		}
 		.delete {
 			opacity: 0;
 			margin-right: 1rem;
 		}
 		&:hover {
-			background-color: var(--light-4);
+			background-color: var(--color-4);
 			&:hover {
 				.delete {
 					opacity: 0.5;
@@ -108,16 +112,18 @@
 	.dropdown {
 		position: absolute;
 		top: 4rem;
-		background-color: #fff;
+		background-color: var(--color-4);
+		color: var(--color-1);
+
 		width: 18rem;
 		box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
 		border-radius: 5px;
 		.item {
 			padding: 1rem;
 			cursor: pointer;
-			background-color: #fff;
+			background-color: var(--color-4);
 			&:hover {
-				background-color: var(--light-1);
+				background-color: var(--color-5);
 			}
 		}
 		.invite {
