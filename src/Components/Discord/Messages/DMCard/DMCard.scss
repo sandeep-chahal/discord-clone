@@ -1,44 +1,44 @@
 .dmcard {
-  position: absolute;
-  top: 0;
-  padding: 2rem;
-  z-index: 5;
-  background-color: var(--light-1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #000;
-  opacity: 1;
+	position: absolute;
+	top: 0;
+	padding: 2rem;
+	z-index: 5;
+	background-color: var(--color-6);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: var(--color-0);
+	opacity: 1;
 
-  .dmcard-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+	.dmcard-header {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
 
-  .userPhoto {
-    width: 8rem;
-    height: 8rem;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-  }
-  .name {
-    font-size: 2rem;
-  }
-  .role-wrapper {
-    margin: 2rem;
-    width: 100%;
-    .role {
-      margin-left: 2rem;
-      display: inline-block;
-      border-radius: 2rem;
-      padding: 0.3rem 1rem;
-      font-size: 1rem;
-    }
-  }
-  textarea {
-    resize: none;
-  }
+	.userPhoto {
+		width: 8rem;
+		height: 8rem;
+		border-radius: 50%;
+		background-size: cover;
+		background-position: center;
+	}
+	.name {
+		font-size: 2rem;
+	}
+	.role-wrapper {
+		margin: 2rem;
+		width: 100%;
+		.role {
+			margin-left: 2rem;
+			display: inline-block;
+			border-radius: 2rem;
+			padding: 0.3rem 1rem;
+			font-size: 1rem;
+		}
+	}
+	textarea {
+		resize: none;
+	}
 }
