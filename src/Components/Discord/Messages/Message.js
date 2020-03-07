@@ -60,17 +60,6 @@ const Message = props => {
 		if (message.text) await navigator.clipboard.writeText(message.text);
 		else await navigator.clipboard.writeText(message.url);
 	};
-	const getPhoto = (uid, ref) => {
-		if (!ref) return;
-		firebase
-			.database()
-			.ref("users/")
-			.child(uid)
-			.child("profile/avatar")
-			.once("value", snap => {
-				ref.style.backgroundImage = `url(${snap.val()})`;
-			});
-	};
 
 	return (
 		<div
@@ -86,9 +75,11 @@ const Message = props => {
 				<div
 					className="user-icon"
 					style={{
-						backgroundImage: `url(${props.user ? props.user.photo : null})`
+						backgroundImage: `url(${
+							props.user ? props.user.photo : props.message.sender.photo
+						})`
 					}}
-					ref={ref => (props.user ? null : getPhoto(uid, ref))}
+					// ref={ref => (props.user ? null : getPhoto(uid, ref))}
 				></div>
 				<div className="message-body">
 					<div className="message-header">

@@ -51,7 +51,8 @@ const DMCard = ({ name, uid, role, roleColor, close, photo }) => {
 										text: message,
 										sender: {
 											uid: currentUser.uid,
-											name: name
+											name: currentUser.displayName,
+											photo: currentUser.photoURL
 										},
 										timestamp: firebase.database.ServerValue.TIMESTAMP
 									}
