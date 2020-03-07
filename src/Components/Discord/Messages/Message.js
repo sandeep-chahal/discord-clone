@@ -105,6 +105,7 @@ const Message = props => {
 									role={message.sender.role}
 									roleColor={color}
 									close={() => setShowDMCard(false)}
+									photo={props.user.photo}
 								/>
 							) : null}
 						</div>

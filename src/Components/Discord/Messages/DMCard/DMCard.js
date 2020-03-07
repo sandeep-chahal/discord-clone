@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./DMCard.scss";
 import firebase from "../../../../firebase";
 
-const DMCard = ({ name, uid, role, roleColor, close }) => {
+const DMCard = ({ name, uid, role, roleColor, close, photo }) => {
 	const [message, setMessage] = useState("");
 	const currentUser = firebase.auth().currentUser;
 
@@ -43,7 +43,8 @@ const DMCard = ({ name, uid, role, roleColor, close }) => {
 								},
 								user2: {
 									uid: uid,
-									name: name
+									name: name,
+									photo: photo
 								},
 								messages: {
 									0: {
